@@ -1,0 +1,59 @@
+{
+  "name": "laabr",
+  "description": "well-formatted pino logger for hapi.js",
+  "keywords": [
+    "hapi",
+    "pino",
+    "logger",
+    "fast",
+    "log",
+    "logging",
+    "json",
+    "morgan"
+  ],
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Felix Heck",
+    "email": "hi@whotheheck.de",
+    "url": "http://whotheheck.de"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/felixheck/laabr.git"
+  },
+  "bugs": {
+    "email": "hi@whotheheck.com",
+    "url": "https://github.com/felixheck/laabr/issues"
+  },
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "NODE_ENV=test npm test -- -w",
+    "lint": "standard",
+    "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava test/**/*.spec.js --timeout=30s",
+    "coverage": "nyc report --reporter=lcov"
+  },
+  "devDependencies": {
+    "ava": "^0.18.1",
+    "fixture-stdout": "^0.2.1",
+    "hapi": "^16.4.3",
+    "nyc": "^10.1.2",
+    "standard": "^8.6.0"
+  },
+  "dependencies": {
+    "chalk": "^2.0.1",
+    "hapi-pino": "^1.7.0",
+    "joi": "^10.6.0",
+    "js-string-escape": "^1.0.1",
+    "lodash.get": "^4.4.2",
+    "pino": "^4.6.0"
+  },
+  "peerDependencies": {
+    "hapi": ">= 13.x.x",
+    "hapi-pino": ">= 1.6.x"
+  },
+  "engines": {
+    "node": ">=6.0.0",
+    "npm": ">=3.8.8"
+  }
+}
