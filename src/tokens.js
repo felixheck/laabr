@@ -3,8 +3,23 @@ const pino = require('pino')
 const utils = require('./utils')
 const validator = require('./validator')
 
+/**
+ * @type Object.<Function>
+ * @public
+ *
+ * Collection of tokens.
+ */
 const tokens = {}
 
+/**
+ * @function
+ * @public
+ *
+ * Assign new token to the collection.
+ *
+ * @param {string} key The name of the token
+ * @param {Function} token The token callback
+ */
 function assign (key, token) {
   validator('tokenLabel', key)
   validator('token', token)
@@ -53,7 +68,7 @@ assign('environment', () => (
 ))
 
 assign('res', (data, colors, field) => {
-  const match = utils.getHeader(data.res, field)
+  const match = utils.getHeader(data.res.header, field)
 
   return (match && match[1]) || undefined
 })

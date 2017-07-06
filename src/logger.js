@@ -6,8 +6,30 @@ const formats = require('./formats')
 const tokens = require('./tokens')
 const utils = require('./utils')
 
+/**
+ * @type RegExp
+ * @private
+ *
+ * The regular expression to extract tokens
+ */
 const re = /:(\w{2,})(?:\[([^\]]+)])?/g
 
+/**
+ * @function
+ * @private
+ *
+ * Compile the passed format string based on the aggregated
+ * data and further options, see below. If the format is
+ * disabled, get the stringified data. Otherwise get a the
+ * evaluated and – if necessary – stringified format string.
+ *
+ * @param {string | boolean} format The format to be compiled
+ * @param {Object.<Function>} tokens The list of all registered tokens
+ * @param {boolean} isJSON The format is a JSON-like string
+ * @param {string | number} space The indentation for `JSON.stringify`
+ * @param {Object} data The data aggregated by `pino`
+ * @returns {string} The compiled format string
+ */
 /* eslint-disable no-eval */
 function compile (format, tokens, isJSON, space, data) {
   if (format === false) {
@@ -37,6 +59,16 @@ function compile (format, tokens, isJSON, space, data) {
 }
 /* eslint-enable no-eval */
 
+/**
+ * @function
+ * @private
+ *
+ * Get the configuration for the `pino` logger based
+ * on the passed `laabr` options.
+ *
+ * @param {Object} options The `laabr` plugin related options
+ * @returns {Object} The overriden `pino` configs
+ */
 function getLoggerConfig (options) {
   return Object.assign(options.pino, {
     browser: {},
@@ -53,6 +85,16 @@ function getLoggerConfig (options) {
   })
 }
 
+/**
+ * @function
+ * @private
+ *
+ * Get the configuration for the `hapi-pino` plugin based
+ * on the passed `laabr` options.
+ *
+ * @param {Object} options The `laabr` plugin related options
+ * @returns {Object} The overriden `hapi-pino` configs
+ */
 function getPluginConfig (options, loggerConfig) {
   return Object.assign(options.plugin, {
     instance: pino(loggerConfig, options.stream),
@@ -61,6 +103,16 @@ function getPluginConfig (options, loggerConfig) {
   })
 }
 
+/**
+ * @function
+ * @public
+ *
+ * Compose the `hapi-pino` plugin registration object based
+ * on the passed `laabr` options and a prio `pino` instance.
+ *
+ * @param {Object} options The `laabr` plugin related options
+ * @returns {Object.<Function|Object>} The composed plugin registration object
+ */
 function get (options) {
   const loggerConfig = getLoggerConfig(options)
   const pluginConfig = getPluginConfig(options, loggerConfig)

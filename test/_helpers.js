@@ -1,9 +1,17 @@
 const hapi = require('hapi')
-const laabr = require('../src')
 const StdOutInterceptor = require('fixture-stdout')
+const laabr = require('../src')
+const utils = require('../src/utils')
 
-const noop = (data) => data
-
+/**
+ * @function
+ * @public
+ *
+ * Initiate and get `stdout` interceptor decorated with
+ * further methods to help debugging and testing
+ *
+ * @returns {StdOutInterceptor} The initiated interceptor
+ */
 function getInterceptor () {
   const interceptor = new StdOutInterceptor()
   var _writes = []
@@ -25,6 +33,15 @@ function getInterceptor () {
   return interceptor
 }
 
+/**
+ * @function
+ * @public
+ *
+ * Register the `laabr` plugin with passed options
+ *
+ * @param {Hapi.Server} server The server to be decorated
+ * @param {Object} options The plugin related options
+ */
 function registerPlugin (server, options) {
   server.register({
     register: laabr.plugin,
@@ -32,6 +49,15 @@ function registerPlugin (server, options) {
   }, () => {})
 }
 
+/**
+ * @function
+ * @public
+ *
+ * Create server with routes, plugin and error handler
+ *
+ * @param {Object} options The plugin related options
+ * @returns {Hapi.Server} The created server instance
+ */
 function getServer (options) {
   const server = new hapi.Server()
 
@@ -68,7 +94,7 @@ function getServer (options) {
 }
 
 module.exports = {
-  noop,
+  noop: utils.noop,
   getInterceptor,
   getServer,
   registerPlugin

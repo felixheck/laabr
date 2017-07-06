@@ -1,5 +1,11 @@
 const joi = require('joi')
 
+/**
+ * @type Object.<joi.scheme>
+ * @private
+ *
+ * Collection of `Joi` validators
+ */
 const validators = {
   formatLabel: joi.string().only('log', 'response', 'request-error', 'onPostStart', 'onPostStop'),
   tokenLabel: joi.string(),
@@ -42,6 +48,20 @@ const validators = {
   }).default({})
 }
 
+/**
+ * @function
+ * @public
+ *
+ * Validate a value based on the stored and requested
+ * validators. If the requested validators does not
+ * exist, get the passed in value.
+ *
+ * @param {string} type The requested validator name
+ * @param {*} value The value to be validated
+ * @returns {*} The value, if possible validated
+ *
+ * @throws The passed in value could not be updated
+ */
 function validate (type, value) {
   switch (type) {
     case 'options':
