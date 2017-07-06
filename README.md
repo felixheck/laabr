@@ -203,6 +203,72 @@ The following formats are set by default:
 ```
 
 ## Example
+**Code**  
+
+``` js
+const Hapi = require('hapi');
+const laabr = require('laabr');
+
+const server = new Hapi.Server()
+server.connection({ port: 3000, host: 'localhost' })
+
+laabr.format('onPostStart', ':time :start :level :message')
+laabr.token('start', () => '[start]')
+
+server.route([
+  {
+    method: '*',
+    path: '/response',
+    handler (req, reply) {
+      reply('hello world')
+    }
+  },
+  {
+    method: 'GET',
+    path: '/error',
+    handler (req, reply) {
+      reply(new Error('foobar'))
+    }
+  }
+])
+
+process.on('SIGINT', () => {
+  server.stop().then((err) => {
+    process.exit((err) ? 1 : 0)
+  })
+})
+
+server.register({
+  register: laabr.plugin,
+  options: {
+    indent: 0
+  }
+})
+.then(() => server.start())
+.catch(console.error)
+
+server.log('info', 'did you mean "foobar"?')
+```
+
+**Output**  
+
+```
+// (1) `log`
+$ {"message":"did you mean \"foobar\"?","timestamp":1499352305938,"level":"info"}
+
+// (2) `onPostStart`
+$ 1499352305956 [start] info server started
+
+// (3) `response` – calling `/response`
+$ 1499352307927 GET 127.0.0.1 /response 200 {} (25 ms)
+
+// (4) `request-error` & `response` – calling `/error`
+$ {"error":"foobar","timestamp":1499352320071,"level":"warn"}
+$ 1499352320072 GET 127.0.0.1 /error 500 {} (3 ms)
+
+// (5) `onPostStop` – Pressing `Ctrl + C`
+$ 1499352325077 info server stopped
+```
 
 ## Developing and Testing
 First you have to install all dependencies:
