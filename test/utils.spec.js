@@ -1,5 +1,4 @@
 const test = require('ava')
-const helpers = require('./_helpers')
 const utils = require('../src/utils')
 
 test('return passed in value', (t) => {
