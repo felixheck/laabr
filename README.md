@@ -128,7 +128,7 @@ The following tokens are available by default:
   - `utc` for the common RFC 1123 date time format (*Mon, 12 Jan 1970 05:46:26 GMT*)
 - `:responseTime` - The response time in milliseconds
 - `:message[field=msg]` - The `msg` or `data` field of the log. Just works with logged strings or [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp)/[`request.log`](https://hapijs.com/api#requestlogtags-data-timestamp). Otherwise pass a custom field with fallback to the `msg` and `data` fields or use the `:get[field]` token. Both alternatives expect dot notation paths.
-- `:get` – The value related to the given path in dot notation. Like `:message[field]` but without fallback.
+- `:get[field]` – The value related to the given path in dot notation. Like `:message[field]` but without fallback.
 - `:error[field=message]` - The `message` field of the error object. Alternatively pass a dot notation path to the token. Helpful paths are `message`, `stack`, `type`, `output`, `isServer` and `isBoom`.
 - `:environment` - The `NODE_ENV` environment variable
 - `:res[header]` - The given `header` of the response
