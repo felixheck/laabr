@@ -60,7 +60,7 @@ const validators = {
  * @param {*} value The value to be validated
  * @returns {*} The value, if possible validated
  *
- * @throws The passed in value could not be updated
+ * @throws The passed in value could not be validated
  */
 function validate (type, value) {
   switch (type) {
