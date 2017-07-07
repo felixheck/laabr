@@ -10,19 +10,48 @@ const validator = require('./validator')
 const formats = {}
 
 /**
+ * @type Object.<string>
+ * @private
+ *
+ * Collection of presets.
+ */
+const presets = {}
+
+/**
  * @function
  * @public
  *
  * Ressign or disable specific format.
  *
  * @param {string} key The name of the format
- * @param {string | boolean} token The format string
+ * @param {string | boolean} format The format string
  */
 function assign (key, format) {
   validator('formatLabel', key)
   validator('format', format)
 
-  formats[key] = format
+  formats[key] = presets[format] || format
+}
+
+/**
+ * @function
+ * @public
+ *
+ * Add a format preset to collection.
+ *
+ * @param {string} key The name of the preset
+ * @param {string | boolean} format The format string to be preset
+ *
+ * @throws The passed key already exists
+ */
+function preset (key, format) {
+  validator('format', format)
+
+  if (presets[key] !== undefined) {
+    throw new SyntaxError('It is not allowed to override existing presets.')
+  }
+
+  presets[key] = format
 }
 
 /**
@@ -50,13 +79,19 @@ function get (data) {
   return formats.log
 }
 
-assign('log', '({ message::message, timestamp::time, level::level, environment::environment })')
-assign('request-error', '({ error::error, timestamp::time, level::level, environment::environment })')
-assign('response', ':time :method :remoteAddress :url :status :payload (:responseTime ms)')
-assign('onPostStart', ':time :level :message')
-assign('onPostStop', ':time :level :message')
+preset('log.tiny', '({ message::message, timestamp::time, level::level, environment::environment })')
+preset('error.tiny', '({ error::error, timestamp::time, level::level, environment::environment })')
+preset('response.tiny', ':time :method :remoteAddress :url :status :payload (:responseTime ms)')
+preset('server.toggle', ':time :level :message')
+
+assign('log', 'log.tiny')
+assign('request-error', 'error.tiny')
+assign('response', 'response.tiny')
+assign('onPostStart', 'server.toggle')
+assign('onPostStop', 'server.toggle')
 
 module.exports = {
+  preset,
   assign,
   get
 }

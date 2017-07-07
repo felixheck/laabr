@@ -34,4 +34,5 @@ plugin.attributes = {
 
 module.exports.plugin = plugin
 module.exports.format = formats.assign
+module.exports.preset = formats.preset
 module.exports.token = tokens.assign
