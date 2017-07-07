@@ -10,10 +10,11 @@
 4. [API](#api)
 5. [Tokens](#tokens)
 6. [Formats](#formats)
-7. [Example](#example)
-8. [Developing and Testing](#developing-and-testing)
-9. [Contribution](#contribution)
-10. [License](#license)
+7. [Presets](#presets)
+8. [Example](#example)
+9. [Developing and Testing](#developing-and-testing)
+10. [Contribution](#contribution)
+11. [License](#license)
 
 ## Introduction
 **laabr** is a well-formatted [pino](https://github.com/pinojs/pino) logger for [hapi.js](https://github.com/hapijs/hapi) which is based on the plugin [hapi-pino](https://github.com/pinojs/hapi-pino). It enables optionally to log in JSON for easy post-processing. It listens to various [hapi.js events](https://github.com/pinojs/hapi-pino#hapi-events) and logs in a well-formatted manner. Therefor it is possible to define custom formats alike the [morgan](https://github.com/expressjs/morgan) ones or make use of available presets. Additionally it enables to define own tokens which could be used in custom formats. *laabr* is the Swabian translation for *talking*.
@@ -26,8 +27,9 @@ First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `l
 
 - Context-sensitve colorization
 - Customizable identation for JSON strings
-- Preset [tokens](https://github.com/felixheck/laabr#tokens) to extract and compose data as needed
-- Preset [formats](https://github.com/felixheck/laabr#formats) combining useful tokens for an easy start
+- Preset [tokens](#tokens) to extract and compose data as needed
+- Preset [formats](#formats) combining useful tokens for an easy start
+- Possibility to add own format [presets](#presets) for an easy reuse
 - Easily customizable tokens & formats
 
 ![laabr screen](https://github.com/felixheck/laabr/raw/master/assets/screen.png)
@@ -113,6 +115,13 @@ The callback function is expected to be called with the arguments `data` and `co
 laabr.token('hello', () => 'hello!');
 ```
 
+#### `laabr.preset(<string> key, <string|false> preset)`
+To define own format presets, simply invoke `laabr.preset()` with an unique key and a format string. Use your own or provided presets for an easy reuse and exchange by passing the key to `laabr.format()` instead of the format string itself. Run `laabr.format` before registering the plugin.
+
+``` js
+laabr.preset('server.env', ':time :environment :host :host[port]');
+```
+
 #### `laabr.format(<string> event, <string|false> format)`
 To define a format, simply invoke `laabr.format()` with the event and a format string. Use existing tokens with `:<token>` within the format string.<br>
 If the `format` is set to `false`, it logs the whole json message without any pretty-printed format. Run `laabr.format` before registering the plugin.
@@ -125,6 +134,12 @@ Furthermore it is possible to define JSON strings. Therefor enclose the template
 
 ``` js
 laabr.format('onPostStart', '({ ts::time, msg::hello world! })');
+```
+
+Or use a format preset key instead of a format string:
+
+``` js
+laabr.format('onPostStart', 'server.env');
 ```
 
 The `event` is allowed to be `onPostStart`, `onPostStop`, `response`, `request-error` and `log`. The events are analog to the [hapi-pino](https://github.com/pinojs/hapi-pino) ones.
@@ -164,9 +179,18 @@ The following tokens are available by default:
   - `uri` for the complete host url (`http://localhost:3000`)
 
 ## Formats
-The following formats are set by default:
+The following formats/[presets](#presets) are set by default:
 
-#### `log`
+| Event           | Preset Key      |
+|----------------:|-----------------|
+| `log`           | `log.tiny`      |
+| `response`      | `response.tiny` |
+| `request-error` | `error.tiny`    |
+| `onPostStart`   | `server.tiny`   |
+| `onPostStop`    | `server.tiny`   |
+
+## Presets
+#### `log.tiny`
 ``` js
 ({ message::message, timestamp::time, level::level, environment::environment })
 ```
@@ -181,7 +205,7 @@ The following formats are set by default:
 }
 ```
 
-#### `response`
+#### `response.tiny`
 ``` js
 :time :method :remoteAddress :url :status :payload (:responseTime ms)
 ```
@@ -191,7 +215,7 @@ The following formats are set by default:
 1499255578965 GET 127.0.0.1 / 200 {} (24 ms)
 ```
 
-#### `request-error`
+#### `error.tiny`
 ``` js
 ({ error::error, timestamp::time, level::level, environment::environment })
 ```
@@ -206,7 +230,7 @@ The following formats are set by default:
 }
 ```
 
-#### `onPostStart`
+#### `server.tiny`
 ``` js
 :time :level :message
 ```
@@ -216,14 +240,14 @@ The following formats are set by default:
 1499255572003 info server started
 ```
 
-#### `onPostStop`
+#### `server.info`
 ``` js
-:time :level :message
+:time :level :message :host[uri]
 ```
 
 *Example Output*
 ```
-1499255572003 info server stopped
+1499255572003 info server stopped http://localhost:3000
 ```
 
 ## Example
