@@ -27,6 +27,10 @@ function assign (key, token) {
   tokens[key] = token
 }
 
+assign('pid', data => (
+  data.pid
+))
+
 assign('level', (data, colors, field) => {
   if (field === 'code') {
     return colors.level(data.level)
@@ -51,10 +55,6 @@ assign('time', (data, colors, field) => {
   return colors.dim(ts)
 })
 
-assign('responseTime', data => (
-  data.responseTime
-))
-
 assign('message', (data, colors, field = 'msg') => (
   get(data, field) || data.msg || data.data
 ))
@@ -69,6 +69,10 @@ assign('error', (data, colors, field = 'message') => (
 
 assign('environment', () => (
   process.env.NODE_ENV
+))
+
+assign('responseTime', data => (
+  data.responseTime
 ))
 
 assign('res', (data, colors, field) => {
@@ -97,6 +101,10 @@ assign('remoteAddress', data => (
   data.req.remoteAddress
 ))
 
+assign('remotePort', data => (
+  data.req.remotePort
+))
+
 assign('url', data => (
   data.req.url
 ))
@@ -107,6 +115,7 @@ assign('host', (data, colors, field = 'host') => {
     case 'address':
     case 'port':
     case 'host':
+    case 'protocol':
       return data[field]
     default:
       return undefined

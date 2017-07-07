@@ -82,7 +82,7 @@ server.register({
 ## API
 #### `laabr.plugin`
 
-**`options`**  
+**`options`**
 - **colored**: `boolean`<br/>
 Optional. Default: `false`<br/>
 Partially colorizes token outputs with ANSI powered by [chalk](https://github.com/chalk/chalk).
@@ -106,7 +106,7 @@ Optional. Default: `{}`<br/>
 #### `laabr.token(<string> name, <Function> callback)`
 To define a token, simply invoke `laabr.token()` with the name and a callback function. Run `laabr.token` before registering the plugin.
 
-**`callback(<Object> data, <Object> colors)`**  
+**`callback(<Object> data, <Object> colors)`**
 The callback function is expected to be called with the arguments `data` and `colors`. Those represent the logged data and an object containing respective [chalk](https://github.com/chalk/chalk) functions. Additionally, the token can accept further arguments of it's choosing to customize behavior. The `colors` object contains the following key: `level`, `status` and `dim`. Those represent chalk color functions related to the context, the log level and the request status code. This callback function is expected to return a string value. The value returned is then available as `:hello` in this case below:
 
 ``` js
@@ -132,27 +132,35 @@ The `event` is allowed to be `onPostStart`, `onPostStop`, `response`, `request-e
 ## Tokens
 The following tokens are available by default:
 
-- `:level[field?]` - Logging Level. If `field` is unset, get the label. Otherwise, if `field=code`, get the level itself.
+#### General
+- `:pid` – The process identifies.
+- `:level[field?]` - The logging Level. If `field` is unset, get the label. Otherwise, if `field=code`, get the level itself.
 - `:time[format?]` - The current date and time in UTC. The available formats are:<br>
   - Default is a simple timestamp (`971186136`)
   - `iso` for the common ISO 8601 date time format (`1970-01-12T05:46:26.136Z`)
   - `utc` for the common RFC 1123 date time format (`Mon, 12 Jan 1970 05:46:26 GMT`)
-- `:responseTime` - The response time in milliseconds
 - `:message[field=msg]` - The `msg` or `data` field of the log. Just works with logged strings or [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp)/[`request.log`](https://hapijs.com/api#requestlogtags-data-timestamp). Otherwise pass a custom field with fallback to the `msg` and `data` fields or use the `:get[field]` token. Both alternatives expect dot notation paths.
 - `:get[field]` – The value related to the given path in dot notation. Like `:message[field]` but without fallback.
 - `:error[field=message]` - The `message` field of the error object. Alternatively pass a dot notation path to the token. Helpful paths are `message`, `stack`, `type`, `output`, `isServer` and `isBoom`.
-- `:environment` - The `NODE_ENV` environment variable
-- `:res[header]` - The given `header` of the response
-- `:req[header]` - The given `header` of the request
-- `:status` - The status code of the request
-- `:method` - The http request method
+- `:environment` - The `NODE_ENV` environment variable.
+
+#### Request/Response
+- `:responseTime` - The response time in milliseconds.
+- `:res[header]` - The given `header` of the response.
+- `:req[header]` - The given `header` of the request.
+- `:status` - The status code of the request.
+- `:method` - The http request method.
 - `:payload` - The request payload. Just works with `options.plugin.logPayload = true`, it is enabled by default.
-- `:remoteAddress` - The remote address of the request
-- `:url` - The url of the request
+- `:remoteAddress` - The remote address of the request.
+- `:remotePort` - The remote port of the request.
+- `:url` - The url of the request.
+
+#### Host
 - `:host[field?]` – Information about the host. Get the host by default. This token is just available for the `onPostStart` & `onPostStop` events. It uses the [`server.info` object](https://hapijs.com/api#serverinfo), so it just works for a single connection. The available information are:<br>
   - Default is the host (`localhost`)
   - `port` for the host port (`3000`)
   - `address` for the host ip address (`127.0.0.1`)
+  - `protocol` for the used protocol (`http`)
   - `uri` for the complete host url (`http://localhost:3000`)
 
 ## Formats
@@ -219,7 +227,7 @@ The following formats are set by default:
 ```
 
 ## Example
-**Code**  
+**Code**
 
 ``` js
 const Hapi = require('hapi');
@@ -266,7 +274,7 @@ server.register({
 server.log('info', 'did you mean "foobar"?')
 ```
 
-**Output**  
+**Output**
 
 ```
 // (1) `log`

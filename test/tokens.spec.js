@@ -40,10 +40,12 @@ test('throws no error if token arguments are valid', (t) => {
 
 test('return requested general attributes', (t) => {
   const mockData = {
+    pid: 52818,
     host: 'localhost',
     port: 3000,
     uri: 'http://localhost:3000',
     address: '127.0.0.1',
+    protocol: 'http',
     level: 60,
     time: 971186136,
     responseTime: 42,
@@ -57,6 +59,7 @@ test('return requested general attributes', (t) => {
     }
   }
 
+  t.is(tokens['pid'](mockData), mockData.pid)
   t.is(tokens['level'](mockData, mockColors), 'fatal')
   t.is(tokens['level'](mockData, mockColors, 'code'), 60)
   t.is(tokens['time'](mockData, mockColors), mockData.time)
@@ -71,6 +74,7 @@ test('return requested general attributes', (t) => {
   t.is(tokens['host'](mockData, mockColors, 'uri'), mockData.uri)
   t.is(tokens['host'](mockData, mockColors, 'address'), mockData.address)
   t.is(tokens['host'](mockData, mockColors, 'port'), mockData.port)
+  t.is(tokens['host'](mockData, mockColors, 'protocol'), mockData.protocol)
   t.is(tokens['host'](mockData, mockColors, 'foo'), undefined)
   t.is(tokens['environment'](), 'test')
 })
@@ -93,6 +97,7 @@ test('return requested req/res attributes', (t) => {
       method: 'get',
       url: '/',
       remoteAddress: '127.0.0.1',
+      remotePort: 52086,
       headers: {
         'x-header': 'foobar'
       }
@@ -103,6 +108,7 @@ test('return requested req/res attributes', (t) => {
   t.is(tokens['status'](mockData, mockColors), mockData.res.statusCode)
   t.is(tokens['payload'](mockData), JSON.stringify({}))
   t.is(tokens['remoteAddress'](mockData), mockData.req.remoteAddress)
+  t.is(tokens['remotePort'](mockData), mockData.req.remotePort)
   t.is(tokens['url'](mockData), mockData.req.url)
   t.is(tokens['req'](mockData, mockColors, 'x-header'), mockData.req.headers['x-header'])
   t.is(tokens['res'](mockData, mockColors, 'foobar'), 'no-cache')
