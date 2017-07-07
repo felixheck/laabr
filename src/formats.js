@@ -89,8 +89,8 @@ preset('server.info', ':time :level :message at: :host[uri]')
 assign('log', 'log.tinyjson')
 assign('request-error', 'error.tinyjson')
 assign('response', 'response.tiny')
-assign('onPostStart', 'log.tiny')
-assign('onPostStop', 'log.tiny')
+assign('onPostStart', 'server.info')
+assign('onPostStop', 'server.info')
 
 module.exports = {
   preset,

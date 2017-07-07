@@ -185,13 +185,13 @@ The following tokens are available by default:
 ## Formats
 The following formats/[presets](#presets) are set by default:
 
-| Event           | Preset Key                       |
+| Event           | Preset                       |
 |----------------:|----------------------------------|
 | `log`           | [`log.tinyjson`](#logtinyjson)           |
 | `response`      | [`response.tiny`](#responsetiny) |
 | `request-error` | [`error.tinyjson`](#errortinyjson)       |
-| `onPostStart`   | [`log.tiny`](#servertiny)     |
-| `onPostStop`    | [`log.tiny`](#servertiny)     |
+| `onPostStart`   | [`server.info`](#servertiny)     |
+| `onPostStop`    | [`server.info`](#servertiny)     |
 
 ## Presets
 #### `log.tiny`
