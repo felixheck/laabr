@@ -82,13 +82,14 @@ function get (data) {
 preset('log.tiny', '({ message::message, timestamp::time, level::level, environment::environment })')
 preset('error.tiny', '({ error::error, timestamp::time, level::level, environment::environment })')
 preset('response.tiny', ':time :method :remoteAddress :url :status :payload (:responseTime ms)')
-preset('server.toggle', ':time :level :message')
+preset('server.tiny', ':time :level :message')
+preset('server.info', ':time :level :message :host[uri]')
 
 assign('log', 'log.tiny')
 assign('request-error', 'error.tiny')
 assign('response', 'response.tiny')
-assign('onPostStart', 'server.toggle')
-assign('onPostStop', 'server.toggle')
+assign('onPostStart', 'server.tiny')
+assign('onPostStop', 'server.tiny')
 
 module.exports = {
   preset,
