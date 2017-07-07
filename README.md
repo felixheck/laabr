@@ -242,12 +242,12 @@ The following formats/[presets](#presets) are set by default:
 
 #### `server.info`
 ``` js
-:time :level :message :host[uri]
+:time :level :message at: :host[uri]
 ```
 
 *Example Output*
 ```
-1499255572003 info server stopped http://localhost:3000
+1499255572003 info server stopped at http://localhost:3000
 ```
 
 ## Example

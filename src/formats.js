@@ -83,7 +83,7 @@ preset('log.tiny', '({ message::message, timestamp::time, level::level, environm
 preset('error.tiny', '({ error::error, timestamp::time, level::level, environment::environment })')
 preset('response.tiny', ':time :method :remoteAddress :url :status :payload (:responseTime ms)')
 preset('server.tiny', ':time :level :message')
-preset('server.info', ':time :level :message :host[uri]')
+preset('server.info', ':time :level :message at: :host[uri]')
 
 assign('log', 'log.tiny')
 assign('request-error', 'error.tiny')
