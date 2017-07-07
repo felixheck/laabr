@@ -190,8 +190,8 @@ The following formats/[presets](#presets) are set by default:
 | `log`           | [`log.tinyjson`](#logtinyjson)     |
 | `response`      | [`response.tiny`](#responsetiny)   |
 | `request-error` | [`error.tinyjson`](#errortinyjson) |
-| `onPostStart`   | [`server.info`](#servertiny)       |
-| `onPostStop`    | [`server.info`](#servertiny)       |
+| `onPostStart`   | [`server.info`](#serverinfo)       |
+| `onPostStop`    | [`server.info`](#serverinfo)       |
 
 ## Presets
 #### `log.tiny`
