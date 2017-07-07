@@ -25,7 +25,11 @@ test('throw error if format arguments are invalid – format', (t) => {
   t.throws(() => laabr.format('log', new RegExp()), Error)
 })
 
-test('throws no error if format arguments are valid', (t) => {
+test('throw error if format preset already exists', (t) => {
+  t.throws(() => laabr.preset('log.tiny', false), Error)
+})
+
+test('throw no error if format arguments are valid', (t) => {
   t.notThrows(() => laabr.format('log', ':foobar'), Error)
   t.notThrows(() => laabr.format('response', ':foobar'), Error)
   t.notThrows(() => laabr.format('request-error', ':foobar'), Error)
@@ -46,4 +50,8 @@ test('throws no error if format arguments are valid', (t) => {
   t.is(formats.get({ msg: 'request error' }), false)
   t.is(formats.get({ msg: 'server started' }), false)
   t.is(formats.get({ msg: 'server stopped' }), false)
+})
+
+test('throw no error if format preset does not already exist', (t) => {
+  t.notThrows(() => laabr.preset('log.dev', false), Error)
 })

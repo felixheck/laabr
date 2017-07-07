@@ -33,7 +33,7 @@ test('throw error if token arguments are invalid – token', (t) => {
   t.throws(() => laabr.token('foobar', (a, b, c, d) => 42), Error)
 })
 
-test('throws no error if token arguments are valid', (t) => {
+test('throw no error if token arguments are valid', (t) => {
   t.notThrows(() => laabr.token('foobar', () => 42), Error)
   t.is(tokens['foobar'](), 42)
 })

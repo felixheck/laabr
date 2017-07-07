@@ -107,6 +107,22 @@ test.cb.serial('listen to `response` event – customized', (t) => {
   })
 })
 
+test.cb.serial('listen to `response` event – preset', (t) => {
+  laabr.preset('test.env', ':time :environment :method')
+  laabr.format('response', 'test.env')
+  const server = helpers.getServer()
+
+  server.on('tail', () => {
+    t.truthy(interceptor.find('test GET'))
+    t.end()
+  })
+
+  server.inject({
+    method: 'GET',
+    url: '/response/200'
+  })
+})
+
 test.cb.serial('listen to `response` event – no token', (t) => {
   laabr.format('response', ':foobar')
   const server = helpers.getServer()
