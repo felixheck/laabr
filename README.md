@@ -1,4 +1,4 @@
-![laabr logo](https://github.com/felixheck/laabr/raw/master/logo.png)
+![laabr logo](https://github.com/felixheck/laabr/raw/master/assets/logo.png)
 #### well-formatted pino logger for hapi.js
 
 [![Travis](https://img.shields.io/travis/felixheck/wurst.svg)](https://travis-ci.org/felixheck/laabr/builds/) ![node](https://img.shields.io/node/v/laabr.svg) ![npm](https://img.shields.io/npm/dt/laabr.svg) [![standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/) ![npm](https://img.shields.io/npm/l/laabr.svg)
@@ -20,6 +20,17 @@
 
 This plugin is implemented in ECMAScript 6 without any transpilers like `babel`.<br>
 Additionally `standard` and `ava` are used to grant a high quality implementation.
+
+#### `laabr` vs. `hapi-pino`
+First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `laabr` in an almost identical manner like `hapi-pino`. This plugin provides further features which probably decelerates the logging a bit, but it should be fast than alternatives anyway. The following features are provided:
+
+- Context-sensitve colorization
+- Customizable identation for JSON strings
+- Preset [tokens](https://github.com/felixheck/laabr#tokens) to extract and compose data as needed
+- Preset [formats](https://github.com/felixheck/laabr#formats) combining useful tokens for an easy start
+- Easily customizable tokens & formats
+
+![laabr screen](https://github.com/felixheck/laabr/raw/master/assets/screen.png)
 
 ## Installation
 For installation use the [Node Package Manager](https://github.com/npm/npm):
@@ -74,7 +85,7 @@ server.register({
 **`options`**  
 - **colored**: `boolean`<br/>
 Optional. Default: `false`<br/>
-Partially colors token outputs with ANSI powered by [chalk](https://github.com/chalk/chalk).
+Partially colorizes token outputs with ANSI powered by [chalk](https://github.com/chalk/chalk).
 
 - **indent**: `string | number`<br/>
 Optional. Default: `2`<br/>
