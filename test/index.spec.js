@@ -12,10 +12,12 @@ test.afterEach('cleanup interceptor', (t) => {
 })
 
 test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
+  laabr.format('onPostStart', ':time :level :message :host[uri]')
+
   const server = helpers.getServer()
 
   server.start().then(() => {
-    t.truthy(interceptor.find('info server started'))
+    t.truthy(interceptor.find('info server started http://127.0.0.1:1337'))
 
     server.stop({ timeout: 1000 }, () => {
       t.truthy(interceptor.find('info server stopped'))

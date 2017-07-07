@@ -40,6 +40,10 @@ test('throws no error if token arguments are valid', (t) => {
 
 test('return requested general attributes', (t) => {
   const mockData = {
+    host: 'localhost',
+    port: 3000,
+    uri: 'http://localhost:3000',
+    address: '127.0.0.1',
     level: 60,
     time: 971186136,
     responseTime: 42,
@@ -62,6 +66,11 @@ test('return requested general attributes', (t) => {
   t.is(tokens['get'](mockData, mockColors, 'bar'), mockData.bar)
   t.is(tokens['message'](mockData), mockData.msg)
   t.is(tokens['error'](mockData), mockData.err.message)
+  t.is(tokens['host'](mockData), mockData.host)
+  t.is(tokens['host'](mockData, mockColors, 'uri'), mockData.uri)
+  t.is(tokens['host'](mockData, mockColors, 'address'), mockData.address)
+  t.is(tokens['host'](mockData, mockColors, 'port'), mockData.port)
+  t.is(tokens['host'](mockData, mockColors, 'foo'), undefined)
   t.is(tokens['environment'](), 'test')
 })
 

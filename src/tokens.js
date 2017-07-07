@@ -97,5 +97,17 @@ assign('url', data => (
   data.req.url
 ))
 
+assign('host', (data, colors, field = 'host') => {
+  switch (field) {
+    case 'uri':
+    case 'address':
+    case 'port':
+    case 'host':
+      return data[field]
+    default:
+      return undefined
+  }
+})
+
 module.exports = tokens
 module.exports.assign = assign
