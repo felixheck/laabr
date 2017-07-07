@@ -187,14 +187,24 @@ The following formats/[presets](#presets) are set by default:
 
 | Event           | Preset Key                       |
 |----------------:|----------------------------------|
-| `log`           | [`log.tiny`](#logtiny)           |
+| `log`           | [`log.tinyjson`](#logtinyjson)           |
 | `response`      | [`response.tiny`](#responsetiny) |
-| `request-error` | [`error.tiny`](#errortiny)       |
-| `onPostStart`   | [`server.tiny`](#servertiny)     |
-| `onPostStop`    | [`server.tiny`](#servertiny)     |
+| `request-error` | [`error.tinyjson`](#errortinyjson)       |
+| `onPostStart`   | [`log.tiny`](#servertiny)     |
+| `onPostStop`    | [`log.tiny`](#servertiny)     |
 
 ## Presets
 #### `log.tiny`
+``` js
+:time :level :message
+```
+
+*Example Output*
+```
+1499260782451 info foobar
+```
+
+#### `log.tinyjson`
 ``` js
 ({ message::message, timestamp::time, level::level, environment::environment })
 ```
@@ -221,6 +231,16 @@ The following formats/[presets](#presets) are set by default:
 
 #### `error.tiny`
 ``` js
+:time :level :error
+```
+
+*Example Output*
+```
+1499260782451 info Internal Server Error
+```
+
+#### `error.tinyjson`
+``` js
 ({ error::error, timestamp::time, level::level, environment::environment })
 ```
 
@@ -232,16 +252,6 @@ The following formats/[presets](#presets) are set by default:
   "level": "info",
   "environment": "development"
 }
-```
-
-#### `server.tiny`
-``` js
-:time :level :message
-```
-
-*Example Output*
-```
-1499255572003 info server started
 ```
 
 #### `server.info`

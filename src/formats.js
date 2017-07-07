@@ -79,17 +79,18 @@ function get (data) {
   return formats.log
 }
 
-preset('log.tiny', '({ message::message, timestamp::time, level::level, environment::environment })')
-preset('error.tiny', '({ error::error, timestamp::time, level::level, environment::environment })')
+preset('log.tiny', ':time :level :message')
+preset('log.tinyjson', '({ message::message, timestamp::time, level::level, environment::environment })')
+preset('error.tiny', ':time :level :error')
+preset('error.tinyjson', '({ error::error, timestamp::time, level::level, environment::environment })')
 preset('response.tiny', ':time :method :remoteAddress :url :status :payload (:responseTime ms)')
-preset('server.tiny', ':time :level :message')
 preset('server.info', ':time :level :message at: :host[uri]')
 
-assign('log', 'log.tiny')
-assign('request-error', 'error.tiny')
+assign('log', 'log.tinyjson')
+assign('request-error', 'error.tinyjson')
 assign('response', 'response.tiny')
-assign('onPostStart', 'server.tiny')
-assign('onPostStop', 'server.tiny')
+assign('onPostStart', 'log.tiny')
+assign('onPostStop', 'log.tiny')
 
 module.exports = {
   preset,
