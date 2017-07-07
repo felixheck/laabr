@@ -138,7 +138,7 @@ The following tokens are available by default:
 - `:payload` - The request payload. Just works with `options.plugin.logPayload = true`, it is enabled by default.
 - `:remoteAddress` - The remote address of the request
 - `:url` - The url of the request
-- `:host[field?]` – Information about the host. Get the host by default. This token is just available for the `onPostStart` & `onPostStop` events. The available information are:<br>
+- `:host[field?]` – Information about the host. Get the host by default. This token is just available for the `onPostStart` & `onPostStop` events. It uses the [`server.info` object](https://hapijs.com/api#serverinfo), so it just works for a single connection. The available information are:<br>
   - Default is the host (`localhost`)
   - `port` for the host port (`3000`)
   - `address` for the host ip address (`127.0.0.1`)
