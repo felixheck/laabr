@@ -3,7 +3,7 @@
 
 > Booyah! Works like a charm.
 >
-> -- [Marcus Pöhls](https://twitter.com/marcuspoehls)
+> &mdash; [Marcus Pöhls](https://twitter.com/marcuspoehls)
 
 [![Travis](https://img.shields.io/travis/felixheck/wurst.svg)](https://travis-ci.org/felixheck/laabr/builds/) ![node](https://img.shields.io/node/v/laabr.svg) ![npm](https://img.shields.io/npm/dt/laabr.svg) [![standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/) ![npm](https://img.shields.io/npm/l/laabr.svg)
 ---
