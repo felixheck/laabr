@@ -132,7 +132,7 @@ The `event` is allowed to be `onPostStart`, `onPostStop`, `response`, `request-e
 ## Tokens
 The following tokens are available by default:
 
-- `:level` - Logging Level
+- `:level[field?]` - Logging Level. If `field` is unset, get the label. Otherwise, if `field=code`, get the level itself.
 - `:time[format?]` - The current date and time in UTC. The available formats are:<br>
   - Default is a simple timestamp (`971186136`)
   - `iso` for the common ISO 8601 date time format (`1970-01-12T05:46:26.136Z`)

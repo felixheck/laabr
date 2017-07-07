@@ -58,6 +58,7 @@ test('return requested general attributes', (t) => {
   }
 
   t.is(tokens['level'](mockData, mockColors), 'fatal')
+  t.is(tokens['level'](mockData, mockColors, 'code'), 60)
   t.is(tokens['time'](mockData, mockColors), mockData.time)
   t.is(tokens['time'](mockData, mockColors, 'iso'), '1970-01-12T05:46:26.136Z')
   t.is(tokens['time'](mockData, mockColors, 'utc'), 'Mon, 12 Jan 1970 05:46:26 GMT')

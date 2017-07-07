@@ -27,9 +27,13 @@ function assign (key, token) {
   tokens[key] = token
 }
 
-assign('level', (data, colors) => (
-  colors.level(pino.levels.labels[data.level])
-))
+assign('level', (data, colors, field) => {
+  if (field === 'code') {
+    return colors.level(data.level)
+  }
+
+  return colors.level(pino.levels.labels[data.level])
+})
 
 assign('time', (data, colors, field) => {
   const date = new Date(data.time)
