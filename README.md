@@ -27,9 +27,9 @@ This plugin is implemented in ECMAScript 6 without any transpilers like `babel`.
 Additionally `standard` and `ava` are used to grant a high quality implementation.
 
 #### `laabr` vs. `hapi-pino`
-First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `laabr` in an almost identical manner like `hapi-pino`. This plugin provides further features which probably decelerates the logging a bit, but it should be fast than alternatives anyway. The following features are provided:
+First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `laabr` in an almost identical manner like `hapi-pino`. This plugin provides further features which probably decelerates the logging a bit, but it should be faster than the alternatives anyway. The following features are provided:
 
-- Context-sensitve colorization
+- Context-sensitive colorization
 - Customizable identation for JSON strings
 - Preset [tokens](#tokens) to extract and compose data as needed
 - Preset [formats](#formats) combining useful tokens for an easy start
