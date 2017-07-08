@@ -119,6 +119,8 @@ The callback function is expected to be called with the arguments `data` and `co
 laabr.token('hello', () => 'hello!');
 ```
 
+*Hint:* disable the respective format, get the complete logged message and inspect the properties. With this it is quite easy to define custom tokens.
+
 #### `laabr.preset(<string> key, <string|false> preset)`
 To define own format presets, simply invoke `laabr.preset()` with an unique key and a format string. Use your own or provided presets for an easy reuse and exchange by passing the key to `laabr.format()` instead of the format string itself. Run `laabr.format` before registering the plugin.
 
