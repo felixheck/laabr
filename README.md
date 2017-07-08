@@ -197,7 +197,7 @@ The following formats/[presets](#presets) are set by default:
 
 ## Presets
 #### `log.tiny`
-``` js
+```
 :time :level :message
 ```
 
@@ -207,7 +207,7 @@ The following formats/[presets](#presets) are set by default:
 ```
 
 #### `log.tinyjson`
-``` js
+```
 ({ message::message, timestamp::time, level::level, environment::environment })
 ```
 
@@ -222,7 +222,7 @@ The following formats/[presets](#presets) are set by default:
 ```
 
 #### `response.tiny`
-``` js
+```
 :time :method :remoteAddress :url :status :payload (:responseTime ms)
 ```
 
@@ -232,7 +232,7 @@ The following formats/[presets](#presets) are set by default:
 ```
 
 #### `error.tiny`
-``` js
+```
 :time :level :error
 ```
 
@@ -257,7 +257,7 @@ The following formats/[presets](#presets) are set by default:
 ```
 
 #### `server.info`
-``` js
+```
 :time :level :message at: :host[uri]
 ```
 
