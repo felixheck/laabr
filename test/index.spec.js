@@ -1,14 +1,17 @@
 const test = require('ava')
 const helpers = require('./_helpers')
 const laabr = require('../src')
-let interceptor
+let interceptOut
+let interceptErr
 
 test.beforeEach('setup interceptor', (t) => {
-  interceptor = helpers.getInterceptor()
+  interceptOut = helpers.getInterceptor()
+  interceptErr = helpers.getInterceptor({ stream: process.stderr })
 })
 
 test.afterEach('cleanup interceptor', (t) => {
-  interceptor.release()
+  interceptOut.release()
+  interceptErr.release()
 })
 
 test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
@@ -17,10 +20,10 @@ test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
   const server = helpers.getServer()
 
   server.start().then(() => {
-    t.truthy(interceptor.find('info server started http://127.0.0.1:1337'))
+    t.truthy(interceptOut.find('info server started http://127.0.0.1:1337'))
 
     server.stop({ timeout: 1000 }, () => {
-      t.truthy(interceptor.find('info server stopped'))
+      t.truthy(interceptOut.find('info server stopped'))
       t.end()
     })
   })
@@ -30,7 +33,7 @@ test.cb.serial('listen to `response` event', (t) => {
   const server = helpers.getServer()
 
   server.on('tail', () => {
-    t.truthy(interceptor.find('GET 127.0.0.1 /response/200 200 {}'))
+    t.truthy(interceptOut.find('GET 127.0.0.1 /response/200 200 {}'))
     t.end()
   })
 
@@ -44,7 +47,7 @@ test.cb.serial('listen to `response` event – post', (t) => {
   const server = helpers.getServer()
 
   server.on('tail', () => {
-    t.truthy(interceptor.find('POST 127.0.0.1 /response/204 204 {"foo":42}'))
+    t.truthy(interceptOut.find('POST 127.0.0.1 /response/204 204 {"foo":42}'))
     t.end()
   })
 
@@ -61,14 +64,14 @@ test.cb.serial('listen to `request-error` event', (t) => {
   const server = helpers.getServer()
 
   server.on('tail', () => {
-    const result = JSON.parse(interceptor.find('"error": "foobar"').string)
+    const result = JSON.parse(interceptOut.find('"error": "foobar"').string)
 
     t.is(result.error, 'foobar')
     t.truthy(result.timestamp)
     t.is(result.level, 'warn')
     t.is(result.environment, 'test')
     t.deepEqual(Object.keys(result).sort(), ['timestamp', 'error', 'level', 'environment'].sort())
-    t.truthy(interceptor.find('GET 127.0.0.1 /requestError 500 {}'))
+    t.truthy(interceptOut.find('GET 127.0.0.1 /requestError 500 {}'))
 
     t.end()
   })
@@ -83,7 +86,7 @@ test('listen to `log` event', (t) => {
   const server = helpers.getServer({ indent: 0 })
 
   server.log('info', 'foobar')
-  const result = JSON.parse(interceptor.find('"message":"foobar"').string)
+  const result = JSON.parse(interceptOut.find('"message":"foobar"').string)
 
   t.is(result.message, 'foobar')
   t.truthy(result.timestamp)
@@ -97,7 +100,7 @@ test.cb.serial('listen to `response` event – customized', (t) => {
   const server = helpers.getServer()
 
   server.on('tail', () => {
-    t.truthy(interceptor.find('{"user-agent":"shot","host":"127.0.0.1:1337"}'))
+    t.truthy(interceptOut.find('{"user-agent":"shot","host":"127.0.0.1:1337"}'))
     t.end()
   })
 
@@ -113,7 +116,7 @@ test.cb.serial('listen to `response` event – preset', (t) => {
   const server = helpers.getServer()
 
   server.on('tail', () => {
-    t.truthy(interceptor.find('test GET'))
+    t.truthy(interceptOut.find('test GET'))
     t.end()
   })
 
@@ -128,7 +131,7 @@ test.cb.serial('listen to `response` event – no token', (t) => {
   const server = helpers.getServer()
 
   server.on('tail', () => {
-    t.truthy(interceptor.find(':foobar'))
+    t.truthy(interceptOut.find(':foobar'))
     t.end()
   })
 
@@ -143,7 +146,7 @@ test.cb.serial('listen to `response` event – no json token', (t) => {
   const server = helpers.getServer()
 
   server.on('tail', () => {
-    t.truthy(interceptor.find('"foobar": ":foobar"'))
+    t.truthy(interceptOut.find('"foobar": ":foobar"'))
     t.end()
   })
 
@@ -158,7 +161,7 @@ test.cb.serial('listen to `response` event – no format', (t) => {
   const server = helpers.getServer()
 
   server.on('tail', () => {
-    const result = JSON.parse(interceptor.find('"msg": "request completed"').string)
+    const result = JSON.parse(interceptOut.find('"msg": "request completed"').string)
 
     t.truthy(result)
     t.is(result.level, 30)
@@ -182,7 +185,7 @@ test('listen to `log` event – customized', (t) => {
   }
 
   server.log('info', mockData)
-  const result = JSON.parse(interceptor.find('"message":{"foo":{"bar":42}}').string)
+  const result = JSON.parse(interceptOut.find('"message":{"foo":{"bar":42}}').string)
 
   t.truthy(result)
   t.deepEqual(result.message, mockData)
@@ -190,4 +193,10 @@ test('listen to `log` event – customized', (t) => {
   t.is(result.level, 'info')
   t.is(result.environment, 'test')
   t.deepEqual(Object.keys(result).sort(), ['timestamp', 'message', 'level', 'environment'].sort())
+})
+
+test('get deprecation messages because of deprecating options', (t) => {
+  const server = helpers.getServer({ indent: 0, plugin: {} })
+
+  t.truthy(interceptErr.find("`options.plugin` will be deprecated soon. Use `options.hapiPino` instead"))
 })

@@ -12,9 +12,9 @@ const utils = require('../src/utils')
  *
  * @returns {StdOutInterceptor} The initiated interceptor
  */
-function getInterceptor () {
-  const interceptor = new StdOutInterceptor()
-  var _writes = []
+function getInterceptor (options = { stream: process.stdout }) {
+  const interceptor = new StdOutInterceptor(options)
+  const _writes = []
 
   interceptor.capture((string, encoding, fd) => {
     _writes.push({
