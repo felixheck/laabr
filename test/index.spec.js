@@ -27,7 +27,6 @@ test.cb.serial('get log message by overriden `console.warn` – single', (t) =>
   })
 })
 
-
 test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
   const consoleClone = Object.assign({}, console)
 
@@ -223,7 +222,7 @@ test('listen to `log` event – customized', (t) => {
 })
 
 test('get deprecation messages because of deprecating options', (t) => {
-  const server = helpers.getServer({ indent: 0, plugin: {} })
+  helpers.getServer({ indent: 0, plugin: {} })
 
-  t.truthy(interceptErr.find("`options.plugin` will be deprecated soon. Use `options.hapiPino` instead"))
+  t.truthy(interceptErr.find('`options.plugin` will be deprecated soon. Use `options.hapiPino` instead'))
 })

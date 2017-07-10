@@ -68,7 +68,7 @@ function noop (data) {
  * @param {string} level The logging level
  * @param {Array} data The data to be logged
  */
-function wrapper(server, level, ...data) {
+function wrapper (server, level, ...data) {
   server.log(level, data.length === 1 ? data[0] : data)
 }
 
@@ -83,7 +83,7 @@ function wrapper(server, level, ...data) {
  */
 function override (server) {
   ['trace', 'log', 'info', 'warn', 'error'].forEach(method => {
-    target = method === 'log' ? 'debug' : method
+    const target = method === 'log' ? 'debug' : method
     console[method] = wrapper.bind(undefined, server, target)
   })
 }
