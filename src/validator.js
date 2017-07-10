@@ -13,6 +13,7 @@ const validators = {
   token: joi.func().maxArity(3),
   options: joi.object({
     colored: joi.boolean().default(false),
+    override: joi.boolean().default(false),
     indent: joi.alternatives().try(joi.number(), joi.string()).allow('').default(2),
     stream: joi.object().allow(null),
     plugin: joi.object({
