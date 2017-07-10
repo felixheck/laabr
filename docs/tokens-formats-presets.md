@@ -3,17 +3,17 @@
 <!-- TOC -->
 
 1. [Tokens](#tokens)
-    1. [General](#general)
-    2. [Request/Response](#requestresponse)
-    3. [Host](#host)
+  1. [General](#general)
+  2. [Request/Response](#requestresponse)
+  3. [Host](#host)
 2. [Formats](#formats)
 3. [Presets](#presets)
-    1. [`log.tiny`](#logtiny)
-    2. [`log.tinyjson`](#logtinyjson)
-    3. [`response.tiny`](#responsetiny)
-    4. [`error.tiny`](#errortiny)
-    5. [`error.tinyjson`](#errortinyjson)
-    6. [`server.info`](#serverinfo)
+  1. [`log.tiny`](#logtiny)
+  2. [`log.tinyjson`](#logtinyjson)
+  3. [`response.tiny`](#responsetiny)
+  4. [`error.tiny`](#errortiny)
+  5. [`error.tinyjson`](#errortinyjson)
+  6. [`server.info`](#serverinfo)
 
 <!-- /TOC -->
 
@@ -22,7 +22,7 @@
 ## Tokens
 The following tokens are available by default:
 
-#### General
+### General
 - `:pid` – The process identifies.
 - `:level[field?]` - The logging Level. If `field` is unset, get the label. Otherwise, if `field=code`, get the level itself.
 - `:time[format?]` - The current date and time in UTC. The available formats are:<br>
@@ -34,7 +34,7 @@ The following tokens are available by default:
 - `:error[field=message]` - The `message` field of the error object. Alternatively pass a dot notation path to the token. Helpful paths are `message`, `stack`, `type`, `output`, `isServer` and `isBoom`.
 - `:environment` - The `NODE_ENV` environment variable.
 
-#### Request/Response
+### Request/Response
 - `:responseTime` - The response time in milliseconds.
 - `:res[header]` - The given `header` of the response.
 - `:req[header]` - The given `header` of the request.
@@ -45,7 +45,7 @@ The following tokens are available by default:
 - `:remotePort` - The remote client port.
 - `:url` - The parsed url of the request.
 
-#### Host
+### Host
 - `:host[field?]` – Information about the host. Get the host by default. This token is just available for the `onPostStart` & `onPostStop` events. It uses the [`server.info` object](https://hapijs.com/api#serverinfo), so it just works for a single connection. The available information are:<br>
   - Default is the host name of the connection (`localhost`)
   - `port` for the connection port (`3000`)
@@ -65,7 +65,7 @@ The following formats/[presets](#presets) are set by default:
 | `onPostStop`    | [`server.info`](presets.md#serverinfo)       |
 
 ## Presets
-#### `log.tiny`
+### `log.tiny`
 ```
 :time :level :message
 ```
@@ -75,7 +75,7 @@ The following formats/[presets](#presets) are set by default:
 1499260782451 info foobar
 ```
 
-#### `log.tinyjson`
+### `log.tinyjson`
 ```
 ({ message::message, timestamp::time, level::level, environment::environment })
 ```
@@ -90,7 +90,7 @@ The following formats/[presets](#presets) are set by default:
 }
 ```
 
-#### `response.tiny`
+### `response.tiny`
 ```
 :time :method :remoteAddress :url :status :payload (:responseTime ms)
 ```
@@ -100,7 +100,7 @@ The following formats/[presets](#presets) are set by default:
 1499255578965 GET 127.0.0.1 / 200 {} (24 ms)
 ```
 
-#### `error.tiny`
+### `error.tiny`
 ```
 :time :level :error
 ```
@@ -110,7 +110,7 @@ The following formats/[presets](#presets) are set by default:
 1499260782451 info Internal Server Error
 ```
 
-#### `error.tinyjson`
+### `error.tinyjson`
 ``` js
 ({ error::error, timestamp::time, level::level, environment::environment })
 ```
@@ -125,7 +125,7 @@ The following formats/[presets](#presets) are set by default:
 }
 ```
 
-#### `server.info`
+### `server.info`
 ```
 :time :level :message at: :host[uri]
 ```

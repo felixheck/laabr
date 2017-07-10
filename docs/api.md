@@ -3,6 +3,7 @@
 <!-- TOC -->
 
 1. [`laabr.plugin`](#laabrplugin)
+  1. [`options`](#options)
 2. [`laabr.token(<string> name, <Function> callback)`](#laabrtokenstring-name-function-callback)
 3. [`laabr.preset(<string> key, <string|false> preset)`](#laabrpresetstring-key-stringfalse-preset)
 4. [`laabr.format(<string> event, <string|false> format)`](#laabrformatstring-event-stringfalse-format)
@@ -11,9 +12,9 @@
 
 ---
 
-#### `laabr.plugin`
+## `laabr.plugin`
 
-**`options`**
+### `options`
 - **colored**: `boolean`<br/>
 Optional. Default: `false`<br/>
 Partially colorizes token outputs with ANSI powered by [chalk](https://github.com/chalk/chalk).
@@ -38,7 +39,7 @@ Optional. Default: `{}`<br/>
 Optional. Default: `{}`<br/>
 [hapi-pino](https://github.com/pinojs/hapi-pino) related options. `prettyPrint`, `mergeHapiLogData` and `instance` are effectless. Use `options.pino` to configre the passed `instance`.
 
-#### `laabr.token(<string> name, <Function> callback)`
+## `laabr.token(<string> name, <Function> callback)`
 To define a token, simply invoke `laabr.token()` with the name and a callback function. Run `laabr.token` before registering the plugin.
 
 **`callback(<Object> data, <Object> colors)`**
@@ -50,14 +51,14 @@ laabr.token('hello', () => 'hello!');
 
 *Hint:* disable the respective format, get the complete logged message and inspect the properties. With this it is quite easy to define custom tokens.
 
-#### `laabr.preset(<string> key, <string|false> preset)`
+## `laabr.preset(<string> key, <string|false> preset)`
 To define own format presets, simply invoke `laabr.preset()` with an unique key and a format string. Use your own or provided presets for an easy reuse and exchange by passing the key to `laabr.format()` instead of the format string itself. Run `laabr.format` before registering the plugin.
 
 ``` js
 laabr.preset('server.env', ':time :environment :host :host[port]');
 ```
 
-#### `laabr.format(<string> event, <string|false> format)`
+## `laabr.format(<string> event, <string|false> format)`
 To define a format, simply invoke `laabr.format()` with the event and a format string. Use existing tokens with `:<token>` within the format string.<br>
 If the `format` is set to `false`, it logs the whole json message without any pretty-printed format. Run `laabr.format` before registering the plugin.
 
