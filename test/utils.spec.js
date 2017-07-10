@@ -2,6 +2,16 @@ const test = require('ava')
 const helpers = require('./_helpers')
 const utils = require('../src/utils')
 
+let consoleClone
+
+test.beforeEach('setup interceptor', (t) => {
+  consoleClone = Object.assign({}, console)
+})
+
+test.afterEach('cleanup interceptor', (t) => {
+  Object.assign(console, consoleClone)
+})
+
 test('return passed in value', (t) => {
   t.is(utils.noop('foobar'), 'foobar')
 })
@@ -21,8 +31,6 @@ test('return stringified value', (t) => {
 })
 
 test.cb.serial('do not override `console` methods with `server.log`', (t) => {
-  const consoleClone = Object.assign({}, console)
-
   helpers.getServer({ override: false }, (server) => {
     t.is(console.trace, consoleClone.trace)
     t.is(console.log, consoleClone.log)
@@ -30,14 +38,10 @@ test.cb.serial('do not override `console` methods with `server.log`', (t) => {
     t.is(console.warn, consoleClone.warn)
     t.is(console.error, consoleClone.error)
     t.end()
-
-    Object.assign(console, consoleClone)
   })
 })
 
 test.cb.serial('override `console` methods with `server.log`', (t) => {
-  const consoleClone = Object.assign({}, console)
-
   helpers.getServer({ override: true }, (server) => {
     t.not(console.trace, consoleClone.trace)
     t.not(console.log, consoleClone.log)
@@ -50,7 +54,5 @@ test.cb.serial('override `console` methods with `server.log`', (t) => {
     t.is(console.warn.name, 'bound wrapper')
     t.is(console.error.name, 'bound wrapper')
     t.end()
-
-    Object.assign(console, consoleClone)
   })
 })
