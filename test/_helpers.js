@@ -41,12 +41,15 @@ function getInterceptor (options = { stream: process.stdout }) {
  *
  * @param {Hapi.Server} server The server to be decorated
  * @param {Object} options The plugin related options
+ * @param {Function} done The success callback handler
  */
-function registerPlugin (server, options) {
+function registerPlugin (server, options, done = () => {}) {
   server.register({
     register: laabr.plugin,
     options
-  }, () => {})
+  }, () => {
+    done(server)
+  })
 }
 
 /**
@@ -56,9 +59,10 @@ function registerPlugin (server, options) {
  * Create server with routes, plugin and error handler
  *
  * @param {Object} options The plugin related options
+ * @param {Function} done The success callback handler
  * @returns {Hapi.Server} The created server instance
  */
-function getServer (options) {
+function getServer (options, done) {
   const server = new hapi.Server()
 
   server.connection({
@@ -83,7 +87,7 @@ function getServer (options) {
     }
   ])
 
-  registerPlugin(server, options)
+  registerPlugin(server, options, done)
   process.on('SIGINT', () => {
     server.stop({ timeout: 10000 }).then((err) => {
       process.exit((err) ? 1 : 0)
