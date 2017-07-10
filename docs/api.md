@@ -1,15 +1,16 @@
-1. [Introduction](../#introduction)
-2. [Installation](../#installation)
-3. [Usage](../#usage)
-4. API
-5. [Tokens ⇗](tokens-formats-presets.md#tokens)
-5. [Formats ⇗](tokens-formats-presets.md#formats)
-7. [Presets ⇗](tokens-formats-presets.md#presets)
-8. [Example](../#example)
-9. [Developing and Testing](../#developing-and-testing)
-10. [Contribution](../#contribution)
+# API
 
-## API
+<!-- TOC -->
+
+1. [`laabr.plugin`](#laabrplugin)
+2. [`laabr.token(<string> name, <Function> callback)`](#laabrtokenstring-name-function-callback)
+3. [`laabr.preset(<string> key, <string|false> preset)`](#laabrpresetstring-key-stringfalse-preset)
+4. [`laabr.format(<string> event, <string|false> format)`](#laabrformatstring-event-stringfalse-format)
+
+<!-- /TOC -->
+
+---
+
 #### `laabr.plugin`
 
 **`options`**

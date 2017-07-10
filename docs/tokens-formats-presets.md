@@ -1,9 +1,23 @@
+# Tokens, Formats & Presets
+
+<!-- TOC -->
+
 1. [Tokens](#tokens)
-  1. [General](#general)
-  2. [Request/Response](#requestresponse)
-  3. [Host](#host)
+    1. [General](#general)
+    2. [Request/Response](#requestresponse)
+    3. [Host](#host)
 2. [Formats](#formats)
 3. [Presets](#presets)
+    1. [`log.tiny`](#logtiny)
+    2. [`log.tinyjson`](#logtinyjson)
+    3. [`response.tiny`](#responsetiny)
+    4. [`error.tiny`](#errortiny)
+    5. [`error.tinyjson`](#errortinyjson)
+    6. [`server.info`](#serverinfo)
+
+<!-- /TOC -->
+
+---
 
 ## Tokens
 The following tokens are available by default:

@@ -19,6 +19,8 @@
 9. [Developing and Testing](#developing-and-testing)
 10. [Contribution](#contribution)
 
+---
+
 ## Introduction
 **laabr** is a well-formatted [pino](https://github.com/pinojs/pino) logger for [hapi.js](https://github.com/hapijs/hapi) which is based on the plugin [hapi-pino](https://github.com/pinojs/hapi-pino). It enables optionally to log in JSON for easy post-processing. It listens to various [hapi.js events](https://github.com/pinojs/hapi-pino#hapi-events) and logs in a well-formatted manner. Therefor it is possible to define custom formats alike the [morgan](https://github.com/expressjs/morgan) ones or make use of available presets. Additionally it enables to define own tokens which could be used in custom formats. *laabr* is the Swabian translation for *talking*.
 
