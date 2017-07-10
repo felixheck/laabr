@@ -1,13 +1,9 @@
-1. [Introduction](../#introduction)
-2. [Installation](../#installation)
-3. [Usage](../#usage)
-4. [API ⇗](api.md)
-5. [Tokens ⇗](#tokens)
-5. [Formats ⇗](#formats)
-7. [Presets ⇗](#presets)
-8. [Example](../#example)
-9. [Developing and Testing](../#developing-and-testing)
-10. [Contribution](../#contribution)
+1. [Tokens](#tokens)
+  1. [General](#general)
+  2. [Request/Response](#requestresponse)
+  3. [Host](#host)
+2. [Formats](#formats)
+3. [Presets](#presets)
 
 ## Tokens
 The following tokens are available by default:
