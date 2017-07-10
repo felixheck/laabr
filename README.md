@@ -27,7 +27,7 @@
 This plugin is implemented in ECMAScript 6 without any transpilers like `babel`.<br>
 Additionally `standard` and `ava` are used to grant a high quality implementation.
 
-#### `laabr` vs. `hapi-pino`
+### `laabr` vs. `hapi-pino`
 First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `laabr` in an almost identical manner like `hapi-pino`. This plugin provides further features which probably decelerates the logging a bit, but it should be faster than the alternatives anyway. The following features are provided:
 
 - Context-sensitive colorization
@@ -56,13 +56,13 @@ $ yarn add laabr
 ```
 
 ## Usage
-#### Import
+### Import
 First you have to import the module:
 ``` js
 const laabr = require('laabr');
 ```
 
-#### Create hapi server
+### Create hapi server
 Afterwards create your hapi server and the corresponding connection if not already done:
 ``` js
 const server = new Hapi.Server();
@@ -73,7 +73,7 @@ server.connection({
 });
 ```
 
-#### Registration
+### Registration
 Finally register the plugin and set the correct options:
 ``` js
 server.register({
