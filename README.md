@@ -97,6 +97,10 @@ Partially colorizes token outputs with ANSI powered by [chalk](https://github.co
 Optional. Default: `2`<br/>
 Take a look at the `space` argument of [JSON.stringify](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). This setting is just relevant for format strings marked as JSON.
 
+- **override**: `boolean`<br/>
+Optional. Default: `false`<br/>
+Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere.
+
 - **stream**: `Writable`<br/>
 Optional. Default: `process.stdout`<br/>
 Take a look at the `stream` argument of [pino](https://github.com/pinojs/pino/blob/master/docs/API.md).
@@ -105,7 +109,7 @@ Take a look at the `stream` argument of [pino](https://github.com/pinojs/pino/bl
 Optional. Default: `{}`<br/>
 [pino](https://github.com/pinojs/pino) related options. `prettyPrint`, `timestamp` and `browser` are effectless. The created instance is passed to [hapi-pino](https://github.com/pinojs/hapi-pino).
 
-- **plugin**: `Object`<br/>
+- **hapiPino**: `Object`<br/>
 Optional. Default: `{}`<br/>
 [hapi-pino](https://github.com/pinojs/hapi-pino) related options. `prettyPrint`, `mergeHapiLogData` and `instance` are effectless. Use `options.pino` to configre the passed `instance`.
 
@@ -171,7 +175,7 @@ The following tokens are available by default:
 - `:req[header]` - The given `header` of the request.
 - `:status` - The status code of the request/response.
 - `:method` - The http request method.
-- `:payload` - The request payload. Just works with `options.plugin.logPayload = true`, it is enabled by default.
+- `:payload` - The request payload. Just works with `options.hapiPino.logPayload = true`, it is enabled by default.
 - `:remoteAddress` - The remote client IP address.
 - `:remotePort` - The remote client port.
 - `:url` - The parsed url of the request.
