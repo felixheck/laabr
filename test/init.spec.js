@@ -39,6 +39,40 @@ test('throw error if own options are invalid – colored', (t) => {
   }), Error)
 })
 
+test('throw error if own options are invalid – override', (t) => {
+  t.throws(() => helpers.getServer({
+    override: null
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    override: 42
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    override: ''
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    override: 'foobar'
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    override: NaN
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    override: {}
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    override: []
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    override: new RegExp()
+  }), Error)
+})
+
 test('throw error if own options are invalid – indent', (t) => {
   t.throws(() => helpers.getServer({
     indent: null
@@ -68,6 +102,12 @@ test('throw error if own options are invalid – indent', (t) => {
 test('throws no error if own options are valid – colored', (t) => {
   t.notThrows(() => helpers.getServer({
     colored: true
+  }), Error)
+})
+
+test('throws no error if own options are valid – override', (t) => {
+  t.notThrows(() => helpers.getServer({
+    override: true
   }), Error)
 })
 
