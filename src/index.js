@@ -17,6 +17,10 @@ const validator = require('./validator')
  * @param {Function} next The callback to proceed
  */
 function plugin (server, options, next) {
+  if (options.plugin) {
+    console.warn('`options.plugin` will be deprecated soon. Use `options.hapiPino` instead')
+  }
+
   options = validator('options', options)
 
   server.register(logger(options), (err) => {

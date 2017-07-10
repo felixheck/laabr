@@ -16,7 +16,7 @@ const validators = {
     override: joi.boolean().default(false),
     indent: joi.alternatives().try(joi.number(), joi.string()).allow('').default(2),
     stream: joi.object().allow(null),
-    plugin: joi.object({
+    hapiPino: joi.object({
       stream: joi.object().allow(null),
       prettyPrint: joi.boolean(),
       tags: joi.object(),
@@ -46,7 +46,7 @@ const validators = {
     }).default({
       messageKey: 'msg'
     })
-  }).default({})
+  }).rename('plugin', 'hapiPino').default({})
 }
 
 /**

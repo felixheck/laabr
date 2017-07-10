@@ -96,7 +96,7 @@ function getLoggerConfig (options) {
  * @returns {Object} The overriden `hapi-pino` configs
  */
 function getPluginConfig (options, loggerConfig) {
-  return Object.assign(options.plugin, {
+  return Object.assign(options.hapiPino, {
     instance: pino(loggerConfig, options.stream),
     prettyPrint: false,
     mergeHapiLogData: false
