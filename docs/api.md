@@ -3,7 +3,7 @@
 <!-- TOC -->
 
 1. [`laabr.plugin`](#laabrplugin)
-  1. [`options`](#options)
+    1. [`options`](#options)
 2. [`laabr.token(<string> name, <Function> callback)`](#laabrtokenstring-name-function-callback)
 3. [`laabr.preset(<string> key, <string|false> preset)`](#laabrpresetstring-key-stringfalse-preset)
 4. [`laabr.format(<string> event, <string|false> format)`](#laabrformatstring-event-stringfalse-format)
@@ -14,7 +14,7 @@
 
 ## `laabr.plugin`
 
-### `options`
+#### `options`
 - **colored**: `boolean`<br/>
 Optional. Default: `false`<br/>
 Partially colorizes token outputs with ANSI powered by [chalk](https://github.com/chalk/chalk).
