@@ -18,6 +18,21 @@ function contains (str, search) {
  * @function
  * @public
  *
+ * Find value of header field in a stringified header.
+ *
+ * @param {Object} header The stringified header
+ * @param {string} field The header field to be searched for
+ * @returns {Array | null} The result of the executed RegExp
+ */
+function getHeader (header, field) {
+  const re = new RegExp(`(?:\\r\\n)${field}: *([a-zA-z0-9 /,:;=-]*)`, 'gi')
+  return re.exec(header, field)
+}
+
+/**
+ * @function
+ * @public
+ *
  * Check if the variable is a JSON-like string.
  * Have to be surrounded with a combination of
  * brackets and curly braces.
@@ -57,25 +72,10 @@ function stringify (data) {
   return String(JSON.stringify(data))
 }
 
-/**
- * @function
- * @public
- *
- * Find value of header field in a stringified header.
- *
- * @param {Object} header The stringified header
- * @param {string} field The header field to be searched for
- * @returns {Array | null} The result of the executed RegExp
- */
-function getHeader (header, field) {
-  const re = new RegExp(`(?:\\r\\n)${field}: *([a-zA-z0-9 /,:;=-]*)`, 'gi')
-  return re.exec(header, field)
-}
-
 module.exports = {
   contains,
+  getHeader,
   isJSON,
   noop,
-  stringify,
-  getHeader
+  stringify
 }
