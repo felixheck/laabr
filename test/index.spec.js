@@ -14,6 +14,33 @@ test.afterEach('cleanup interceptor', (t) => {
   interceptErr.release()
 })
 
+test.cb.serial('get log message by overriden `console.warn` – single', (t) => {
+  const consoleClone = Object.assign({}, console)
+
+  helpers.getServer({ indent: 0, override: true }, (server) => {
+    console.warn('foobar')
+
+    t.truthy(interceptOut.find('"message":"foobar"'))
+    t.end()
+
+    Object.assign(console, consoleClone)
+  })
+})
+
+
+test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
+  const consoleClone = Object.assign({}, console)
+
+  helpers.getServer({ indent: 0, override: true }, (server) => {
+    console.warn('foo', 'bar')
+
+    t.truthy(interceptOut.find('"message":["foo","bar"]'))
+    t.end()
+
+    Object.assign(console, consoleClone)
+  })
+})
+
 test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
   laabr.format('onPostStart', ':time :level :message :host[uri]')
 

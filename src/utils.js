@@ -69,7 +69,7 @@ function noop (data) {
  * @param {Array} data The data to be logged
  */
 function wrapper(server, level, ...data) {
-  server.log(level, data)
+  server.log(level, data.length === 1 ? data[0] : data)
 }
 
 /**
