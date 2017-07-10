@@ -62,15 +62,14 @@ function noop (data) {
  * @function
  * @private
  *
- * Wrapper for the `pino`/`hapi` server log event
- * which logs multiple data in multiple logs.
+ * Wrapper for the `pino`/`hapi` server log event.
  *
  * @param {Hapi.Server} server The created server instance
  * @param {string} level The logging level
  * @param {Array} data The data to be logged
  */
 function wrapper(server, level, ...data) {
-  data.forEach(item => server.log(level, item))
+  server.log(level, data)
 }
 
 /**
