@@ -99,7 +99,7 @@ Take a look at the `space` argument of [JSON.stringify](https://developer.mozill
 
 - **override**: `boolean`<br/>
 Optional. Default: `false`<br/>
-Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere.
+Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere. Keep the `options.pino.level` in mind which is set to `info` by default.
 
 - **stream**: `Writable`<br/>
 Optional. Default: `process.stdout`<br/>
