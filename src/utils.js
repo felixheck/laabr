@@ -60,6 +60,37 @@ function noop (data) {
 
 /**
  * @function
+ * @private
+ *
+ * Wrapper for the `pino`/`hapi` server log event
+ * which logs multiple data in multiple logs.
+ *
+ * @param {Hapi.Server} server The created server instance
+ * @param {string} level The logging level
+ * @param {Array} data The data to be logged
+ */
+function wrapper(server, level, ...data) {
+  data.forEach(item => server.log(level, item))
+}
+
+/**
+ * @function
+ * @public
+ *
+ * Override several `console` methods with `pino` ones
+ * to enable logging everywhere.
+ *
+ * @param {Hapi.Server} server The created server instance
+ */
+function override (server) {
+  ['trace', 'log', 'info', 'warn', 'error'].forEach(method => {
+    target = method === 'log' ? 'debug' : method
+    console[method] = wrapper.bind(undefined, server, target)
+  })
+}
+
+/**
+ * @function
  * @public
  *
  * Stringify the data, surround data with quotes
@@ -77,5 +108,6 @@ module.exports = {
   getHeader,
   isJSON,
   noop,
+  override,
   stringify
 }
