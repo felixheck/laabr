@@ -27,6 +27,10 @@ Take a look at the `space` argument of [JSON.stringify](https://developer.mozill
 Optional. Default: `false`<br/>
 Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere. Keep the `options.pino.level` in mind which is set to `info` by default.
 
+- **preformatter**: `Function`<br/>
+Optional. Default: `(data) => data`<br/>
+Preformat the originally logged message before getting processed by `laabr`. The function is passed the JSON object as an argument and have to return an object as well. The plugin evaluates the type of the logged message just before – so it is not possible to fake an event.
+
 - **stream**: `Writable`<br/>
 Optional. Default: `process.stdout`<br/>
 Take a look at the `stream` argument of [pino](https://github.com/pinojs/pino/blob/master/docs/API.md).
