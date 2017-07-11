@@ -42,7 +42,7 @@ function getHeader (header, field) {
  * @returns {boolean} Whether the variable is JSON-alike
  */
 function isJSON (data) {
-  return data && data.startsWith('({') && data.endsWith('})')
+  return data && data.startsWith('{') && data.endsWith('}')
 }
 
 /**

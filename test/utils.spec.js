@@ -17,13 +17,12 @@ test('return passed in value', (t) => {
 })
 
 test('return `true` because of valid json-like string', (t) => {
-  t.truthy(utils.isJSON('({foobar})'))
+  t.truthy(utils.isJSON('{foobar}'))
 })
 
 test('return `false` because of invalid json-like string', (t) => {
-  t.false(utils.isJSON('{foobar}'))
+  t.false(utils.isJSON('[foobar]'))
   t.false(utils.isJSON('(foobar)'))
-  t.false(utils.isJSON('{(foobar)}'))
 })
 
 test('return stringified value', (t) => {

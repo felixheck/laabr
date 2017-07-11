@@ -149,7 +149,7 @@ test.cb.serial('listen to `response` event – no token', (t) => {
 })
 
 test.cb.serial('listen to `response` event – no json token', (t) => {
-  laabr.format('response', '({ foobar::foobar })')
+  laabr.format('response', '{ foobar::foobar }')
 
   helpers.getServer({}, (server) => {
     server.on('tail', () => {
@@ -213,7 +213,7 @@ test.cb.serial('listen to `log` event – multiple tags', (t) => {
     }
   }
 
-  laabr.format('log', '({ tags::tags, message::message })')
+  laabr.format('log', '{ tags::tags, message::message }')
   helpers.getServer({ indent: 0 }, (server) => {
     server.log(['info', 'foobar'], mockData)
     const result = JSON.parse(interceptOut.find('"message":{"foo":{"bar":42}}').string)
@@ -252,7 +252,7 @@ test.cb.serial('get log message by overriden `console.warn` – multiple', (t) 
 test.cb.serial('listen to `log` event – concat strings', (t) => {
   const mockData = 'foo'
 
-  laabr.format('log', '({ message::message + `bar` })')
+  laabr.format('log', '{ message::message + `bar` }')
   helpers.getServer({ indent: 0 }, (server) => {
     server.log(['info'], mockData)
     const result = JSON.parse(interceptOut.find('"message":"foobar"').string)
@@ -266,7 +266,7 @@ test.cb.serial('listen to `log` event – concat strings', (t) => {
 test.cb.serial('listen to `log` event – inline strings', (t) => {
   const mockData = 'foo'
 
-  laabr.format('log', '({ message: [:message,`bar`] })')
+  laabr.format('log', '{ message: [:message,`bar`] }')
   helpers.getServer({ indent: 0 }, (server) => {
     server.log(['info'], mockData)
     const result = JSON.parse(interceptOut.find('"message":["foo","bar"]').string)

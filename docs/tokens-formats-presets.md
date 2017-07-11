@@ -78,7 +78,7 @@ The following formats/[presets](#presets) are set by default:
 
 #### `log.tinyjson`
 ```
-({ message::message, timestamp::time, level::level, environment::environment })
+{ message::message, timestamp::time, level::level, environment::environment }
 ```
 
 *Example Output*
@@ -113,7 +113,7 @@ The following formats/[presets](#presets) are set by default:
 
 #### `error.tinyjson`
 ``` js
-({ error::error, timestamp::time, level::level, environment::environment })
+{ error::error, timestamp::time, level::level, environment::environment }
 ```
 
 *Example Output*

@@ -52,7 +52,7 @@ function compile (format, tokens, isJSON, space, data) {
   })
 
   if (isJSON) {
-    return JSON.stringify(eval(js), null, space)
+    return JSON.stringify(eval(`(${js})`), null, space)
   }
 
   return js

@@ -80,9 +80,9 @@ function get (data) {
 }
 
 preset('log.tiny', ':time :level :message')
-preset('log.tinyjson', '({ message::message, timestamp::time, level::level, environment::environment })')
+preset('log.tinyjson', '{ message::message, timestamp::time, level::level, environment::environment }')
 preset('error.tiny', ':time :level :error')
-preset('error.tinyjson', '({ error::error, timestamp::time, level::level, environment::environment })')
+preset('error.tinyjson', '{ error::error, timestamp::time, level::level, environment::environment }')
 preset('response.tiny', ':time :method :remoteAddress :url :status :payload (:responseTime ms)')
 preset('server.info', ':time :level :message at: :host[uri]')
 
