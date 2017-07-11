@@ -20,7 +20,7 @@ test.afterEach('cleanup interceptor', (t) => {
 test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
   laabr.format('onPostStart', ':time :level :message :host[uri]')
 
-   helpers.getServer({}, (server) => {
+  helpers.getServer({}, (server) => {
     server.start().then(() => {
       t.truthy(interceptOut.find('info server started http://127.0.0.1:1337'))
 
@@ -29,7 +29,7 @@ test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
         t.end()
       })
     })
-   })
+  })
 })
 
 test.cb.serial('listen to `response` event', (t) => {
@@ -167,7 +167,7 @@ test.cb.serial('listen to `response` event – no json token', (t) => {
 test.cb.serial('listen to `response` event – no format', (t) => {
   laabr.format('response', false)
 
-  const server = helpers.getServer({}, (server) => {
+  helpers.getServer({}, (server) => {
     server.on('tail', () => {
       const result = JSON.parse(interceptOut.find('"msg": "request completed"').string)
 
