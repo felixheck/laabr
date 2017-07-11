@@ -36,6 +36,7 @@ The following tokens are available by default:
 - `:environment` - The `NODE_ENV` environment variable.
 
 #### Request/Response
+- `:requestId` - The unique request identifier.
 - `:responseTime` - The response time in milliseconds.
 - `:res[header]` - The given `header` of the response.
 - `:req[header]` - The given `header` of the request.
@@ -57,13 +58,14 @@ The following tokens are available by default:
 ## Formats
 The following formats/[presets](#presets) are set by default:
 
-| Event           | Preset                             |
-|----------------:|------------------------------------|
-| `log`           | [`log.tinyjson`](presets.md#logtinyjson)     |
-| `response`      | [`response.tiny`](presets.md#responsetiny)   |
-| `request-error` | [`error.tinyjson`](presets.md#errortinyjson) |
-| `onPostStart`   | [`server.info`](presets.md#serverinfo)       |
-| `onPostStop`    | [`server.info`](presets.md#serverinfo)       |
+| Event           | Preset                                       | Emitter              |
+|----------------:|----------------------------------------------|----------------------|
+| `log`           | [`log.tinyjson`](presets.md#logtinyjson)     | `server.log`         |
+| `request`       | [`log.tinyjson`](presets.md#logtinyjson)     | `request.log`        |
+| `response`      | [`response.tiny`](presets.md#responsetiny)   | request is completed |
+| `request-error` | [`error.tinyjson`](presets.md#errortinyjson) | request failed       |
+| `onPostStart`   | [`server.info`](presets.md#serverinfo)       | server is started    |
+| `onPostStop`    | [`server.info`](presets.md#serverinfo)       | server is stopped    |
 
 ## Presets
 #### `log.tiny`

@@ -7,7 +7,7 @@ const joi = require('joi')
  * Collection of `Joi` validators
  */
 const validators = {
-  formatLabel: joi.string().only('log', 'response', 'request-error', 'onPostStart', 'onPostStop'),
+  formatLabel: joi.string().only('log', 'request', 'response', 'request-error', 'onPostStart', 'onPostStop'),
   tokenLabel: joi.string(),
   format: joi.alternatives().try(joi.string(), joi.any().valid(false)),
   token: joi.func().maxArity(3),

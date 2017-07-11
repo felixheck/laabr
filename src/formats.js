@@ -74,6 +74,8 @@ function get (data) {
     return formats.onPostStart
   } else if (contains(data.msg, 'server stopped')) {
     return formats.onPostStop
+  } else if (data.req) {
+    return formats.request
   }
 
   return formats.log
@@ -87,6 +89,7 @@ preset('response.tiny', ':time :method :remoteAddress :url :status :payload (:re
 preset('server.info', ':time :level :message at: :host[uri]')
 
 assign('log', 'log.tinyjson')
+assign('request', 'log.tinyjson')
 assign('request-error', 'error.tinyjson')
 assign('response', 'response.tiny')
 assign('onPostStart', 'server.info')

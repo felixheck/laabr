@@ -79,6 +79,7 @@ test('return requested general attributes', (t) => {
   t.is(tokens['host'](mockData, mockColors, 'protocol'), mockData.protocol)
   t.is(tokens['host'](mockData, mockColors, 'foo'), undefined)
   t.is(tokens['environment'](), 'test')
+  t.is(tokens['res'](mockData, mockColors, 'foo'), undefined)
 })
 
 test('return requested alternative attributes', (t) => {
@@ -96,6 +97,7 @@ test('return requested req/res attributes', (t) => {
       header: '\r\nfoobar: no-cache\r\nbarfoo:42'
     },
     req: {
+      id: '1499781055994:f3lix:67067:j4zmw7av:10000',
       method: 'get',
       url: '/',
       remoteAddress: '127.0.0.1',
@@ -106,6 +108,7 @@ test('return requested req/res attributes', (t) => {
     }
   }
 
+  t.is(tokens['requestId'](mockData), mockData.req.id)
   t.is(tokens['method'](mockData, mockColors), mockData.req.method)
   t.is(tokens['status'](mockData, mockColors), mockData.res.statusCode)
   t.is(tokens['payload'](mockData), JSON.stringify({}))

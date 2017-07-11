@@ -80,21 +80,25 @@ assign('responseTime', data => (
 ))
 
 assign('res', (data, colors, field) => {
+  if (!data.res) {
+    return undefined
+  }
+
   const match = utils.getHeader(data.res.header, field)
 
   return (match && match[1]) || undefined
 })
 
 assign('req', (data, colors, field) => (
-  data.req.headers[field]
+  data.req && data.req.headers && data.req.headers[field]
 ))
 
 assign('status', (data, colors) => (
-  colors.status(data.res.statusCode)
+  colors.status(data.res && data.res.statusCode)
 ))
 
 assign('method', (data, colors) => (
-  colors.status(data.req.method)
+  colors.status(data.req && data.req.method)
 ))
 
 assign('payload', data => (
@@ -102,15 +106,19 @@ assign('payload', data => (
 ))
 
 assign('remoteAddress', data => (
-  data.req.remoteAddress
+  data.req && data.req.remoteAddress
 ))
 
 assign('remotePort', data => (
-  data.req.remotePort
+  data.req && data.req.remotePort
 ))
 
 assign('url', data => (
-  data.req.url
+  data.req && data.req.url
+))
+
+assign('requestId', data => (
+  data.req && data.req.id
 ))
 
 assign('host', (data, colors, field = 'host') => {

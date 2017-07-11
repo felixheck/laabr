@@ -2,6 +2,7 @@ const Hapi = require('hapi')
 const laabr = require('./src')
 
 laabr.format('onPostStart', ':time :start :level :message')
+laabr.format('log', false)
 laabr.token('start', () => '[start]')
 
 const server = new Hapi.Server()
@@ -12,6 +13,7 @@ server.route([
     method: '*',
     path: '/response',
     handler (req, reply) {
+      req.log('info', 'buuhja')
       reply('hello world')
     }
   },

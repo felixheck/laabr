@@ -87,6 +87,14 @@ function getServer (options, done) {
   server.route([
     {
       method: '*',
+      path: '/request/log',
+      handler (req, reply) {
+        req.log('info', 'foobar')
+        reply({ foo: 42 })
+      }
+    },
+    {
+      method: '*',
       path: '/response/{code}',
       handler (req, reply) {
         reply({ foo: 42 }).code(parseInt(req.params.code))
@@ -94,7 +102,7 @@ function getServer (options, done) {
     },
     {
       method: '*',
-      path: '/requestError',
+      path: '/request/error',
       handler (req, reply) {
         reply(new Error('foobar'))
       }

@@ -17,6 +17,27 @@ test.afterEach('cleanup interceptor', (t) => {
   helpers.disableInterceptor(interceptOut, interceptErr)
 })
 
+test.cb.serial('listen to `request` event', (t) => {
+  laabr.format('request', '{ reqId::requestId }')
+
+  helpers.getServer({}, (server) => {
+    server.on('tail', () => {
+      const result = JSON.parse(interceptOut.find('"reqId"').string)
+
+      t.truthy(result)
+      t.truthy(result.reqId)
+      t.regex(result.reqId, /^\d+:.+:.+$/)
+      t.truthy(interceptOut.find('GET 127.0.0.1 /request/log 200 {}'))
+      t.end()
+    })
+
+    server.inject({
+      method: 'GET',
+      url: '/request/log'
+    })
+  })
+})
+
 test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
   laabr.format('onPostStart', ':time :level :message :host[uri]')
 
@@ -73,14 +94,14 @@ test.cb.serial('listen to `request-error` event', (t) => {
       t.is(result.level, 'warn')
       t.is(result.environment, 'test')
       t.deepEqual(Object.keys(result).sort(), ['timestamp', 'error', 'level', 'environment'].sort())
-      t.truthy(interceptOut.find('GET 127.0.0.1 /requestError 500 {}'))
+      t.truthy(interceptOut.find('GET 127.0.0.1 /request/error 500 {}'))
 
       t.end()
     })
 
     server.inject({
       method: 'GET',
-      url: '/requestError'
+      url: '/request/error'
     })
   })
 })
