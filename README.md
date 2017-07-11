@@ -30,12 +30,15 @@ Additionally `standard` and `ava` are used to grant a high quality implementatio
 #### `laabr` vs. `hapi-pino`
 First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `laabr` in an almost identical manner like `hapi-pino`. This plugin provides further features which probably decelerates the logging a bit, but it should be faster than the alternatives anyway. The following features are provided:
 
+- Easy out of the box usage
 - Context-sensitive colorization
 - Customizable identation for JSON strings
-- Preset [tokens](#tokens) to extract and compose data as needed
+- Wide range of preset [tokens](#tokens) to extract and compose data as needed
 - Preset [formats](#formats) combining useful tokens for an easy start
 - Possibility to add own format [presets](#presets) for an easy reuse
 - Easily customizable tokens & formats
+- Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods
+- In despite of everything it is possible to [preformat](docs/api.md#options) data, e.g. to filter sensitive data
 
 ![laabr screen](https://github.com/felixheck/laabr/raw/master/assets/screen.png)
 
