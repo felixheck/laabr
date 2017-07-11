@@ -252,7 +252,7 @@ test.cb.serial('get log message by overriden `console.warn` – multiple', (t) 
 test.cb.serial('listen to `log` event – concat strings', (t) => {
   const mockData = 'foo'
 
-  laabr.format('log', '({ message:(:message) + `bar` })')
+  laabr.format('log', '({ message::message + `bar` })')
   helpers.getServer({ indent: 0 }, (server) => {
     server.log(['info'], mockData)
     const result = JSON.parse(interceptOut.find('"message":"foobar"').string)

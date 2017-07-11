@@ -48,7 +48,7 @@ function compile (format, tokens, isJSON, space, data) {
       return typeof interim === 'object' ? utils.stringify(interim) : interim
     }
 
-    return template
+    return `(${template})`
   })
 
   if (isJSON) {
