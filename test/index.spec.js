@@ -290,3 +290,21 @@ test.cb.serial('listen to `log` event – inline strings', (t) => {
     t.end()
   })
 })
+
+test.cb.serial('preformat the originally logged message', (t) => {
+  const mockData = 'foo'
+  const preformatter = (data) => ({ foo: 'bar' })
+
+  laabr.format('log', false)
+
+  helpers.getServer({ preformatter, indent: 0 }, (server) => {
+    server.log(['info'], mockData)
+    const result = JSON.parse(interceptOut.find('"foo":"bar"').string)
+
+    t.truthy(result)
+    t.truthy(result.foo)
+    t.deepEqual(result.foo, 'bar')
+    t.deepEqual(Object.keys(result).sort(), ['foo'].sort())
+    t.end()
+  })
+})
