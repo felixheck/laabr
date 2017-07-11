@@ -60,6 +60,8 @@ test('return requested general attributes', (t) => {
     }
   }
 
+  process.env.FOO = 'bar'
+
   t.is(tokens['pid'](mockData), mockData.pid)
   t.is(tokens['tags'](mockData), mockData.tags)
   t.is(tokens['level'](mockData, mockColors), 'fatal')
@@ -79,6 +81,7 @@ test('return requested general attributes', (t) => {
   t.is(tokens['host'](mockData, mockColors, 'protocol'), mockData.protocol)
   t.is(tokens['host'](mockData, mockColors, 'foo'), undefined)
   t.is(tokens['environment'](), 'test')
+  t.is(tokens['environment'](mockData, mockColors, 'FOO'), 'bar')
   t.is(tokens['res'](mockData, mockColors, 'foo'), undefined)
 })
 

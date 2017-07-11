@@ -71,8 +71,8 @@ assign('error', (data, colors, field = 'message') => (
   get(data.err, field)
 ))
 
-assign('environment', () => (
-  process.env.NODE_ENV
+assign('environment', (data, colors, field = 'NODE_ENV') => (
+  process.env[field]
 ))
 
 assign('responseTime', data => (
