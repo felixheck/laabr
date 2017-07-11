@@ -46,7 +46,7 @@ const validators = {
     }).default({
       messageKey: 'msg'
     })
-  }).rename('plugin', 'hapiPino').default({})
+  }).default({})
 }
 
 /**

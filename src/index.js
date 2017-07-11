@@ -18,6 +18,9 @@ const validator = require('./validator')
  */
 function plugin (server, options, next) {
   if (options.plugin) {
+    options.hapiPino = options.plugin
+    delete options.plugin
+
     console.warn('`options.plugin` will be deprecated soon. Use `options.hapiPino` instead')
   }
 
