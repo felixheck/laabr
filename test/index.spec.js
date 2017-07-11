@@ -248,3 +248,31 @@ test.cb.serial('get log message by overriden `console.warn` – multiple', (t) 
     t.end()
   })
 })
+
+test.cb.serial('listen to `log` event – concat strings', (t) => {
+  const mockData = 'foo'
+
+  laabr.format('log', '({ message:(:message) + `bar` })')
+  helpers.getServer({ indent: 0 }, (server) => {
+    server.log(['info'], mockData)
+    const result = JSON.parse(interceptOut.find('"message":"foobar"').string)
+
+    t.truthy(result)
+    t.deepEqual(result.message, 'foobar')
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `log` event – inline strings', (t) => {
+  const mockData = 'foo'
+
+  laabr.format('log', '({ message: [:message,`bar`] })')
+  helpers.getServer({ indent: 0 }, (server) => {
+    server.log(['info'], mockData)
+    const result = JSON.parse(interceptOut.find('"message":["foo","bar"]').string)
+
+    t.truthy(result)
+    t.deepEqual(result.message, ['foo', 'bar'])
+    t.end()
+  })
+})
