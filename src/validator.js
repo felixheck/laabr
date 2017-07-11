@@ -11,10 +11,12 @@ const validators = {
   tokenLabel: joi.string(),
   format: joi.alternatives().try(joi.string(), joi.any().valid(false)),
   token: joi.func().maxArity(3),
+  preformatterOutput: joi.object(),
   options: joi.object({
     colored: joi.boolean().default(false),
     override: joi.boolean().default(false),
     indent: joi.alternatives().try(joi.number(), joi.string()).allow('').default(2),
+    preformatter: joi.func().maxArity(1).default((data) => data),
     stream: joi.object().allow(null),
     hapiPino: joi.object({
       stream: joi.object().allow(null),
@@ -71,6 +73,7 @@ function validate (type, value) {
     case 'formatLabel':
     case 'token':
     case 'tokenLabel':
+    case 'preformatterOutput':
       return joi.assert(value, validators[type])
     default:
       return value

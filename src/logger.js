@@ -5,6 +5,7 @@ const colors = require('./colors')
 const formats = require('./formats')
 const tokens = require('./tokens')
 const utils = require('./utils')
+const validator = require('./validator')
 
 /**
  * @type RegExp
@@ -78,6 +79,9 @@ function getLoggerConfig (options) {
         const format = formats.get(data)
         const isJSON = utils.isJSON(format)
         const pictor = colors.get(data, isJSON || !options.colored)
+
+        data = options.preformatter(data)
+        validator('preformatterOutput', data)
 
         return compile(format, tokens, isJSON, options.indent, data, pictor)
       }
