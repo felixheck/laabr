@@ -20,7 +20,7 @@ test.afterEach('cleanup interceptor', (t) => {
 test.cb.serial('listen to `request` event', (t) => {
   laabr.format('request', '{ reqId::requestId }')
 
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.on('tail', () => {
       const result = JSON.parse(interceptOut.find('"reqId"').string)
 
@@ -41,7 +41,7 @@ test.cb.serial('listen to `request` event', (t) => {
 test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
   laabr.format('onPostStart', ':time :level :message :host[uri]')
 
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.start().then(() => {
       t.truthy(interceptOut.find('info server started http://127.0.0.1:1337'))
 
@@ -54,7 +54,7 @@ test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
 })
 
 test.cb.serial('listen to `response` event', (t) => {
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.on('tail', () => {
       t.truthy(interceptOut.find('GET 127.0.0.1 /response/200 200 {}'))
       t.end()
@@ -68,7 +68,7 @@ test.cb.serial('listen to `response` event', (t) => {
 })
 
 test.cb.serial('listen to `response` event – post', (t) => {
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.on('tail', () => {
       t.truthy(interceptOut.find('POST 127.0.0.1 /response/204 204 {"foo":42}'))
       t.end()
@@ -85,7 +85,7 @@ test.cb.serial('listen to `response` event – post', (t) => {
 })
 
 test.cb.serial('listen to `request-error` event', (t) => {
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.on('tail', () => {
       const result = JSON.parse(interceptOut.find('"error": "foobar"').string)
 
@@ -123,7 +123,7 @@ test.cb.serial('listen to `log` event', (t) => {
 test.cb.serial('listen to `response` event – customized', (t) => {
   laabr.format('response', ':get[req.headers]')
 
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.on('tail', () => {
       t.truthy(interceptOut.find('{"user-agent":"shot","host":"127.0.0.1:1337"}'))
       t.end()
@@ -140,7 +140,7 @@ test.cb.serial('listen to `response` event – preset', (t) => {
   laabr.preset('test.env', ':time :environment :method')
   laabr.format('response', 'test.env')
 
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.on('tail', () => {
       t.truthy(interceptOut.find('test GET'))
       t.end()
@@ -156,7 +156,7 @@ test.cb.serial('listen to `response` event – preset', (t) => {
 test.cb.serial('listen to `response` event – no token', (t) => {
   laabr.format('response', ':foobar')
 
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.on('tail', () => {
       t.truthy(interceptOut.find(':foobar'))
       t.end()
@@ -172,7 +172,7 @@ test.cb.serial('listen to `response` event – no token', (t) => {
 test.cb.serial('listen to `response` event – no json token', (t) => {
   laabr.format('response', '{ foobar::foobar }')
 
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.on('tail', () => {
       t.truthy(interceptOut.find('"foobar": ":foobar"'))
       t.end()
@@ -188,7 +188,7 @@ test.cb.serial('listen to `response` event – no json token', (t) => {
 test.cb.serial('listen to `response` event – no format', (t) => {
   laabr.format('response', false)
 
-  helpers.getServer({}, (server) => {
+  helpers.getServer(undefined, (server) => {
     server.on('tail', () => {
       const result = JSON.parse(interceptOut.find('"msg": "request completed"').string)
 
