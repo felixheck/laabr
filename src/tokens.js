@@ -31,6 +31,10 @@ assign('pid', data => (
   data.pid
 ))
 
+assign('tags', data => (
+  data.tags
+))
+
 assign('level', (data, colors, field) => {
   if (field === 'code') {
     return colors.level(data.level)

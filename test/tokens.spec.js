@@ -41,6 +41,7 @@ test('throw no error if token arguments are valid', (t) => {
 test('return requested general attributes', (t) => {
   const mockData = {
     pid: 52818,
+    tags: ['foobar'],
     host: 'localhost',
     port: 3000,
     uri: 'http://localhost:3000',
@@ -60,6 +61,7 @@ test('return requested general attributes', (t) => {
   }
 
   t.is(tokens['pid'](mockData), mockData.pid)
+  t.is(tokens['tags'](mockData), mockData.tags)
   t.is(tokens['level'](mockData, mockColors), 'fatal')
   t.is(tokens['level'](mockData, mockColors, 'code'), 60)
   t.is(tokens['time'](mockData, mockColors), mockData.time)

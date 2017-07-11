@@ -7,6 +7,20 @@ const utils = require('../src/utils')
  * @function
  * @public
  *
+ * Disable stream interceptors
+ *
+ * @param {StdOutInterceptor} interceptOut The initiated interceptor for stdout
+ * @param {StdOutInterceptor} interceptErr The initiated interceptor for stderr
+ */
+function disableInterceptor (interceptOut, interceptErr) {
+  interceptOut.release()
+  interceptErr.release()
+}
+
+/**
+ * @function
+ * @public
+ *
  * Initiate and get `stdout` interceptor decorated with
  * further methods to help debugging and testing
  *
@@ -98,6 +112,7 @@ function getServer (options, done) {
 }
 
 module.exports = {
+  disableInterceptor,
   noop: utils.noop,
   getInterceptor,
   getServer,

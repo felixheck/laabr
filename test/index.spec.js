@@ -14,8 +14,7 @@ test.beforeEach('setup interceptor', (t) => {
 
 test.afterEach('cleanup interceptor', (t) => {
   Object.assign(console, consoleClone)
-  interceptOut.release()
-  interceptErr.release()
+  helpers.disableInterceptor(interceptOut, interceptErr)
 })
 
 test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
@@ -203,6 +202,25 @@ test.cb.serial('listen to `log` event – customized', (t) => {
     t.is(result.level, 'info')
     t.is(result.environment, 'test')
     t.deepEqual(Object.keys(result).sort(), ['timestamp', 'message', 'level', 'environment'].sort())
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `log` event – multiple tags', (t) => {
+  const mockData = {
+    foo: {
+      bar: 42
+    }
+  }
+
+  laabr.format('log', '({ tags::tags, message::message })')
+  helpers.getServer({ indent: 0 }, (server) => {
+    server.log(['info', 'foobar'], mockData)
+    const result = JSON.parse(interceptOut.find('"message":{"foo":{"bar":42}}').string)
+
+    t.truthy(result)
+    t.deepEqual(result.message, mockData)
+    t.deepEqual(result.tags, ['info', 'foobar'])
     t.end()
   })
 })

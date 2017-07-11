@@ -24,6 +24,7 @@ The following tokens are available by default:
 
 #### General
 - `:pid` – The process identifies.
+- `:tags` – The tags passed to [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp)/[`request.log`](https://hapijs.com/api#requestlogtags-data-timestamp).
 - `:level[field?]` - The logging Level. If `field` is unset, get the label. Otherwise, if `field=code`, get the level itself.
 - `:time[format?]` - The current date and time in UTC. The available formats are:<br>
   - Default is the timestamp configured with `options.pino.timestamp` (`971186136`)
