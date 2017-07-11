@@ -225,13 +225,6 @@ test.cb.serial('listen to `log` event – multiple tags', (t) => {
   })
 })
 
-test.cb.serial('get deprecation messages because of deprecating options', (t) => {
-  helpers.getServer({ indent: 0, plugin: {} }, () => {
-    t.truthy(interceptErr.find('`options.plugin` will be deprecated soon. Use `options.hapiPino` instead'))
-    t.end()
-  })
-})
-
 test.cb.serial('get log message by overriden `console.warn` – single', (t) => {
   helpers.getServer({ indent: 0, override: true }, () => {
     console.warn('foobar')
