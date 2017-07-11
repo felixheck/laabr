@@ -69,7 +69,14 @@ laabr.format('onPostStart', ':time :hello world!');
 Furthermore it is possible to define JSON strings. Therefor enclose the template string with `({` & `})` and use an object-like structure:
 
 ``` js
-laabr.format('onPostStart', '({ ts::time, msg::hello world! })');
+laabr.format('onPostStart', '({ ts::time, msg::hello })');
+```
+
+*Hint*: If you work with the JSON/object-like structure above and you want to work with custom strings, enclose them in backticks. If you want to concatinate tokens with custom string use a combination of brackets, `+` and backticks:
+
+``` js
+laabr.format('response', '({ responseTime: { value::responseTime, unit:`ms` }})');
+laabr.format('response', '({ responseTime:(:responseTime) + `ms` })');
 ```
 
 Or use a format preset key instead of a format string:
