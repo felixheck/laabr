@@ -33,9 +33,9 @@ First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `l
 - Easy out of the box usage
 - Context-sensitive colorization
 - Customizable identation for JSON strings
-- Wide range of preset [tokens](#tokens) to extract and compose data as needed
-- Preset [formats](#formats) combining useful tokens for an easy start
-- Possibility to add own format [presets](#presets) for an easy reuse
+- Wide range of preset [tokens](docs/tokens-formats-presets.md#tokens) to extract and compose data as needed
+- Preset [formats](docs/tokens-formats-presets.md#formats) combining useful tokens for an easy start
+- Possibility to add own format [presets](docs/tokens-formats-presets.md#presets) for an easy reuse
 - Easily customizable tokens & formats
 - Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods
 - In despite of everything it is possible to [preformat](docs/api.md#user-content-preformatter) & [postformat](docs/api.md#user-content-postformatter) data, e.g. to filter sensitive data
