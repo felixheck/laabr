@@ -1,15 +1,22 @@
 {
   "name": "laabr",
-  "description": "well-formatted pino logger for hapi.js",
+  "description": "well-formatted, extendable pino logger for hapi.js",
   "keywords": [
     "hapi",
+    "hapijs",
     "pino",
-    "logger",
-    "fast",
     "log",
+    "logger",
     "logging",
+    "fast",
     "json",
-    "morgan"
+    "morgan",
+    "correlation",
+    "correlator",
+    "processing",
+    "custom",
+    "format",
+    "console"
   ],
   "version": "2.0.0",
   "license": "MIT",

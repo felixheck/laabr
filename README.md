@@ -1,5 +1,5 @@
 ![laabr logo](https://github.com/felixheck/laabr/raw/master/assets/logo.png)
-#### well-formatted pino logger for hapi.js
+#### well-formatted, extendable pino logger for hapi.js
 
 > Booyah! Works like a charm.
 >
