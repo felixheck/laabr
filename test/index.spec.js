@@ -328,4 +328,3 @@ test.cb.serial('postformat the originally logged message', (t) => {
     t.end()
   })
 })
-

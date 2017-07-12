@@ -45,4 +45,3 @@ test('calculate all colors correctly', (t) => {
     status: chalk.red
   }))
 })
-

@@ -41,11 +41,11 @@
     "coverage": "nyc report --reporter=lcov"
   },
   "devDependencies": {
-    "ava": "^0.18.1",
+    "ava": "^0.20.0",
     "fixture-stdout": "^0.2.1",
     "hapi": "^16.4.3",
-    "nyc": "^10.1.2",
-    "standard": "^8.6.0"
+    "nyc": "^11.0.3",
+    "standard": "^10.0.2"
   },
   "dependencies": {
     "chalk": "^2.0.1",
@@ -54,7 +54,7 @@
     "joi": "^10.6.0",
     "js-string-escape": "^1.0.1",
     "lodash.get": "^4.4.2",
-    "pino": "^4.6.0"
+    "pino": "^4.7.0"
   },
   "peerDependencies": {
     "hapi": ">= 13.x.x",
