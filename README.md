@@ -91,6 +91,8 @@ server.register({
 ```
 
 ## Example
+Take a look at several more [examples ⇗](examples/).<br/>
+
 #### Code
 
 ``` js
