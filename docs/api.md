@@ -24,7 +24,7 @@ Partially colorizes token outputs with ANSI powered by [chalk](https://github.co
 Optional. Default: `2`<br/>
 Take a look at the `space` argument of [JSON.stringify](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). This setting is just relevant for format strings marked as JSON.
 
-- <strong id="override">override</strong>: `boolean`<br/>
+- **override**: `boolean`<br/>
 Optional. Default: `false`<br/>
 Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere. Keep the `options.pino.level` in mind which is set to `info` by default.
 

@@ -38,8 +38,8 @@ First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `l
 - Possibility to add own format [presets](#presets) for an easy reuse
 - Easily customizable tokens & formats
 - Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods
-- In despite of everything it is possible to [preformat & postformat](docs/api.md#options) data, e.g. to filter sensitive data
-- Optional integration of [correlation ids](docs/api.md#options) based on the module [correlation-id](https://github.com/toboid/correlation-id)
+- In despite of everything it is possible to [preformat](docs/api.md#user-content-preformatter) & [postformat](docs/api.md#user-content-postformatter) data, e.g. to filter sensitive data
+- Optional integration of [correlation ids](docs/api.md#correlator) based on the module [correlation-id](https://github.com/toboid/correlation-id)
 
 ![laabr screen](https://github.com/felixheck/laabr/raw/master/assets/screen.png)
 
