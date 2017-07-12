@@ -28,9 +28,7 @@ const validators = {
       mergeHapiLogData: joi.boolean(),
       serializers: joi.object(),
       logPayload: joi.boolean().default(true)
-    }).default({
-      logPayload: true
-    }),
+    }).default(),
     pino: joi.object({
       safe: joi.boolean(),
       name: joi.string(),
@@ -45,10 +43,8 @@ const validators = {
       onTerminated: joi.func(),
       enabled: joi.boolean(),
       browser: joi.any()
-    }).default({
-      messageKey: 'msg'
-    })
-  }).default({})
+    }).default()
+  }).default()
 }
 
 /**
