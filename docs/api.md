@@ -16,7 +16,7 @@
 ## `laabr.plugin`
 
 #### `options`
-- #### colored: `boolean`<br/>
+- <strong id="colored">colored</strong>: `boolean`<br/>
 Optional. Default: `false`<br/>
 Partially colorizes token outputs with ANSI powered by [chalk](https://github.com/chalk/chalk).
 
