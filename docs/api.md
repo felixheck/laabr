@@ -60,7 +60,7 @@ Optional. Default: `{}`<br/>
 [hapi-pino](https://github.com/pinojs/hapi-pino) related options. `prettyPrint`, `mergeHapiLogData` and `instance` are effectless. Use `options.pino` to configre the passed `instance`.
 
 ## `laabr.token(<string> name, <Function> callback)`
-To define a token, simply invoke `laabr.token()` with the name and a callback function. Run `laabr.token` before registering the plugin.
+To define a token, simply invoke `laabr.token()` with the name and a callback function.<br/>Best Practise: Run `laabr.token` before registering the plugin.
 
 **`callback(<Object> data, <Object> colors)`**
 The callback function is expected to be called with the arguments `data` and `colors`. Those represent the logged data and an object containing respective [chalk](https://github.com/chalk/chalk) functions. Additionally, the token can accept further arguments of it's choosing to customize behavior. The `colors` object contains the following key: `level`, `status` and `dim`. Those represent chalk color functions related to the context, the log level and the request status code. This callback function is expected to return a string value. The value returned is then available as `:hello` in this case below:
@@ -72,7 +72,7 @@ laabr.token('hello', () => 'hello!');
 *Hint:* disable the respective format, get the complete logged message and inspect the properties. With this it is quite easy to define custom tokens.
 
 ## `laabr.preset(<string> key, <string|false> preset)`
-To define own format presets, simply invoke `laabr.preset()` with an unique key and a format string. Use your own or provided presets for an easy reuse and exchange by passing the key to `laabr.format()` instead of the format string itself. Run `laabr.format` before registering the plugin.
+To define own format presets, simply invoke `laabr.preset()` with an unique key and a format string. Use your own or provided presets for an easy reuse and exchange by passing the key to `laabr.format()` instead of the format string itself.<br/>Best Practise: Run `laabr.preset` before registering the plugin.
 
 ``` js
 laabr.preset('server.env', ':time :environment :host :host[port]');
@@ -80,7 +80,7 @@ laabr.preset('server.env', ':time :environment :host :host[port]');
 
 ## `laabr.format(<string> event, <string|false> format)`
 To define a format, simply invoke `laabr.format()` with the event and a format string. Use existing tokens with `:<token>` within the format string.<br>
-If the `format` is set to `false`, it logs the whole json message without any pretty-printed format. Run `laabr.format` before registering the plugin.
+If the `format` is set to `false`, it logs the whole json message without any pretty-printed format.<br/>Best Practise: Run `laabr.format` before registering the plugin.
 
 ``` js
 laabr.format('onPostStart', ':time :hello world!');
