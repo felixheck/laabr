@@ -18,14 +18,14 @@ test.afterEach('cleanup interceptor', (t) => {
 })
 
 test.cb.serial('correlator is not exposed – laabr', (t) => {
-  helpers.getServer({ correlator: false }, (server) => {
+  helpers.getServer({ correlator: false }, () => {
     t.falsy(laabr.cid)
     t.end()
   })
 })
 
 test.cb.serial('correlator is exposed – laabr', (t) => {
-  helpers.getServer({ correlator: true }, (server) => {
+  helpers.getServer({ correlator: true }, () => {
     t.truthy(laabr.cid)
     t.truthy(laabr.cid.get)
     t.truthy(laabr.cid.with)
