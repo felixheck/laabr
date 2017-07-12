@@ -75,6 +75,14 @@ assign('environment', (data, colors, field = 'NODE_ENV') => (
   process.env[field]
 ))
 
+assign('cid', data => (
+  data.req && data.req.cid
+))
+
+assign('requestId', data => (
+  data.req && data.req.id
+))
+
 assign('responseTime', data => (
   data.responseTime
 ))
@@ -115,10 +123,6 @@ assign('remotePort', data => (
 
 assign('url', data => (
   data.req && data.req.url
-))
-
-assign('requestId', data => (
-  data.req && data.req.id
 ))
 
 assign('host', (data, colors, field = 'host') => {

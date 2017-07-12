@@ -100,6 +100,7 @@ test('return requested req/res attributes', (t) => {
       header: '\r\nfoobar: no-cache\r\nbarfoo:42'
     },
     req: {
+      cid: '1499877048140:f3lix:28521:j5182h4r:10000',
       id: '1499781055994:f3lix:67067:j4zmw7av:10000',
       method: 'get',
       url: '/',
@@ -111,6 +112,7 @@ test('return requested req/res attributes', (t) => {
     }
   }
 
+  t.is(tokens['cid'](mockData), mockData.req.cid)
   t.is(tokens['requestId'](mockData), mockData.req.id)
   t.is(tokens['method'](mockData, mockColors), mockData.req.method)
   t.is(tokens['status'](mockData, mockColors), mockData.res.statusCode)
