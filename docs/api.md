@@ -7,6 +7,7 @@
 2. [`laabr.token(<string> name, <Function> callback)`](#laabrtokenstring-name-function-callback)
 3. [`laabr.preset(<string> key, <string|false> preset)`](#laabrpresetstring-key-stringfalse-preset)
 4. [`laabr.format(<string> event, <string|false> format)`](#laabrformatstring-event-stringfalse-format)
+5. [`laabr.cid`](#laabrcid)
 
 <!-- /TOC -->
 
@@ -26,6 +27,14 @@ Take a look at the `space` argument of [JSON.stringify](https://developer.mozill
 - **override**: `boolean`<br/>
 Optional. Default: `false`<br/>
 Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere. Keep the `options.pino.level` in mind which is set to `info` by default.
+
+- **correlator**: `boolean`<br/>
+Optional. Default: `false`<br/>
+Enable the [correlator](https://github.com/toboid/correlation-id) which handles correlation identifier for incoming requests. If enabled, it is possible to get the current correlation identifier with the [`:cid`](tokens-formats-presets.md#tokens) token. If the incoming request has a respective header, its value is used. The fallback is the [request identifier](https://hapijs.com/api#request-object). Furthermore the [correlator](https://github.com/toboid/correlation-id#api) is exposed via [`laabr.cid`](#laabrcid). Finally the correlation identifier related to an incame HTTP request is exposed via `req.cid`.
+
+- **correlatorHeader**: `string`<br/>
+Optional. Default: `x-correlation-id`<br/>
+Change the header field of incoming requests containing an already created correlation identifier. Note that all header field names must be in lowercase to match the headers normalized by node. Effectless if `options.correlator` is disabled.
 
 - **preformatter**: `Function`<br/>
 Optional. Default: `(data) => data`<br/>
@@ -94,3 +103,8 @@ laabr.format('onPostStart', 'server.env');
 ```
 
 The `event` is allowed to be `onPostStart`, `onPostStop`, `response`, `request-error` and `log`. The events are analog to the [hapi-pino](https://github.com/pinojs/hapi-pino) ones.
+
+## `laabr.cid`
+- `laabr.cid.get()`: [`correlator.getId()`](https://github.com/toboid/correlation-id#getid)
+- `laabr.cid.with([<string> id,] <Function> work)`: [`correlator.withId()`](https://github.com/toboid/correlation-id#withidid-work)
+- `laabr.cid.bind([<string> id,] <Function> work)`: [`correlator.bindId()`](https://github.com/toboid/correlation-id#bindidid-work)

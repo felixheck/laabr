@@ -16,6 +16,8 @@ const validators = {
   options: joi.object({
     colored: joi.boolean().default(false),
     override: joi.boolean().default(false),
+    correlator: joi.boolean().default(false),
+    correlatorHeader: joi.string().lowercase().default('x-correlation-id'),
     indent: joi.alternatives().try(joi.number(), joi.string()).allow('').default(2),
     preformatter: joi.func().maxArity(1).default((data) => data),
     postformatter: joi.func().maxArity(1).default((data) => data),

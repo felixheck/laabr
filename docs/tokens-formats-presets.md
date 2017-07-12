@@ -23,7 +23,7 @@
 The following tokens are available by default. Partly it is possible to pass an additional argument in square brackets.
 
 #### General
-- `:pid` – The process identifies.
+- `:pid` – The process identifier.
 - `:tags` – The tags passed to [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp)/[`request.log`](https://hapijs.com/api#requestlogtags-data-timestamp).
 - `:level[field?]` - The logging Level. If `field` is unset, get the label. Otherwise, if `field=code`, get the level itself.
 - `:time[format?]` - The current date and time in UTC. The available formats are:<br>
@@ -36,6 +36,7 @@ The following tokens are available by default. Partly it is possible to pass an 
 - `:environment[field=NODE_ENV]` - An environment variable.
 
 #### Request/Response
+- `:cid` – The [correlation identifier](https://github.com/toboid/correlation-id).
 - `:requestId` - The unique request identifier.
 - `:responseTime` - The response time in milliseconds.
 - `:res[header]` - The given `header` of the response.

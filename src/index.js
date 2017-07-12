@@ -1,6 +1,7 @@
 const pkg = require('../package.json')
-const logger = require('./logger')
+const correlator = require('./correlator')
 const formats = require('./formats')
+const logger = require('./logger')
 const tokens = require('./tokens')
 const utils = require('./utils')
 const validator = require('./validator')
@@ -23,6 +24,10 @@ function plugin (server, options, next) {
     if (err) {
       console.error(err)
       process.exit(1)
+    }
+
+    if (options.correlator) {
+      correlator.init(module.exports, server, options)
     }
 
     if (options.override) {

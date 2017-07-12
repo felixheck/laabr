@@ -40,8 +40,14 @@ function getInterceptor (options = { stream: process.stdout }) {
   })
 
   interceptor.get = () => _writes
-  interceptor.find = (search) => (
-    _writes.find((item) => item.string.includes(search))
+
+  interceptor.find = (term) => (
+    _writes.find((item) => item.string.includes(term))
+  )
+
+  interceptor.filter = (term) => (
+    _writes.filter((item) => item.string.includes(term))
+      .map((item) => item.string)
   )
 
   return interceptor
@@ -84,12 +90,43 @@ function getServer (options, done) {
     port: 1337
   })
 
+  function logCID () {
+    console.log('cid', laabr.cid.get())
+  }
+
   server.route([
     {
       method: '*',
       path: '/request/log',
       handler (req, reply) {
         req.log('info', 'foobar')
+        reply({ foo: 42 })
+      }
+    },
+    {
+      method: '*',
+      path: '/request/id',
+      handler (req, reply) {
+        console.log('cid', laabr.cid.get())
+        logCID()
+        reply({ foo: 42 })
+      }
+    },
+    {
+      method: '*',
+      path: '/request/id/req',
+      handler (req, reply) {
+        console.log('cid', req.cid)
+        logCID()
+        reply({ foo: 42 })
+      }
+    },
+    {
+      method: '*',
+      path: '/request/id/next',
+      handler (req, reply) {
+        console.log('cid', laabr.cid.get())
+        laabr.cid.with(logCID)
         reply({ foo: 42 })
       }
     },
