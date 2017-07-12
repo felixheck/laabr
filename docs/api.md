@@ -16,7 +16,7 @@
 ## `laabr.plugin`
 
 #### `options`
-- <strong id="colored">colored</strong>: `boolean`<br/>
+- **colored**: `boolean`<br/>
 Optional. Default: `false`<br/>
 Partially colorizes token outputs with ANSI powered by [chalk](https://github.com/chalk/chalk).
 
@@ -24,11 +24,11 @@ Partially colorizes token outputs with ANSI powered by [chalk](https://github.co
 Optional. Default: `2`<br/>
 Take a look at the `space` argument of [JSON.stringify](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). This setting is just relevant for format strings marked as JSON.
 
-- **override**: `boolean`<br/>
+- <strong id="override">override</strong>: `boolean`<br/>
 Optional. Default: `false`<br/>
 Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere. Keep the `options.pino.level` in mind which is set to `info` by default.
 
-- **correlator**: `boolean | Object`<br/>
+- <strong id="correlator">correlator</strong>: `boolean | Object`<br/>
 Optional. Default: `false`<br/>
 Enable the [correlator](https://github.com/toboid/correlation-id) which handles correlation identifier for incoming requests. If enabled, it is possible to get the current correlation identifier with the [`:cid`](tokens-formats-presets.md#tokens) token. It uses the `x-correlation-id` header of the incoming request and as fallback the [request identifier](https://hapijs.com/api#request-object). Furthermore the [correlator](https://github.com/toboid/correlation-id#api) is exposed via [`laabr.cid`/`server.app.cid`](#laabrcid). Finally the correlation identifier related to an incame HTTP request is exposed via `req.cid`.<br/><br/>
 If `options.correlator` is an object, take care of the following properties:
@@ -39,11 +39,11 @@ If `options.correlator` is an object, take care of the following properties:
     Optional. Default: `x-correlation-id`<br/>
     Change the header field of incoming requests containing an already created correlation identifier. Note that all header field names must be in lowercase to match the headers normalized by node. Effectless if `options.correlator` is disabled.
 
-- **preformatter**: `Function`<br/>
+- <strong id="preformatter">preformatter</strong>: `Function`<br/>
 Optional. Default: `(data) => data`<br/>
 Preformat the originally logged message before getting processed by `laabr`. The function is passed the JSON object as an argument and have to return an object as well. The plugin evaluates the type of the logged message just before – so it is not possible to fake an event.
 
-- **postformatter**: `Function`<br/>
+- <strong id="postformatter">postformatter</strong>: `Function`<br/>
 Optional. Default: `(data) => data`<br/>
 Preformat the logged message after getting processed by `laabr`. The function is passed the processed string as an argument and have to return a string as well.
 
