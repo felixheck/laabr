@@ -18,19 +18,19 @@
 #### `options`
 - **colored**: `boolean`<br/>
 Optional. Default: `false`<br/>
-Partially colorizes token outputs with ANSI powered by [chalk](https://github.com/chalk/chalk).
+Partially colorizes token outputs with ANSI powered by [chalk ⇗](https://github.com/chalk/chalk).
 
 - **indent**: `string | number`<br/>
 Optional. Default: `2`<br/>
-Take a look at the `space` argument of [JSON.stringify](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). This setting is just relevant for format strings marked as JSON.
+Take a look at the `space` argument of [JSON.stringify ⇗](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify). This setting is just relevant for format strings marked as JSON.
 
 - **override**: `boolean`<br/>
 Optional. Default: `false`<br/>
-Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere. Keep the `options.pino.level` in mind which is set to `info` by default.
+Override several [`console` ⇗](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log` ⇗](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere. Keep the `options.pino.level` in mind which is set to `info` by default.
 
 - <strong id="correlator">correlator</strong>: `boolean | Object`<br/>
 Optional. Default: `false`<br/>
-Enable the [correlator](https://github.com/toboid/correlation-id) which handles correlation identifier for incoming requests. If enabled, it is possible to get the current correlation identifier with the [`:cid`](tokens-formats-presets.md#tokens) token. It uses the `x-correlation-id` header of the incoming request and as fallback the [request identifier](https://hapijs.com/api#request-object). Furthermore the [correlator](https://github.com/toboid/correlation-id#api) is exposed via [`laabr.cid`/`server.app.cid`](#laabrcid). Finally the correlation identifier related to an incame HTTP request is exposed via `req.cid`.<br/><br/>
+Enable the [correlator ⇗](https://github.com/toboid/correlation-id) which handles correlation identifier for incoming requests. If enabled, it is possible to get the current correlation identifier with the [`:cid`](tokens-formats-presets.md#tokens) token. It uses the `x-correlation-id` header of the incoming request and as fallback the [request identifier ⇗](https://hapijs.com/api#request-object). Furthermore the [correlator ⇗](https://github.com/toboid/correlation-id#api) is exposed via [`laabr.cid`/`server.app.cid`](#laabrcid). Finally the correlation identifier related to an incame HTTP request is exposed via `req.cid`.<br/><br/>
 If `options.correlator` is an object, take care of the following properties:
     - **enabled**: `boolean`<br/>
     Optional. Default: `false`<br/>
@@ -49,21 +49,21 @@ Preformat the logged message after getting processed by `laabr`. The function is
 
 - **stream**: `Writable`<br/>
 Optional. Default: `process.stdout`<br/>
-Take a look at the `stream` argument of [pino](https://github.com/pinojs/pino/blob/master/docs/API.md).
+Take a look at the `stream` argument of [pino ⇗](https://github.com/pinojs/pino/blob/master/docs/API.md).
 
 - **pino**: `Object`<br/>
 Optional. Default: `{}`<br/>
-[pino](https://github.com/pinojs/pino) related options. `prettyPrint`, `timestamp` and `browser` are effectless. The created instance is passed to [hapi-pino](https://github.com/pinojs/hapi-pino).
+[pino ⇗](https://github.com/pinojs/pino) related options. `prettyPrint`, `timestamp` and `browser` are effectless. The created instance is passed to [hapi-pino ⇗](https://github.com/pinojs/hapi-pino).
 
 - **hapiPino**: `Object`<br/>
 Optional. Default: `{}`<br/>
-[hapi-pino](https://github.com/pinojs/hapi-pino) related options. `prettyPrint`, `mergeHapiLogData` and `instance` are effectless. Use `options.pino` to configre the passed `instance`.
+[hapi-pino ⇗](https://github.com/pinojs/hapi-pino) related options. `prettyPrint`, `mergeHapiLogData` and `instance` are effectless. Use `options.pino` to configre the passed `instance`.
 
 ## `laabr.token(<string> name, <Function> callback)`
 To define a token, simply invoke `laabr.token()` with the name and a callback function.<br/>Best Practise: Run `laabr.token` before registering the plugin.
 
 **`callback(<Object> data, <Object> colors)`**
-The callback function is expected to be called with the arguments `data` and `colors`. Those represent the logged data and an object containing respective [chalk](https://github.com/chalk/chalk) functions. Additionally, the token can accept further arguments of it's choosing to customize behavior. The `colors` object contains the following key: `level`, `status` and `dim`. Those represent chalk color functions related to the context, the log level and the request status code. This callback function is expected to return a string value. The value returned is then available as `:hello` in this case below:
+The callback function is expected to be called with the arguments `data` and `colors`. Those represent the logged data and an object containing respective [chalk ⇗](https://github.com/chalk/chalk) functions. Additionally, the token can accept further arguments of it's choosing to customize behavior. The `colors` object contains the following key: `level`, `status` and `dim`. Those represent chalk color functions related to the context, the log level and the request status code. This callback function is expected to return a string value. The value returned is then available as `:hello` in this case below:
 
 ``` js
 laabr.token('hello', () => 'hello!');
@@ -105,11 +105,11 @@ Or use a format preset key instead of a format string:
 laabr.format('onPostStart', 'server.env');
 ```
 
-The `event` is allowed to be `onPostStart`, `onPostStop`, `response`, `request-error` and `log`. The events are analog to the [hapi-pino](https://github.com/pinojs/hapi-pino) ones.
+The `event` is allowed to be `onPostStart`, `onPostStop`, `response`, `request-error` and `log`. The events are analog to the [hapi-pino ⇗](https://github.com/pinojs/hapi-pino) ones.
 
 ## `laabr.cid`
 The methods listed below are exposed via `server.app.cid` as well.
 
-- `laabr.cid.get()`: [`correlator.getId()`](https://github.com/toboid/correlation-id#getid)
-- `laabr.cid.with([<string> id,] <Function> work)`: [`correlator.withId()`](https://github.com/toboid/correlation-id#withidid-work)
-- `laabr.cid.bind([<string> id,] <Function> work)`: [`correlator.bindId()`](https://github.com/toboid/correlation-id#bindidid-work)
+- `laabr.cid.get()`:<br/>[`correlator.getId()` ⇗](https://github.com/toboid/correlation-id#getid)
+- `laabr.cid.with([<string> id,] <Function> work)`:<br/> [`correlator.withId()` ⇗](https://github.com/toboid/correlation-id#withidid-work)
+- `laabr.cid.bind([<string> id,] <Function> work)`:<br/> [`correlator.bindId()` ⇗](https://github.com/toboid/correlation-id#bindidid-work)

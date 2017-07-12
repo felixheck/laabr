@@ -22,7 +22,7 @@
 ---
 
 ## Introduction
-**laabr** is a well-formatted [pino](https://github.com/pinojs/pino) logger for [hapi.js](https://github.com/hapijs/hapi) which is based on the plugin [hapi-pino](https://github.com/pinojs/hapi-pino). It enables optionally to log in JSON for easy post-processing. It listens to various [hapi.js events](docs/tokens-formats-presets.md#formats) and logs in a well-formatted manner. Therefor it is possible to define custom formats alike the [morgan](https://github.com/expressjs/morgan) ones or make use of available presets. Additionally it enables to define own tokens which could be used in custom formats. *laabr* is the Swabian translation for *talking*.
+**laabr** is a well-formatted [pino ⇗](https://github.com/pinojs/pino) logger for [hapi.js ⇗](https://github.com/hapijs/hapi) which is based on the plugin [hapi-pino ⇗](https://github.com/pinojs/hapi-pino). It enables optionally to log in JSON for easy post-processing. It listens to various [hapi.js events ⇗](docs/tokens-formats-presets.md#formats) and logs in a well-formatted manner. Therefor it is possible to define custom formats alike the [morgan ⇗](https://github.com/expressjs/morgan) ones or make use of available presets. Additionally it enables to define own tokens which could be used in custom formats. *laabr* is the Swabian translation for *talking*.
 
 This plugin is implemented in ECMAScript 6 without any transpilers like `babel`.<br>
 Additionally `standard` and `ava` are used to grant a high quality implementation.
@@ -37,14 +37,14 @@ First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `l
 - Preset [formats](docs/tokens-formats-presets.md#formats) combining useful tokens for an easy start
 - Possibility to add own format [presets](docs/tokens-formats-presets.md#presets) for an easy reuse
 - Easily customizable tokens & formats
-- Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods
+- Override several [`console` ⇗](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods
 - In despite of everything it is possible to [preformat](docs/api.md#user-content-preformatter) & [postformat](docs/api.md#user-content-postformatter) data, e.g. to filter sensitive data
-- Optional integration of [correlation ids](docs/api.md#correlator) based on the module [correlation-id](https://github.com/toboid/correlation-id)
+- Optional integration of [correlation ids](docs/api.md#correlator) based on the module [correlation-id ⇗](https://github.com/toboid/correlation-id)
 
 ![laabr screen](https://github.com/felixheck/laabr/raw/master/assets/screen.png)
 
 ## Installation
-For installation use the [Node Package Manager](https://github.com/npm/npm):
+For installation use the [Node Package Manager ⇗](https://github.com/npm/npm):
 ```
 $ npm install --save laabr
 ```
@@ -54,7 +54,7 @@ or clone the repository:
 $ git clone https://github.com/felixheck/laabr
 ```
 
-Alternatively use the [Yarn Package Manager](https://yarnpkg.com):
+Alternatively use the [Yarn Package Manager ⇗](https://yarnpkg.com):
 ```
 $ yarn add laabr
 ```
