@@ -129,6 +129,36 @@ test('throw error if own options are invalid – preformatter', (t) => {
   }), Error)
 })
 
+test('throw error if own options are invalid – postformatter', (t) => {
+  t.throws(() => helpers.getServer({
+    preformatter: (a, b) => ({ a, b })
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    indent: null
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    indent: false
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    indent: NaN
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    indent: {}
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    indent: []
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    indent: new RegExp()
+  }), Error)
+})
+
 test('throw no error if own options are valid – colored', (t) => {
   t.notThrows(() => helpers.getServer({
     colored: true
@@ -158,6 +188,16 @@ test('throw no error if own options are valid – indent', (t) => {
 test('throw no error if own options are valid – preformatter', (t) => {
   t.notThrows(() => helpers.getServer({
     preformatter: () => ({ foo: 'bar' })
+  }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    preformatter: (a) => (a)
+  }), Error)
+})
+
+test('throw no error if own options are valid – postformatter', (t) => {
+  t.notThrows(() => helpers.getServer({
+    preformatter: () => ('foobar')
   }), Error)
 
   t.notThrows(() => helpers.getServer({

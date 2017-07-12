@@ -31,6 +31,10 @@ Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Co
 Optional. Default: `(data) => data`<br/>
 Preformat the originally logged message before getting processed by `laabr`. The function is passed the JSON object as an argument and have to return an object as well. The plugin evaluates the type of the logged message just before – so it is not possible to fake an event.
 
+- **postformatter**: `Function`<br/>
+Optional. Default: `(data) => data`<br/>
+Preformat the logged message after getting processed by `laabr`. The function is passed the processed string as an argument and have to return a string as well.
+
 - **stream**: `Writable`<br/>
 Optional. Default: `process.stdout`<br/>
 Take a look at the `stream` argument of [pino](https://github.com/pinojs/pino/blob/master/docs/API.md).

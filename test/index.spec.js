@@ -308,3 +308,24 @@ test.cb.serial('preformat the originally logged message', (t) => {
     t.end()
   })
 })
+
+test.cb.serial('postformat the originally logged message', (t) => {
+  const mockData = 'foo'
+  const preformatter = (data) => ({ foo: 'bar' })
+  const postformatter = (data) => (JSON.stringify({ bar: 'foo' }))
+
+  laabr.format('log', false)
+
+  helpers.getServer({ preformatter, postformatter, indent: 0 }, (server) => {
+    server.log(['info'], mockData)
+    const result = JSON.parse(interceptOut.find('"bar":"foo"').string)
+
+    t.truthy(result)
+    t.falsy(result.foo)
+    t.truthy(result.bar)
+    t.deepEqual(result.bar, 'foo')
+    t.deepEqual(Object.keys(result).sort(), ['bar'].sort())
+    t.end()
+  })
+})
+
