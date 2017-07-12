@@ -26,13 +26,11 @@ function plugin (server, options, next) {
       process.exit(1)
     }
 
-    if (options.correlator) {
-      correlator.init(module.exports, server, options)
-    }
-
     if (options.override) {
       utils.override(server)
     }
+
+    correlator.init(module.exports, server, options)
 
     return next()
   })

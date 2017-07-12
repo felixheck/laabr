@@ -105,57 +105,167 @@ test('throw error if own options are invalid – preformatter', (t) => {
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: null
+    preformatter: null
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: false
+    preformatter: false
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: NaN
+    preformatter: NaN
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: {}
+    preformatter: {}
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: []
+    preformatter: []
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: new RegExp()
+    preformatter: new RegExp()
   }), Error)
 })
 
 test('throw error if own options are invalid – postformatter', (t) => {
   t.throws(() => helpers.getServer({
-    preformatter: (a, b) => ({ a, b })
+    postformatter: (a, b) => ({ a, b })
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: null
+    postformatter: null
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: false
+    postformatter: false
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: NaN
+    postformatter: NaN
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: {}
+    postformatter: {}
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: []
+    postformatter: []
   }), Error)
 
   t.throws(() => helpers.getServer({
-    indent: new RegExp()
+    postformatter: new RegExp()
+  }), Error)
+})
+
+test('throw error if own options are invalid – correlator', (t) => {
+  t.throws(() => helpers.getServer({
+    correlator: null
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: 42
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: ''
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: 'foobar'
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: NaN
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: []
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      enabled: ''
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      enabled: 'foobar'
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      enabled: 42
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      enabled: null
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      enabled: NaN
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      enabled: {}
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      enabled: []
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      enabled: new RegExp()
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      header: null
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      header: false
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      header: NaN
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      header: {}
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      header: []
+    }
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    correlator: {
+      header: new RegExp()
+    }
   }), Error)
 })
 
@@ -202,5 +312,44 @@ test('throw no error if own options are valid – postformatter', (t) => {
 
   t.notThrows(() => helpers.getServer({
     preformatter: (a) => (a)
+  }), Error)
+})
+
+test('throw no error if own options are valid – correlator', (t) => {
+  t.notThrows(() => helpers.getServer({
+    correlator: true
+  }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    correlator: false
+  }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    correlator: {}
+  }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    correlator: {
+      enabled: true
+    }
+  }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    correlator: {
+      enabled: false
+    }
+  }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    correlator: {
+      header: 'x-foobar'
+    }
+  }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    correlator: {
+      enabled: false,
+      header: 'x-foobar'
+    }
   }), Error)
 })

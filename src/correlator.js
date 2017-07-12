@@ -1,4 +1,5 @@
 const correlator = require('correlation-id')
+const validator = require('./validator')
 
 /**
  * @function
@@ -18,19 +19,45 @@ function getCorrelator () {
 
 /**
  * @function
- * @public
+ * @private
  *
- * Initialize the correlator by exposing and decorating
- * various correlator features to `laabr` and `req`.
+ * Convert boolean option into valid object.
+ *
+ * @param {Object} options The plugin related options
+ * @returns {Object} The validated and converted options
+ */
+function validateOption (options) {
+  if ([true, false].includes(options.correlator)) {
+    options.correlator = { enabled: options.correlator }
+  }
+
+  return validator('correlator', options.correlator)
+}
+
+/**
+ * @function
+ * @private
+ *
+ * Expose and decoratevarious correlator features.
  *
  * @param {Object} laabr The module as object
  * @param {Hapi.Server} server The created server instance
- * @param {string} field The correlator header field
  */
-function init (laabr, server, { correlatorHeader: field }) {
+function expose (laabr, server) {
   laabr.cid = getCorrelator()
   server.app.cid = laabr.cid
+}
 
+/**
+ * @function
+ * @public
+ *
+ * Register the `onRequest` lifecycle hook.
+ *
+ * @param {Hapi.Server} server The created server instance
+ * @param {string} field The header field to be extracted
+ */
+function register (server, { header: field }) {
   server.ext('onRequest', function (req, reply) {
     req.cid = req.headers[field] || req.id
 
@@ -38,6 +65,28 @@ function init (laabr, server, { correlatorHeader: field }) {
       reply.continue()
     })
   })
+}
+
+/**
+ * @function
+ * @public
+ *
+ * Initialize the correlator by exposing and decorating
+ * various correlator features to `laabr` and `req`.
+ *
+ * @param {Object} laabr The module as object
+ * @param {Hapi.Server} server The created server instance
+ * @param {Object} options The plugin related options
+ */
+function init (laabr, server, options) {
+  const correlator = validateOption(options)
+
+  if (!correlator.enabled) {
+    return
+  }
+
+  expose(laabr, server)
+  register(server, correlator)
 }
 
 module.exports = {

@@ -149,7 +149,7 @@ test.cb.serial('use the set `x-correlation-id` header', (t) => {
 })
 
 test.cb.serial('use a set custom header', (t) => {
-  helpers.getServer({ correlator: true, correlatorHeader: 'x-foobar-id' }, (server) => {
+  helpers.getServer({ correlator: { enabled: true, header: 'x-foobar-id' } }, (server) => {
     server.on('tail', () => {
       const [log1, log2] = interceptOut.filter('cid')
 
