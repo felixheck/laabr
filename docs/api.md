@@ -28,13 +28,16 @@ Take a look at the `space` argument of [JSON.stringify](https://developer.mozill
 Optional. Default: `false`<br/>
 Override several [`console`](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods with corresponding bound [`server.log`](https://hapijs.com/api#serverlogtags-data-timestamp) functions to enable logging everywhere. Keep the `options.pino.level` in mind which is set to `info` by default.
 
-- **correlator**: `boolean`<br/>
+- **correlator**: `boolean | Object`<br/>
 Optional. Default: `false`<br/>
-Enable the [correlator](https://github.com/toboid/correlation-id) which handles correlation identifier for incoming requests. If enabled, it is possible to get the current correlation identifier with the [`:cid`](tokens-formats-presets.md#tokens) token. If the incoming request has a respective header, its value is used. The fallback is the [request identifier](https://hapijs.com/api#request-object). Furthermore the [correlator](https://github.com/toboid/correlation-id#api) is exposed via [`laabr.cid`](#laabrcid). Finally the correlation identifier related to an incame HTTP request is exposed via `req.cid`.
-
-- **correlatorHeader**: `string`<br/>
-Optional. Default: `x-correlation-id`<br/>
-Change the header field of incoming requests containing an already created correlation identifier. Note that all header field names must be in lowercase to match the headers normalized by node. Effectless if `options.correlator` is disabled.
+Enable the [correlator](https://github.com/toboid/correlation-id) which handles correlation identifier for incoming requests. If enabled, it is possible to get the current correlation identifier with the [`:cid`](tokens-formats-presets.md#tokens) token. It uses the `x-correlation-id` header of the incoming request and as fallback the [request identifier](https://hapijs.com/api#request-object). Furthermore the [correlator](https://github.com/toboid/correlation-id#api) is exposed via [`laabr.cid`/`server.app.cid`](#laabrcid). Finally the correlation identifier related to an incame HTTP request is exposed via `req.cid`.<br/><br/>
+If `options.correlator` is an object, take care of the following properties:
+    - **enabled**: `boolean`<br/>
+    Optional. Default: `false`<br/>
+    More information see above.
+    - **header**: `string`<br/>
+    Optional. Default: `x-correlation-id`<br/>
+    Change the header field of incoming requests containing an already created correlation identifier. Note that all header field names must be in lowercase to match the headers normalized by node. Effectless if `options.correlator` is disabled.
 
 - **preformatter**: `Function`<br/>
 Optional. Default: `(data) => data`<br/>
