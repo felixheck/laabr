@@ -1,9 +1,5 @@
 const Hapi = require('hapi')
-const laabr = require('./src')
-
-laabr.format('onPostStart', ':time :start :level :message')
-laabr.format('log', false)
-laabr.token('start', () => '[start]')
+const laabr = require('../src')
 
 const server = new Hapi.Server()
 server.connection({ port: 3000, host: 'localhost' })
@@ -13,7 +9,6 @@ server.route([
     method: '*',
     path: '/response',
     handler (req, reply) {
-      req.log('info', 'buuhja')
       reply('hello world')
     }
   },
@@ -33,10 +28,7 @@ process.on('SIGINT', () => {
 })
 
 server.register({
-  register: laabr.plugin,
-  options: {
-    indent: 0
-  }
+  register: laabr.plugin
 })
 .then(() => server.start())
 .catch(console.error)
