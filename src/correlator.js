@@ -29,6 +29,7 @@ function getCorrelator () {
  */
 function init (laabr, server, { correlatorHeader: field }) {
   laabr.cid = getCorrelator()
+  server.app.cid = laabr.cid
 
   server.ext('onRequest', function (req, reply) {
     req.cid = req.headers[field] || req.id
