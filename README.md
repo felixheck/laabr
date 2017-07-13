@@ -22,10 +22,11 @@
 ---
 
 ## Introduction
-**laabr** is a well-formatted [pino ⇗](https://github.com/pinojs/pino) logger for [hapi.js ⇗](https://github.com/hapijs/hapi) which is based on the plugin [hapi-pino ⇗](https://github.com/pinojs/hapi-pino). It enables optionally to log in JSON for easy post-processing. It listens to various [hapi.js events ⇗](docs/tokens-formats-presets.md#formats) and logs in a well-formatted manner. Therefor it is possible to define custom formats alike the [morgan ⇗](https://github.com/expressjs/morgan) ones or make use of available presets. Additionally it enables to define own tokens which could be used in custom formats. *laabr* is the Swabian translation for *talking*.
+**laabr** is a well-formatted [pino ⇗](https://github.com/pinojs/pino) logger for [hapi.js ⇗](https://github.com/hapijs/hapi) which is based on the plugin [hapi-pino ⇗](https://github.com/pinojs/hapi-pino). It enables optionally to log in JSON for easy post-processing. It listens to various [hapi.js events ⇗](docs/tokens-formats-presets.md#formats) and logs in a well-formatted manner. Therefor it is possible to define custom formats alike the [morgan ⇗](https://github.com/expressjs/morgan) ones or make use of available presets. Additionally it enables to define own tokens which could be used in custom formats. Finally the plugin provides well integrated correlation identifiers based on the module [correlation-id ⇗](https://github.com/toboid/correlation-id).
 
-This plugin is implemented in ECMAScript 6 without any transpilers like `babel`.<br>
-Additionally `standard` and `ava` are used to grant a high quality implementation.
+This plugin is implemented in ECMAScript 6 without any transpilers like `babel`.<br/>
+Additionally `standard` and `ava` are used to grant a high quality implementation.<br/>
+*laabr* is the Swabian translation for *talking*.
 
 #### `laabr` vs. `hapi-pino`
 First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `laabr` in an almost identical manner like `hapi-pino`. This plugin provides further features which probably decelerates the logging a bit, but it should be faster than the alternatives anyway. The following features are provided:
@@ -39,7 +40,7 @@ First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `l
 - Easily customizable tokens & formats
 - Override several [`console` ⇗](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods
 - In despite of everything it is possible to [preformat ⇗](docs/api.md#user-content-preformatter) & [postformat ⇗](docs/api.md#user-content-postformatter) data, e.g. to filter sensitive data
-- Optional integration of [correlation ids ⇗](docs/api.md#correlator) based on the module [correlation-id ⇗](https://github.com/toboid/correlation-id)
+- Optional integration of [correlation ids ⇗](docs/api.md#correlator)
 
 ![laabr screen](https://github.com/felixheck/laabr/raw/master/assets/screen.png)
 
