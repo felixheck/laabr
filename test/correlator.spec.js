@@ -69,6 +69,28 @@ test.cb.serial('CID is the same even in other function', (t) => {
   })
 })
 
+test.cb.serial('CID is the same even in other function – `response` event', (t) => {
+  laabr.format('response', 'cid :cid')
+  helpers.getServer({ correlator: true }, (server) => {
+    server.on('tail', () => {
+      const [log1, log2, log3] = interceptOut.filter('cid')
+
+      t.truthy(log1)
+      t.truthy(log2)
+      t.truthy(log3)
+      t.is(log1, log2)
+      t.is(log1, log3)
+      t.is(log2, log3)
+      t.end()
+    })
+
+    server.inject({
+      method: 'GET',
+      url: '/request/id'
+    })
+  })
+})
+
 test.cb.serial('CID is the same even in other function – req.cid', (t) => {
   helpers.getServer({ correlator: true }, (server) => {
     server.on('tail', () => {

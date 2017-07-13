@@ -1,3 +1,4 @@
+const correlator = require('correlation-id')
 const get = require('lodash.get')
 const pino = require('pino')
 const utils = require('./utils')
@@ -76,7 +77,7 @@ assign('environment', (data, colors, field = 'NODE_ENV') => (
 ))
 
 assign('cid', data => (
-  data.req && data.req.cid
+  correlator.getId() || (data.req && data.req.cid)
 ))
 
 assign('requestId', data => (
