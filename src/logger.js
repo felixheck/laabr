@@ -1,5 +1,4 @@
 const hapiPino = require('hapi-pino')
-const escape = require('js-string-escape')
 const pino = require('pino')
 const colors = require('./colors')
 const formats = require('./formats')
@@ -37,7 +36,7 @@ function compile (format, tokens, isJSON, space, data) {
     return JSON.stringify(data, null, space)
   }
 
-  const js = escape(format).replace(re, (m, name, arg) => {
+  const js = format.replace(re, (m, name, arg) => {
     const tokenArgs = 'Array.prototype.slice.call(arguments).slice(4)'
     const template = `tokens[${utils.stringify(name)}](...(${tokenArgs}), ${utils.stringify(arg)}) || "-"`
     const token = tokens[name]

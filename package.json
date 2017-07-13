@@ -52,7 +52,6 @@
     "correlation-id": "^2.0.0",
     "hapi-pino": "^1.7.0",
     "joi": "^10.6.0",
-    "js-string-escape": "^1.0.1",
     "lodash.get": "^4.4.2",
     "pino": "^4.7.0"
   },

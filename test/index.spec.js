@@ -263,7 +263,7 @@ test.cb.serial('get log message by overriden `console.warn` – multiple', (t) 
   })
 })
 
-test.cb.serial('listen to `log` event – concat strings', (t) => {
+test.cb.serial('listen to `log` event – concat strings – backticks', (t) => {
   const mockData = 'foo'
 
   laabr.format('log', '{ message::message + `bar` }')
@@ -277,10 +277,66 @@ test.cb.serial('listen to `log` event – concat strings', (t) => {
   })
 })
 
-test.cb.serial('listen to `log` event – inline strings', (t) => {
+test.cb.serial('listen to `log` event – inline strings – backticks', (t) => {
   const mockData = 'foo'
 
   laabr.format('log', '{ message: [:message,`bar`] }')
+  helpers.getServer({ indent: 0 }, (server) => {
+    server.log(['info'], mockData)
+    const result = JSON.parse(interceptOut.find('"message":["foo","bar"]').string)
+
+    t.truthy(result)
+    t.deepEqual(result.message, ['foo', 'bar'])
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `log` event – concat strings – single quotes', (t) => {
+  const mockData = 'foo'
+
+  laabr.format('log', '{ message::message + \'bar\' }')
+  helpers.getServer({ indent: 0 }, (server) => {
+    server.log(['info'], mockData)
+    const result = JSON.parse(interceptOut.find('"message":"foobar"').string)
+
+    t.truthy(result)
+    t.deepEqual(result.message, 'foobar')
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `log` event – inline strings – single quotes', (t) => {
+  const mockData = 'foo'
+
+  laabr.format('log', '{ message: [:message,\'bar\'] }')
+  helpers.getServer({ indent: 0 }, (server) => {
+    server.log(['info'], mockData)
+    const result = JSON.parse(interceptOut.find('"message":["foo","bar"]').string)
+
+    t.truthy(result)
+    t.deepEqual(result.message, ['foo', 'bar'])
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `log` event – concat strings – double quotes', (t) => {
+  const mockData = 'foo'
+
+  laabr.format('log', '{ message::message + "bar" }')
+  helpers.getServer({ indent: 0 }, (server) => {
+    server.log(['info'], mockData)
+    const result = JSON.parse(interceptOut.find('"message":"foobar"').string)
+
+    t.truthy(result)
+    t.deepEqual(result.message, 'foobar')
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `log` event – inline strings – double quotes', (t) => {
+  const mockData = 'foo'
+
+  laabr.format('log', '{ message: [:message,"bar"] }')
   helpers.getServer({ indent: 0 }, (server) => {
     server.log(['info'], mockData)
     const result = JSON.parse(interceptOut.find('"message":["foo","bar"]').string)

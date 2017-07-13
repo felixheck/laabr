@@ -92,11 +92,12 @@ Furthermore it is possible to define JSON strings. Therefor enclose the template
 laabr.format('onPostStart', '{ ts::time, msg::hello }');
 ```
 
-*Hint*: If you work with the JSON/object-like structure above and you want to work with custom strings, enclose them in backticks. If you want to concatinate tokens with custom string use a combination of `+` and backticks:
+*Hint*: If you work with the JSON/object-like structure above and you want to work with custom strings, enclose them in quotes/backticks. If you want to concatinate tokens with custom string use a combination of `+` and quotes/backticks. Use quotes for invalid object keys:
 
 ``` js
 laabr.format('response', '{ responseTime: { value::responseTime, unit:`ms` }}');
 laabr.format('response', '{ responseTime::responseTime + `ms` }');
+laabr.format('response', '{ "response-time"::responseTime }');
 ```
 
 Or use a format preset key instead of a format string:
