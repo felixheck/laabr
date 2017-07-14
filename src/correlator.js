@@ -1,4 +1,5 @@
 const correlator = require('correlation-id')
+const deprecate = require('depd')('correlator')
 const validator = require('./validator')
 
 /**
@@ -45,8 +46,12 @@ function validateOption (options) {
  */
 function expose (laabr, server) {
   laabr.cid = getCorrelator()
-  server.app.cid = laabr.cid
   server.decorate('server', 'cid', laabr.cid)
+  server.app.cid = {}
+
+  Object.keys(laabr.cid).forEach(fn => {
+    server.app.cid[fn] = deprecate.function(laabr.cid[fn])
+  })
 }
 
 /**
