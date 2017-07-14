@@ -1,5 +1,6 @@
 ### custom ###
 .idea
+.vscode
 
 ### Node ###
 # Logs
