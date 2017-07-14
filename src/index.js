@@ -22,8 +22,7 @@ function plugin (server, options, next) {
 
   server.register(logger(options), (err) => {
     if (err) {
-      console.error(err)
-      process.exit(1)
+      return next(err)
     }
 
     if (options.override) {

@@ -5,6 +5,16 @@ test('throw error if plugin gets registered twice', (t) => {
   t.throws(() => helpers.registerPlugin(helpers.getServer()), Error)
 })
 
+test('throw error if nested plugin throws error', (t) => {
+  t.throws(() => helpers.registerPlugin(helpers.getServer({
+    hapiPino: {
+      tags: {
+        foo: 'bar'
+      }
+    }
+  })), Error)
+})
+
 test('throw error if own options are invalid – colored', (t) => {
   t.throws(() => helpers.getServer({
     colored: null
