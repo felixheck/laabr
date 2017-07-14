@@ -39,7 +39,7 @@
     "lint": "standard",
     "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava test/**/*.spec.js --timeout=30s",
     "coverage": "nyc report --reporter=lcov",
-    "ci.coverage": "npm run coverage | coveralls"
+    "ci.coverage": "nyc report --reporter=lcov | coveralls"
   },
   "devDependencies": {
     "ava": "^0.20.0",
