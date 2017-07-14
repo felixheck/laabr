@@ -5,7 +5,7 @@
 >
 > &mdash; [Marcus Pöhls](https://futurestud.io/tutorials/author/marcus/)
 
-[![Travis](https://img.shields.io/travis/felixheck/wurst.svg)](https://travis-ci.org/felixheck/laabr/builds/) ![node](https://img.shields.io/node/v/laabr.svg) ![npm](https://img.shields.io/npm/dt/laabr.svg) [![standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/) ![npm](https://img.shields.io/npm/l/laabr.svg) [![Coverage Status](https://coveralls.io/repos/github/felixheck/laabr/badge.svg?branch=release%2F2.2.0)](https://coveralls.io/github/felixheck/laabr?branch=release%2F2.2.0)
+[![Travis](https://img.shields.io/travis/felixheck/wurst.svg)](https://travis-ci.org/felixheck/laabr/builds/) ![node](https://img.shields.io/node/v/laabr.svg) ![npm](https://img.shields.io/npm/dt/laabr.svg) [![standard](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/) ![npm](https://img.shields.io/npm/l/laabr.svg) [![Coverage Status](https://coveralls.io/repos/github/felixheck/laabr/badge.svg?branch=master)](https://coveralls.io/github/felixheck/laabr?branch=master)
 ---
 
 1. [Introduction](#introduction)
