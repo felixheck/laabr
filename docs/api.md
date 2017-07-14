@@ -109,7 +109,7 @@ laabr.format('onPostStart', 'server.env');
 The `event` is allowed to be `onPostStart`, `onPostStop`, `response`, `request-error` and `log`. The events are analog to the [hapi-pino ⇗](https://github.com/pinojs/hapi-pino) ones.
 
 ## `laabr.cid`
-The methods listed below are exposed via `server.app.cid` as well.
+The methods listed below are exposed via `server.cid` and `server.app.cid` as well.
 
 - `laabr.cid.get()`:<br/>[`correlator.getId()` ⇗](https://github.com/toboid/correlation-id#getid)
 - `laabr.cid.with([<string> id,] <Function> work)`:<br/> [`correlator.withId()` ⇗](https://github.com/toboid/correlation-id#withidid-work)

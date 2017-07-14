@@ -46,6 +46,7 @@ function validateOption (options) {
 function expose (laabr, server) {
   laabr.cid = getCorrelator()
   server.app.cid = laabr.cid
+  server.decorate('server', 'cid', laabr.cid)
 }
 
 /**

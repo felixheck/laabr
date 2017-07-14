@@ -51,6 +51,23 @@ test.cb.serial('correlator is exposed – server.app', (t) => {
   })
 })
 
+test.cb.serial('correlator is not exposed – server.cid', (t) => {
+  helpers.getServer({ correlator: false }, (server) => {
+    t.falsy(server.cid)
+    t.end()
+  })
+})
+
+test.cb.serial('correlator is exposed – server.cid', (t) => {
+  helpers.getServer({ correlator: true }, (server) => {
+    t.truthy(server.cid)
+    t.truthy(server.cid.get)
+    t.truthy(server.cid.with)
+    t.truthy(server.cid.bind)
+    t.end()
+  })
+})
+
 test.cb.serial('CID is the same even in other function', (t) => {
   helpers.getServer({ correlator: true }, (server) => {
     server.on('tail', () => {
