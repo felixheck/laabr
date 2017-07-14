@@ -38,10 +38,12 @@
     "start": "NODE_ENV=test npm test -- -w",
     "lint": "standard",
     "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava test/**/*.spec.js --timeout=30s",
-    "coverage": "nyc report --reporter=lcov"
+    "coverage": "nyc report --reporter=lcov",
+    "ci.coverage": "npm run coverage | coveralls"
   },
   "devDependencies": {
     "ava": "^0.20.0",
+    "coveralls": "^2.13.1",
     "fixture-stdout": "^0.2.1",
     "hapi": "^16.4.3",
     "nyc": "^11.0.3",
