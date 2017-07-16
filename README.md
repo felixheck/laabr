@@ -186,4 +186,4 @@ $ npm run coverage
 Fork this repository and push in your ideas.
 
 Do not forget to add corresponding tests to keep up 100% test coverage.<br/>
-For further information read the [contributing guideline](CONTRIBUTING.md)
+For further information read the [contributing guideline](CONTRIBUTING.md).

@@ -41,7 +41,7 @@ If `options.correlator` is an object, take care of the following properties:
 
 - <strong id="preformatter">preformatter</strong>: `Function`<br/>
 Optional. Default: `(data) => data`<br/>
-Preformat the originally logged message before getting processed by `laabr`. The function is passed the JSON object as an argument and have to return an object as well. The plugin evaluates the type of the logged message just before – so it is not possible to fake an event.
+Preformat the originally logged message before getting processed by `laabr`. The function is passed the JSON object as an argument and have to return an object as well. The plugin evaluates the type of the logged message just before – so it is not possible to fake an event. But have in mind that the token's return value could be affected.
 
 - <strong id="postformatter">postformatter</strong>: `Function`<br/>
 Optional. Default: `(data) => data`<br/>
