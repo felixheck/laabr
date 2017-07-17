@@ -39,13 +39,13 @@ If `options.correlator` is an object, take care of the following properties:
     Optional. Default: `x-correlation-id`<br/>
     Change the header field of incoming requests containing an already created correlation identifier. Note that all header field names must be in lowercase to match the headers normalized by node. Effectless if `options.correlator` is disabled.
 
-- <strong id="preformatter">preformatter</strong>: `Function`<br/>
+- <strong id="preformatter">preformatter</strong>: `Function <[data[, options]]>`<br/>
 Optional. Default: `(data) => data`<br/>
-Preformat the originally logged message before getting processed by `laabr`. The function is passed the JSON object as an argument and have to return an object as well. The plugin evaluates the type of the logged message just before – so it is not possible to fake an event. But have in mind that the token's return value could be affected.
+Preformat the originally logged message before getting processed by `laabr`. The function is passed the JSON object and the options as arguments and have to return an object as well. The plugin evaluates the type of the logged message just before – so it is not possible to fake an event. But have in mind that the token's return value could be affected.
 
-- <strong id="postformatter">postformatter</strong>: `Function`<br/>
+- <strong id="postformatter">postformatter</strong>: `Function <[data[, options]]>`<br/>
 Optional. Default: `(data) => data`<br/>
-Preformat the logged message after getting processed by `laabr`. The function is passed the processed string as an argument and have to return a string as well.
+Preformat the logged message after getting processed by `laabr`. The function is passed the processed string and the options as  arguments and have to return a string as well.
 
 - **stream**: `Writable`<br/>
 Optional. Default: `process.stdout`<br/>
