@@ -22,8 +22,8 @@ const validators = {
     override: joi.boolean().default(false),
     correlator: joi.alternatives().try(joi.boolean(), joi.lazy(() => validators.correlator)).default(false),
     indent: joi.alternatives().try(joi.number(), joi.string()).allow('').default(2),
-    preformatter: joi.func().maxArity(1).default((data) => data),
-    postformatter: joi.func().maxArity(1).default((data) => data),
+    preformatter: joi.func().maxArity(2).default((data) => data),
+    postformatter: joi.func().maxArity(2).default((data) => data),
     stream: joi.object().allow(null),
     hapiPino: joi.object({
       stream: joi.object().allow(null),

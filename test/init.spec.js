@@ -111,7 +111,7 @@ test('throw error if own options are invalid – indent', (t) => {
 
 test('throw error if own options are invalid – preformatter', (t) => {
   t.throws(() => helpers.getServer({
-    preformatter: (a, b) => ({ a, b })
+    preformatter: (a, b, c) => ({ a, b, c })
   }), Error)
 
   t.throws(() => helpers.getServer({
@@ -141,7 +141,7 @@ test('throw error if own options are invalid – preformatter', (t) => {
 
 test('throw error if own options are invalid – postformatter', (t) => {
   t.throws(() => helpers.getServer({
-    postformatter: (a, b) => ({ a, b })
+    postformatter: (a, b, c) => ({ a, b, c })
   }), Error)
 
   t.throws(() => helpers.getServer({
@@ -313,6 +313,10 @@ test('throw no error if own options are valid – preformatter', (t) => {
   t.notThrows(() => helpers.getServer({
     preformatter: (a) => (a)
   }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    preformatter: (a, b) => ({ a, b })
+  }), Error)
 })
 
 test('throw no error if own options are valid – postformatter', (t) => {
@@ -322,6 +326,10 @@ test('throw no error if own options are valid – postformatter', (t) => {
 
   t.notThrows(() => helpers.getServer({
     preformatter: (a) => (a)
+  }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    postformatter: (a, b) => ({ a, b })
   }), Error)
 })
 
