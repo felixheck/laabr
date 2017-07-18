@@ -20,6 +20,8 @@ const validator = require('./validator')
 function plugin (server, options, next) {
   options = validator('options', options)
 
+  correlator.init(module.exports, server, options)
+
   server.register(logger(options), (err) => {
     if (err) {
       return next(err)
@@ -28,8 +30,6 @@ function plugin (server, options, next) {
     if (options.override) {
       utils.override(server)
     }
-
-    correlator.init(module.exports, server, options)
 
     return next()
   })

@@ -65,9 +65,9 @@ function expose (laabr, server) {
  */
 function register (server, { header: field }) {
   server.ext('onRequest', function (req, reply) {
-    req.cid = req.headers[field] || req.id
+    req.headers['x-laabr-cid'] = req.headers[field] || req.id
 
-    return correlator.withId(req.cid, function () {
+    return correlator.withId(req.headers['x-laabr-cid'], function () {
       reply.continue()
     })
   })

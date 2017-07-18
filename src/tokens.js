@@ -76,10 +76,9 @@ assign('environment', (data, colors, field = 'NODE_ENV') => (
   process.env[field]
 ))
 
-assign('cid', data => (
-  correlator.getId() || (data.req && data.req.cid)
+assign('cid', (data, colors) => (
+  correlator.getId() || tokens.req(data, colors, 'x-laabr-cid')
 ))
-
 assign('requestId', data => (
   data.req && data.req.id
 ))
