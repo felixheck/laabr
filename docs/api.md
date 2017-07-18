@@ -30,7 +30,7 @@ Override several [`console` ⇗](https://developer.mozilla.org/en-US/docs/Web/AP
 
 - <strong id="correlator">correlator</strong>: `boolean | Object`<br/>
 Optional. Default: `false`<br/>
-Enable the [correlator ⇗](https://github.com/toboid/correlation-id) which handles correlation identifier for incoming requests. If enabled, it is possible to get the current correlation identifier with the [`:cid`](tokens-formats-presets.md#tokens) token. It uses the `x-correlation-id` header of the incoming request and as fallback the [request identifier ⇗](https://hapijs.com/api#request-object). Furthermore the [correlator ⇗](https://github.com/toboid/correlation-id#api) is exposed via [`laabr.cid`/`server.app.cid`](#laabrcid). Finally the correlation identifier related to an incame HTTP request is exposed via `req.cid`.<br/><br/>
+Enable the [correlator ⇗](https://github.com/toboid/correlation-id) which handles correlation identifier for incoming requests. If enabled, it is possible to get the current correlation identifier with the [`:cid`](tokens-formats-presets.md#tokens) token. It uses the `x-correlation-id` header of the incoming request and as fallback the [request identifier ⇗](https://hapijs.com/api#request-object). Furthermore the [correlator ⇗](https://github.com/toboid/correlation-id#api) is exposed via [`laabr.cid`/`server.app.cid`](#laabrcid). Finally the correlation identifier related to an incame HTTP request is exposed via `req.headers['x-laabr-cid']`.<br/><br/>
 If `options.correlator` is an object, take care of the following properties:
     - **enabled**: `boolean`<br/>
     Optional. Default: `false`<br/>

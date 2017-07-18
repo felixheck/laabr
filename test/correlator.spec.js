@@ -108,7 +108,7 @@ test.cb.serial('CID is the same even in other function – `response` event', (t
   })
 })
 
-test.cb.serial('CID is the same even in other function – req.cid', (t) => {
+test.cb.serial('CID is the same even in other function – req.headers["x-laabr-cid"]', (t) => {
   helpers.getServer({ correlator: true }, (server) => {
     server.on('tail', () => {
       const [log1, log2] = interceptOut.filter('cid')
