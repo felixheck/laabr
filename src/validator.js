@@ -32,7 +32,7 @@ const validators = {
       allTags: joi.string(),
       instance: joi.object(),
       logEvents: joi.alternatives().try(joi.array().items(joi.string()), joi.any().allow(false, null)),
-      mergeHapiLogData: joi.boolean(),
+      mergeHapiLogData: joi.boolean().default(false),
       serializers: joi.object(),
       logPayload: joi.boolean().default(true)
     }).default(),

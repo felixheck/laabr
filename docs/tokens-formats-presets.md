@@ -30,7 +30,7 @@ The following tokens are available by default. Partly it is possible to pass an 
   - Default is the timestamp configured with `options.pino.timestamp` (`971186136`)
   - `iso` for the common ISO 8601 date time format. Just works if `options.pino.timestamp` is unset (`1970-01-12T05:46:26.136Z`)
   - `utc` for the common RFC 1123 date time format Just works if `options.pino.timestamp` is unset (`Mon, 12 Jan 1970 05:46:26 GMT`)
-- `:message[field=msg]` - The `msg` or `data` field of the log. Just works with logged strings or [`server.log` ⇗](https://hapijs.com/api#serverlogtags-data-timestamp)/[`request.log` ⇗](https://hapijs.com/api#requestlogtags-data-timestamp). Otherwise pass a custom field with fallback to the `msg` and `data` fields or use the `:get[field]` token. Both alternatives expect dot notation paths.
+- `:message[field=msg]` - The `msg` or `data` field of the log. Just works with logged strings or [`server.log` ⇗](https://hapijs.com/api#serverlogtags-data-timestamp)/[`request.log` ⇗](https://hapijs.com/api#requestlogtags-data-timestamp) and if `options.hapiPino.mergeHapiLogData` is disabled (default). Otherwise pass a custom field with fallback to the `msg` and `data` fields or use the `:get[field]` token. Both alternatives expect dot notation paths.
 - `:get[field]` – The value related to the given path in dot notation. Like `:message[field]` but without fallback.
 - `:error[field=message]` - The `message` field of the error object. Alternatively pass a dot notation path to the token. Helpful paths are `message`, `stack`, `type`, `output`, `isServer` and `isBoom`.
 - `:environment[field=NODE_ENV]` - An environment variable.

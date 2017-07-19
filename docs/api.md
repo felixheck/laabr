@@ -57,7 +57,7 @@ Optional. Default: `{}`<br/>
 
 - **hapiPino**: `Object`<br/>
 Optional. Default: `{}`<br/>
-[hapi-pino ⇗](https://github.com/pinojs/hapi-pino) related options. `prettyPrint`, `mergeHapiLogData` and `instance` are effectless. Use `options.pino` to configre the passed `instance`.
+[hapi-pino ⇗](https://github.com/pinojs/hapi-pino) related options. `prettyPrint` and `instance` are effectless. Use `options.pino` to configre the passed `instance`.
 
 ## `laabr.token(<string> name, <Function> callback)`
 To define a token, simply invoke `laabr.token()` with the name and a callback function.<br/>Best Practise: Run `laabr.token` before registering the plugin.
