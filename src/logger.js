@@ -102,8 +102,7 @@ function getLoggerConfig (options) {
 function getPluginConfig (options, loggerConfig) {
   return Object.assign(options.hapiPino, {
     instance: pino(loggerConfig, options.stream),
-    prettyPrint: false,
-    mergeHapiLogData: false
+    prettyPrint: false
   })
 }
 

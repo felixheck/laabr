@@ -14,7 +14,7 @@ server.route([
     path: '/response',
     handler (req, reply) {
       another()
-      reply(`correlation id: ${req.cid}`)
+      reply(`correlation id: ${req.headers['x-laabr-cid']}`)
     }
   },
   {

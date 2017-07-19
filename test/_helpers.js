@@ -116,7 +116,7 @@ function getServer (options, done) {
       method: '*',
       path: '/request/id/req',
       handler (req, reply) {
-        console.log('cid', req.cid)
+        console.log('cid', req.headers['x-laabr-cid'])
         logCID()
         reply({ foo: 42 })
       }
