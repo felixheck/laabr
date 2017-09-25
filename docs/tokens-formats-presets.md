@@ -61,12 +61,12 @@ The following formats/[presets](#presets) are set by default:
 
 | Event           | Preset                                       | Emitter              |
 |----------------:|----------------------------------------------|----------------------|
-| `log`           | [`log.tinyjson`](presets.md#logtinyjson)     | `server.log`         |
-| `request`       | [`log.tinyjson`](presets.md#logtinyjson)     | `request.log`        |
-| `response`      | [`response.tiny`](presets.md#responsetiny)   | request is completed |
-| `request-error` | [`error.tinyjson`](presets.md#errortinyjson) | request failed       |
-| `onPostStart`   | [`server.info`](presets.md#serverinfo)       | server is started    |
-| `onPostStop`    | [`server.info`](presets.md#serverinfo)       | server is stopped    |
+| `log`           | [`log.tinyjson`](#logtinyjson)     | `server.log`         |
+| `request`       | [`log.tinyjson`](#logtinyjson)     | `request.log`        |
+| `response`      | [`response.tiny`](#responsetiny)   | request is completed |
+| `request-error` | [`error.tinyjson`](#errortinyjson) | request failed       |
+| `onPostStart`   | [`server.info`](#serverinfo)       | server is started    |
+| `onPostStop`    | [`server.info`](#serverinfo)       | server is stopped    |
 
 ## Presets
 #### `log.tiny`
