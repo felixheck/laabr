@@ -169,6 +169,40 @@ test('throw error if own options are invalid – postformatter', (t) => {
   }), Error)
 })
 
+test('throw error if own options are invalid – handleUncaught', (t) => {
+  t.throws(() => helpers.getServer({
+    handleUncaught: null
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    handleUncaught: 42
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    handleUncaught: ''
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    handleUncaught: 'foobar'
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    handleUncaught: NaN
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    handleUncaught: {}
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    handleUncaught: []
+  }), Error)
+
+  t.throws(() => helpers.getServer({
+    handleUncaught: new RegExp()
+  }), Error)
+})
+
 test('throw error if own options are invalid – correlator', (t) => {
   t.throws(() => helpers.getServer({
     correlator: null
@@ -302,6 +336,16 @@ test('throw no error if own options are valid – indent', (t) => {
 
   t.notThrows(() => helpers.getServer({
     indent: '  '
+  }), Error)
+})
+
+test('throw no error if own options are valid – handleUncaught', (t) => {
+  t.notThrows(() => helpers.getServer({
+    handleUncaught: true
+  }), Error)
+
+  t.notThrows(() => helpers.getServer({
+    handleUncaught: false
   }), Error)
 })
 

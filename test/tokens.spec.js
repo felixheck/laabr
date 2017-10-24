@@ -75,6 +75,7 @@ test('return requested general attributes', (t) => {
   t.is(tokens['get'](mockData, mockColors, 'bar'), mockData.bar)
   t.is(tokens['message'](mockData), mockData.msg)
   t.is(tokens['error'](mockData), mockData.err.message)
+  t.is(tokens['error']({ data: mockData }), mockData.err.message)
   t.is(tokens['host'](mockData), mockData.host)
   t.is(tokens['host'](mockData, mockColors, 'uri'), mockData.uri)
   t.is(tokens['host'](mockData, mockColors, 'address'), mockData.address)

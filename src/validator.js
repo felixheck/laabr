@@ -11,7 +11,7 @@ const validators = {
     enabled: joi.boolean().default(false),
     header: joi.string().lowercase().default('x-correlation-id')
   }).default(),
-  formatLabel: joi.string().only('log', 'request', 'response', 'request-error', 'onPostStart', 'onPostStop'),
+  formatLabel: joi.string().only('log', 'request', 'response', 'request-error', 'onPostStart', 'onPostStop', 'uncaught'),
   tokenLabel: joi.string(),
   format: joi.alternatives().try(joi.string(), joi.any().valid(false)),
   token: joi.func().maxArity(3),
@@ -27,6 +27,7 @@ const validators = {
     indent: joi.alternatives().try(joi.number(), joi.string()).allow('').default(2),
     preformatter: joi.func().maxArity(2).default((data) => data),
     postformatter: joi.func().maxArity(2).default((data) => data),
+    handleUncaught: joi.boolean().default(false),
     stream: joi.object().allow(null),
     hapiPino: joi.object({
       stream: joi.object().allow(null),

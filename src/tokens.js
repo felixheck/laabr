@@ -80,9 +80,13 @@ assign('get', (data, colors, field) => (
   get(data, field)
 ))
 
-assign('error', (data, colors, field = 'message') => (
-  get(data.err, field)
-))
+assign('error', (data, colors, field = 'message') => {
+  if (!data.err && data.data.err) {
+    data = data.data
+  }
+
+  return get(data.err, field)
+})
 
 assign('environment', (data, colors, field = 'NODE_ENV') => (
   process.env[field]

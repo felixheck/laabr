@@ -74,6 +74,8 @@ function get (data) {
     return formats.onPostStart
   } else if (contains(data.msg, 'server stopped')) {
     return formats.onPostStop
+  } else if (contains(data.tags, 'uncaught')) {
+    return formats.uncaught
   } else if (data.req) {
     return formats.request
   }
@@ -99,6 +101,7 @@ preset('log.tiny', ':time :level :message')
 preset('log.tinyjson', '{ message::message, timestamp::time, level::level, environment::environment }')
 preset('error.tiny', ':time :level :error')
 preset('error.tinyjson', '{ error::error, timestamp::time, level::level, environment::environment }')
+preset('error.stackjson', '{ error::error, timestamp::time, level::level, environment::environment, stack::error[stack] }')
 preset('response.tiny', ':time :method :remoteAddress :url :status :payload (:responseTime ms)')
 preset('server.info', ':time :level :message at: :host[uri]')
 
@@ -108,6 +111,7 @@ assign('request-error', 'error.tinyjson')
 assign('response', 'response.tiny')
 assign('onPostStart', 'server.info')
 assign('onPostStop', 'server.info')
+assign('uncaught', 'error.stackjson')
 
 module.exports = {
   preset,

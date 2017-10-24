@@ -23,6 +23,7 @@ function plugin (server, options, next) {
   correlator.init(module.exports, server, options)
   formats.init(options.presets, options.formats)
   tokens.init(options.tokens)
+  utils.handleUncaught(server, options.handleUncaught)
 
   server.register(logger(options), (err) => {
     if (err) {

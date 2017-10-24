@@ -37,7 +37,7 @@
   "scripts": {
     "start": "NODE_ENV=test npm test -- -w",
     "lint": "standard",
-    "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava test/**/*.spec.js --timeout=30s",
+    "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava --timeout=30s",
     "coverage": "nyc report --reporter=lcov",
     "ci.coverage": "nyc report --reporter=text-lcov | coveralls"
   },

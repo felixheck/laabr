@@ -59,6 +59,10 @@ Preformat the originally logged message before getting processed by `laabr`. The
 Optional. Default: `(data) => data`<br/>
 Preformat the logged message after getting processed by `laabr`. The function is passed the processed string and the options as  arguments and have to return a string as well.
 
+- **handleUncaught**: `boolean`<br/>
+Optional. Default: `false`<br/>
+If uncaught exception should be logged. Overrides the default behavior of [`Event: 'uncaughtException'` ⇗](https://nodejs.org/api/process.html#process_event_uncaughtexception) and [`Event: 'unhandledRejection'`  ⇗](https://nodejs.org/api/process.html#process_event_unhandledrejection) but exits the process.
+
 - **stream**: `Writable`<br/>
 Optional. Default: `process.stdout`<br/>
 Take a look at the `stream` argument of [pino ⇗](https://github.com/pinojs/pino/blob/master/docs/API.md).
@@ -119,7 +123,7 @@ Or use a format preset key instead of a format string:
 laabr.format('onPostStart', 'server.env');
 ```
 
-The `event` is allowed to be `onPostStart`, `onPostStop`, `response`, `request-error` and `log`. The events are analog to the [hapi-pino ⇗](https://github.com/pinojs/hapi-pino) ones.
+The `event` is allowed to be `onPostStart`, `onPostStop`, `response`, `request-error`, `log` and `uncaught`. The events are almost analog to the [hapi-pino ⇗](https://github.com/pinojs/hapi-pino) ones.
 
 ## `laabr.cid`
 The methods listed below are exposed via `server.cid` as well.

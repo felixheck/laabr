@@ -13,7 +13,8 @@
     3. [`response.tiny`](#responsetiny)
     4. [`error.tiny`](#errortiny)
     5. [`error.tinyjson`](#errortinyjson)
-    6. [`server.info`](#serverinfo)
+    6. [`error.stackjson`](#errorstackjson)
+    7. [`server.info`](#serverinfo)
 
 <!-- /TOC -->
 
@@ -61,12 +62,13 @@ The following formats/[presets](#presets) are set by default:
 
 | Event           | Preset                                       | Emitter              |
 |----------------:|----------------------------------------------|----------------------|
-| `log`           | [`log.tinyjson`](#logtinyjson)     | `server.log`         |
-| `request`       | [`log.tinyjson`](#logtinyjson)     | `request.log`        |
-| `response`      | [`response.tiny`](#responsetiny)   | request is completed |
-| `request-error` | [`error.tinyjson`](#errortinyjson) | request failed       |
-| `onPostStart`   | [`server.info`](#serverinfo)       | server is started    |
-| `onPostStop`    | [`server.info`](#serverinfo)       | server is stopped    |
+| `log`           | [`log.tinyjson`](#logtinyjson)     | `server.log`           |
+| `request`       | [`log.tinyjson`](#logtinyjson)     | `request.log`          |
+| `response`      | [`response.tiny`](#responsetiny)   | request is completed   |
+| `request-error` | [`error.tinyjson`](#errortinyjson) | request failed         |
+| `onPostStart`   | [`server.info`](#serverinfo)       | server is started      |
+| `onPostStop`    | [`server.info`](#serverinfo)       | server is stopped      |
+| `uncaught`      | [`error.tinyjson`](#errortinyjson) | uncaught error occured |
 
 ## Presets
 #### `log.tiny`
@@ -126,6 +128,22 @@ The following formats/[presets](#presets) are set by default:
   "timestamp": 1499260782451,
   "level": "info",
   "environment": "development"
+}
+
+```
+#### `error.stackjson`
+``` js
+{ error::error, timestamp::time, level::level, environment::environment, stack::error[stack] }
+```
+
+*Example Output*
+```
+{
+  "error": "foobar is not defined",
+  "timestamp": 1499260782451,
+  "level": "info",
+  "environment": "development",
+  "stack": "ReferenceError: foobar is not defined\n at Timeout.onTimeout..."
 }
 ```
 

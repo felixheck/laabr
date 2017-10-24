@@ -55,3 +55,12 @@ test.cb.serial('override `console` methods with `server.log`', (t) => {
     t.end()
   })
 })
+
+test('get objectified error', (t) => {
+  const result = utils.objectify(new Error('foobar'))
+
+  t.truthy(result)
+  t.truthy(result.stack)
+  t.truthy(result.message)
+  t.is(result.message, 'foobar')
+})

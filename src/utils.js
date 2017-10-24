@@ -5,13 +5,13 @@
  * Check if the variable is a string/Array and contains
  * the request search term
  *
- * @param {string | Array} str The variable to be searched
+ * @param {string | Array} data The variable to be searched
  * @param {*} search The search term to be found
  *
  * @returns {boolean} Whether the variable contains the search term
  */
-function contains (str, search) {
-  return str && str.includes && str.includes(search)
+function contains (data, search) {
+  return data && data.includes && data.includes(search)
 }
 
 /**
@@ -102,11 +102,50 @@ function stringify (data) {
   return String(JSON.stringify(data))
 }
 
+/**
+ * @function
+ * @public
+ *
+ * Objectify the object/error and its properties.
+ *
+ * @param {Object|Error} obj The object to be parsed
+ * @returns {string} The parsed error
+ */
+function objectify (obj) {
+  return JSON.parse(JSON.stringify(obj, Object.getOwnPropertyNames(obj)))
+}
+
+/**
+ * @function
+ * @public
+ *
+ * Handle uncaught exception and unhandled rejections if enabled
+ * per option. Exit the process and log with `error` level.
+ *
+ * @param {Hapi.Server} server The related server instance
+ * @param {boolean} enabled If uncaught exception should be handled
+ */
+function handleUncaught (server, enabled) {
+  const handler = (err) => {
+    server.log(['uncaught', 'error'], { err: objectify(err) })
+    process.exit(1)
+  }
+
+  if (!enabled) {
+    return
+  }
+
+  process.once('uncaughtException', handler)
+  process.on('unhandledRejection', handler)
+}
+
 module.exports = {
   contains,
   getHeader,
   isJSON,
   noop,
   override,
-  stringify
+  stringify,
+  objectify,
+  handleUncaught
 }
