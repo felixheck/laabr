@@ -13,8 +13,9 @@
     3. [`response.tiny`](#responsetiny)
     4. [`error.tiny`](#errortiny)
     5. [`error.tinyjson`](#errortinyjson)
-    6. [`error.stackjson`](#errorstackjson)
-    7. [`server.info`](#serverinfo)
+    6. [`error.json`](#errorjson)
+    7. [`error.stackjson`](#errorstackjson)
+    8. [`server.info`](#serverinfo)
 
 <!-- /TOC -->
 
@@ -33,7 +34,7 @@ The following tokens are available by default. Partly it is possible to pass an 
   - `utc` for the common RFC 1123 date time format Just works if `options.pino.timestamp` is unset (`Mon, 12 Jan 1970 05:46:26 GMT`)
 - `:message[field=msg]` - The `msg` or `data` field of the log. Just works with logged strings or [`server.log` ⇗](https://hapijs.com/api#serverlogtags-data-timestamp)/[`request.log` ⇗](https://hapijs.com/api#requestlogtags-data-timestamp) and if `options.hapiPino.mergeHapiLogData` is disabled (default). Otherwise pass a custom field with fallback to the `msg` and `data` fields or use the `:get[field]` token. Both alternatives expect dot notation paths.
 - `:get[field]` – The value related to the given path in dot notation. Like `:message[field]` but without fallback.
-- `:error[field=message]` - The `message` field of the error object. Alternatively pass a dot notation path to the token. Helpful paths are `message`, `stack`, `type`, `output`, `isServer` and `isBoom`.
+- `:error[field=message]` - The `message` field of the error object. Alternatively pass a dot notation path to the token. Helpful paths are `message`, `stack`, `type`, `output`, `isServer` and `isBoom`. Additionally the path `source` provides information about the error's source.
 - `:environment[field=NODE_ENV]` - An environment variable.
 
 #### Request/Response
@@ -68,7 +69,7 @@ The following formats/[presets](#presets) are set by default:
 | `request-error` | [`error.tinyjson`](#errortinyjson) | request failed         |
 | `onPostStart`   | [`server.info`](#serverinfo)       | server is started      |
 | `onPostStop`    | [`server.info`](#serverinfo)       | server is stopped      |
-| `uncaught`      | [`error.tinyjson`](#errortinyjson) | uncaught error occured |
+| `uncaught`      | [`error.json`](#errorjson)         | uncaught error occured |
 
 ## Presets
 #### `log.tiny`
@@ -131,6 +132,23 @@ The following formats/[presets](#presets) are set by default:
 }
 
 ```
+
+#### `error.json`
+``` js
+{ error::error, timestamp::time, level::level, environment::environment, source::error[source] }
+```
+
+*Example Output*
+```
+{
+  "error": "foobar is not defined",
+  "timestamp": 1499260782451,
+  "level": "info",
+  "environment": "development",
+  "source": "/Users/foobar/index.js:42:01"
+}
+```
+
 #### `error.stackjson`
 ``` js
 { error::error, timestamp::time, level::level, environment::environment, stack::error[stack] }

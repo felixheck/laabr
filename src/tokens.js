@@ -85,6 +85,10 @@ assign('error', (data, colors, field = 'message') => {
     data = data.data
   }
 
+  if (!data.err.source) {
+    data.err.source = utils.getErrorSource(data.err)
+  }
+
   return get(data.err, field)
 })
 

@@ -61,7 +61,7 @@ Preformat the logged message after getting processed by `laabr`. The function is
 
 - **handleUncaught**: `boolean`<br/>
 Optional. Default: `false`<br/>
-If uncaught exception should be logged. Overrides the default behavior of [`Event: 'uncaughtException'` ⇗](https://nodejs.org/api/process.html#process_event_uncaughtexception) and [`Event: 'unhandledRejection'`  ⇗](https://nodejs.org/api/process.html#process_event_unhandledrejection) but exits the process.
+If uncaught exception should be logged. Overrides the default behavior of [`Event: 'uncaughtException'` ⇗](https://nodejs.org/api/process.html#process_event_uncaughtexception) but exits the process.
 
 - **stream**: `Writable`<br/>
 Optional. Default: `process.stdout`<br/>

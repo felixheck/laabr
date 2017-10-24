@@ -53,6 +53,7 @@
     "chalk": "^2.3.0",
     "correlation-id": "^2.0.0",
     "depd": "^1.1.1",
+    "error-stack-parser": "^2.0.1",
     "hapi-pino": "^2.0.0",
     "joi": "^13.0.1",
     "lodash.get": "^4.4.2",

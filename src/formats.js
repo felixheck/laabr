@@ -102,6 +102,7 @@ preset('log.tinyjson', '{ message::message, timestamp::time, level::level, envir
 preset('error.tiny', ':time :level :error')
 preset('error.tinyjson', '{ error::error, timestamp::time, level::level, environment::environment }')
 preset('error.stackjson', '{ error::error, timestamp::time, level::level, environment::environment, stack::error[stack] }')
+preset('error.json', '{ error::error, timestamp::time, level::level, environment::environment, source::error[source] }')
 preset('response.tiny', ':time :method :remoteAddress :url :status :payload (:responseTime ms)')
 preset('server.info', ':time :level :message at: :host[uri]')
 
@@ -111,7 +112,7 @@ assign('request-error', 'error.tinyjson')
 assign('response', 'response.tiny')
 assign('onPostStart', 'server.info')
 assign('onPostStop', 'server.info')
-assign('uncaught', 'error.stackjson')
+assign('uncaught', 'error.json')
 
 module.exports = {
   preset,

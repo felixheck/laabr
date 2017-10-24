@@ -56,9 +56,7 @@ test('return requested general attributes', (t) => {
       foo: 42
     },
     msg: 'foobar',
-    err: {
-      message: 'error'
-    }
+    err: new Error('foobar')
   }
 
   process.env.FOO = 'bar'

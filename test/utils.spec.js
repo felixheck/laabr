@@ -64,3 +64,7 @@ test('get objectified error', (t) => {
   t.truthy(result.message)
   t.is(result.message, 'foobar')
 })
+
+test('get error its source', (t) => {
+  t.regex(utils.getErrorSource(new Error('foobar')), new RegExp(`^${__filename}:\\d+:\\d+$`))
+})

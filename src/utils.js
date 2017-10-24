@@ -1,3 +1,5 @@
+const errorStackParser = require('error-stack-parser');
+
 /**
  * @function
  * @public
@@ -119,24 +121,38 @@ function objectify (obj) {
  * @function
  * @public
  *
- * Handle uncaught exception and unhandled rejections if enabled
- * per option. Exit the process and log with `error` level.
+ * Get source line of error stack.
+ *
+ *
+ * @param {Error} err The error to be analyzed
+ * @returns {string} The composed source line
+ */
+function getErrorSource (err) {
+  const { fileName, lineNumber, columnNumber} = errorStackParser.parse(err).shift()
+
+  return `${fileName}:${lineNumber}:${columnNumber}`
+}
+
+/**
+ * @function
+ * @public
+ *
+ * Handle uncaught exception if enabled per option.
+ * Exit the process and log with `error` level.
  *
  * @param {Hapi.Server} server The related server instance
  * @param {boolean} enabled If uncaught exception should be handled
  */
 function handleUncaught (server, enabled) {
-  const handler = (err) => {
-    server.log(['uncaught', 'error'], { err: objectify(err) })
-    process.exit(1)
-  }
-
   if (!enabled) {
     return
   }
 
-  process.once('uncaughtException', handler)
-  process.on('unhandledRejection', handler)
+  process.once('uncaughtException', (err) => {
+    err = Object.assign({ source: getErrorSource(err) }, objectify(err))
+    server.log(['uncaught', 'error'], { err })
+    process.exit(1)
+  })
 }
 
 module.exports = {
@@ -147,5 +163,6 @@ module.exports = {
   override,
   stringify,
   objectify,
-  handleUncaught
+  handleUncaught,
+  getErrorSource
 }
