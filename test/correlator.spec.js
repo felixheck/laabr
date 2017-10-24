@@ -12,7 +12,7 @@ test.beforeEach('setup interceptor', (t) => {
   interceptErr = helpers.getInterceptor({ stream: process.stderr })
 })
 
-test.afterEach('cleanup interceptor', (t) => {
+test.afterEach.always('cleanup interceptor', (t) => {
   Object.assign(console, consoleClone)
   helpers.disableInterceptor(interceptOut, interceptErr)
 })

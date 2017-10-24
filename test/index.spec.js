@@ -1,6 +1,9 @@
 const test = require('ava')
+const spawn = require('child_process').spawn
+const path = require('path')
 const helpers = require('./_helpers')
 const laabr = require('../src')
+const utils = require('../src/utils')
 
 let consoleClone
 let interceptOut
@@ -12,7 +15,7 @@ test.beforeEach('setup interceptor', (t) => {
   interceptErr = helpers.getInterceptor({ stream: process.stderr })
 })
 
-test.afterEach('cleanup interceptor', (t) => {
+test.afterEach.always('cleanup interceptor', (t) => {
   Object.assign(console, consoleClone)
   helpers.disableInterceptor(interceptOut, interceptErr)
 })
@@ -118,6 +121,28 @@ test.cb.serial('listen to `log` event', (t) => {
     t.deepEqual(Object.keys(result).sort(), ['timestamp', 'message', 'level', 'environment'].sort())
     t.end()
   })
+})
+
+test.cb.serial('listen to `caught` event', (t) => {
+  const childProcess = spawn('node', [path.join(__dirname, 'fixtures/error'), true])
+
+  childProcess.stdout.once('data', function (data) {
+    const result = JSON.parse(data.toString())
+
+    t.is(result.error, 'foobar')
+    t.is(result.level, 'error')
+    t.regex(result.source, new RegExp(`^${path.join(__dirname, 'fixtures/error.js')}:`))
+    t.end()
+  });
+})
+
+test.cb.serial('do not listen to `caught` event', (t) => {
+  const childProcess = spawn('node', [path.join(__dirname, 'fixtures/error'), false])
+
+  childProcess.stderr.once('data', function (data) {
+    t.regex(data.toString(), /throw new Error\('foobar'\)/)
+    t.end()
+  });
 })
 
 test.cb.serial('listen to `response` event – customized', (t) => {
