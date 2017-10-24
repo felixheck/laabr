@@ -1,5 +1,5 @@
-const Hapi = require('hapi');
-const laabr = require('./src');
+const Hapi = require('hapi')
+const laabr = require('./src')
 
 const server = new Hapi.Server()
 server.connection({ port: 3000, host: 'localhost' })
