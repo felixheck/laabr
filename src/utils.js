@@ -1,4 +1,4 @@
-const errorStackParser = require('error-stack-parser');
+const errorStackParser = require('error-stack-parser')
 
 /**
  * @function
@@ -128,7 +128,7 @@ function objectify (obj) {
  * @returns {string} The composed source line
  */
 function getErrorSource (err) {
-  const { fileName, lineNumber, columnNumber} = errorStackParser.parse(err).shift()
+  const { fileName, lineNumber, columnNumber } = errorStackParser.parse(err).shift()
 
   return `${fileName}:${lineNumber}:${columnNumber}`
 }

@@ -41,7 +41,7 @@ test('throw no error if format arguments are valid', (t) => {
   t.is(formats.get({ msg: 'request error' }), ':foobar')
   t.is(formats.get({ msg: 'server started' }), ':foobar')
   t.is(formats.get({ msg: 'server stopped' }), ':foobar')
-  t.is(formats.get({ tags: ['uncaught' ] }), ':foobar')
+  t.is(formats.get({ tags: ['uncaught'] }), ':foobar')
   t.notThrows(() => laabr.format('log', false), Error)
   t.notThrows(() => laabr.format('response', false), Error)
   t.notThrows(() => laabr.format('request-error', false), Error)
