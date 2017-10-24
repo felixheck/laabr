@@ -21,6 +21,8 @@ function plugin (server, options, next) {
   options = validator('options', options)
 
   correlator.init(module.exports, server, options)
+  formats.init(options.presets, options.formats)
+  tokens.init(options.tokens)
 
   server.register(logger(options), (err) => {
     if (err) {

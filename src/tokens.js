@@ -28,6 +28,18 @@ function assign (key, token) {
   tokens[key] = token
 }
 
+/**
+ * @function
+ * @public
+ *
+ * Initialize tokens passed as options to plugin.
+ *
+ * @param {Object} [optionTokens = {}] The defined tokens
+ */
+function init (optionTokens = {}) {
+  Object.keys(optionTokens).forEach((key) => assign(key, optionTokens[key]))
+}
+
 assign('pid', data => (
   data.pid
 ))
@@ -138,5 +150,6 @@ assign('host', (data, colors, field = 'host') => {
   }
 })
 
+Object.assign(tokens, { assign, init })
+
 module.exports = tokens
-module.exports.assign = assign

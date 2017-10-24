@@ -42,21 +42,21 @@
     "ci.coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "ava": "^0.20.0",
-    "coveralls": "^2.13.1",
+    "ava": "^0.22.0",
+    "coveralls": "^3.0.0",
     "fixture-stdout": "^0.2.1",
-    "hapi": "^16.4.3",
-    "nyc": "^11.0.3",
-    "standard": "^10.0.2"
+    "hapi": "^16.6.2",
+    "nyc": "^11.2.1",
+    "standard": "^10.0.3"
   },
   "dependencies": {
-    "chalk": "^2.0.1",
+    "chalk": "^2.3.0",
     "correlation-id": "^2.0.0",
-    "depd": "^1.1.0",
-    "hapi-pino": "^1.7.0",
-    "joi": "^10.6.0",
+    "depd": "^1.1.1",
+    "hapi-pino": "^2.0.0",
+    "joi": "^13.0.1",
     "lodash.get": "^4.4.2",
-    "pino": "^4.7.0"
+    "pino": "^4.8.0"
   },
   "peerDependencies": {
     "hapi": ">= 13.x.x",

@@ -81,6 +81,20 @@ function get (data) {
   return formats.log
 }
 
+/**
+ * @function
+ * @public
+ *
+ * Initialize formats and presets passed as options to plugin.
+ *
+ * @param {Object} [optionPresets = {}] The defined presets
+ * @param {Object} [optionFormats = {}] The defined formats
+ */
+function init (optionPresets = {}, optionFormats = {}) {
+  Object.keys(optionPresets).forEach((key) => preset(key, optionPresets[key]))
+  Object.keys(optionFormats).forEach((key) => assign(key, optionFormats[key]))
+}
+
 preset('log.tiny', ':time :level :message')
 preset('log.tinyjson', '{ message::message, timestamp::time, level::level, environment::environment }')
 preset('error.tiny', ':time :level :error')
@@ -98,5 +112,6 @@ assign('onPostStop', 'server.info')
 module.exports = {
   preset,
   assign,
-  get
+  get,
+  init
 }

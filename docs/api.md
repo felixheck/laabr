@@ -16,6 +16,18 @@
 ## `laabr.plugin`
 
 #### `options`
+- **tokens**: `Object`<br/>
+Optional. Default: `{}`<br/>
+It's like [`laabr.token(<string> name, <Function> callback)`](#laabrtokenstring-name-function-callback). Use `name`/`callback` as key-value pairs.
+
+- **presets**: `Object`<br/>
+Optional. Default: `{}`<br/>
+It's like [`laabr.preset(<string> key, <string|false> preset)`](#laabrpresetstring-key-stringfalse-preset). Use `key`/`preset` as key-value pairs.
+
+- **formats**: `Object`<br/>
+Optional. Default: `{}`<br/>
+It's like [`laabr.format(<string> event, <string|false> format)`](#laabrformatstring-event-stringfalse-format). Use `event`/`format` as key-value pairs.
+
 - **colored**: `boolean`<br/>
 Optional. Default: `false`<br/>
 Partially colorizes token outputs with ANSI powered by [chalk ⇗](https://github.com/chalk/chalk).

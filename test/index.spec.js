@@ -136,11 +136,78 @@ test.cb.serial('listen to `response` event – customized', (t) => {
   })
 })
 
+test.cb.serial('listen to `response` event – customized/init', (t) => {
+  const formats = { 'response': ':get[req.headers]' }
+
+  helpers.getServer({ formats }, (server) => {
+    server.on('tail', () => {
+      t.truthy(interceptOut.find('{"user-agent":"shot","host":"127.0.0.1:1337"}'))
+      t.end()
+    })
+
+    server.inject({
+      method: 'GET',
+      url: '/response/200'
+    })
+  })
+})
+
+test.cb.serial('listen to `response` event – customized/token', (t) => {
+  laabr.format('response', ':hello')
+  laabr.token('hello', () => 'HI!')
+
+  helpers.getServer(undefined, (server) => {
+    server.on('tail', () => {
+      t.truthy(interceptOut.find('HI!'))
+      t.end()
+    })
+
+    server.inject({
+      method: 'GET',
+      url: '/response/200'
+    })
+  })
+})
+
+test.cb.serial('listen to `response` event – customized/token/init', (t) => {
+  laabr.format('response', ':hello')
+  const tokens = { 'hello': () => 'HI!' }
+
+  helpers.getServer({ tokens }, (server) => {
+    server.on('tail', () => {
+      t.truthy(interceptOut.find('HI!'))
+      t.end()
+    })
+
+    server.inject({
+      method: 'GET',
+      url: '/response/200'
+    })
+  })
+})
+
 test.cb.serial('listen to `response` event – preset', (t) => {
   laabr.preset('test.env', ':time :environment :method')
   laabr.format('response', 'test.env')
 
   helpers.getServer(undefined, (server) => {
+    server.on('tail', () => {
+      t.truthy(interceptOut.find('test GET'))
+      t.end()
+    })
+
+    server.inject({
+      method: 'GET',
+      url: '/response/200'
+    })
+  })
+})
+
+test.cb.serial('listen to `response` event – preset/init', (t) => {
+  const presets = { 'test.env.init': ':time :environment :method' }
+  laabr.format('response', 'test.env')
+
+  helpers.getServer({ presets }, (server) => {
     server.on('tail', () => {
       t.truthy(interceptOut.find('test GET'))
       t.end()

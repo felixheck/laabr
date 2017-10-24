@@ -18,6 +18,9 @@ const validators = {
   preformatterOutput: joi.object(),
   postformatterOutput: joi.string(),
   options: joi.object({
+    formats: joi.object().allow(null),
+    presets: joi.object().allow(null),
+    tokens: joi.object().allow(null),
     colored: joi.boolean().default(false),
     override: joi.boolean().default(false),
     correlator: joi.alternatives().try(joi.boolean(), joi.lazy(() => validators.correlator)).default(false),
