@@ -3,7 +3,6 @@ const spawn = require('child_process').spawn
 const path = require('path')
 const helpers = require('./_helpers')
 const laabr = require('../src')
-const utils = require('../src/utils')
 
 let consoleClone
 let interceptOut
@@ -133,7 +132,7 @@ test.cb.serial('listen to `caught` event', (t) => {
     t.is(result.level, 'error')
     t.regex(result.source, new RegExp(`^${path.join(__dirname, 'fixtures/error.js')}:`))
     t.end()
-  });
+  })
 })
 
 test.cb.serial('do not listen to `caught` event', (t) => {
@@ -142,7 +141,7 @@ test.cb.serial('do not listen to `caught` event', (t) => {
   childProcess.stderr.once('data', function (data) {
     t.regex(data.toString(), /throw new Error\('foobar'\)/)
     t.end()
-  });
+  })
 })
 
 test.cb.serial('listen to `response` event – customized', (t) => {
