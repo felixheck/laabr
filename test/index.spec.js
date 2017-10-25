@@ -235,156 +235,176 @@ test.cb.serial('listen to `onPostStart` events', (t) => {
 })
 
 test.cb.serial('listen to `log` event', (t) => {
-  helpers.getServer({ indent: 0 }, (server) => {
-    server.log('info', 'foobar')
-    const result = JSON.parse(interceptOut.find('"message":"foobar"').string)
+  const options = {
+    formats: { onPostStart: ':time :level :message :host[uri]' },
+    hapiPino: { logEvents: false }
+  }
 
-    t.is(result.message, 'foobar')
-    t.truthy(result.timestamp)
-    t.is(result.level, 'info')
-    t.is(result.environment, 'test')
-    t.deepEqual(Object.keys(result).sort(), ['timestamp', 'message', 'level', 'environment'].sort())
+  const logs = {
+    tags: 'info',
+    value: ['foobar']
+  }
+
+  helpers.spawn('log', options, logs, (log) => {
+    t.is(log.message, 'foobar')
+    t.truthy(log.timestamp)
+    t.is(log.level, 'info')
+    t.is(log.environment, 'test')
     t.end()
   })
 })
 
 test.cb.serial('listen to `log` event – customized', (t) => {
-  const mockData = {
-    foo: {
-      bar: 42
-    }
+  const options = {
+    indent: 0,
+    hapiPino: { logEvents: false }
   }
 
-  helpers.getServer({ indent: 0 }, (server) => {
-    server.log('info', mockData)
-    const result = JSON.parse(interceptOut.find('"message":{"foo":{"bar":42}}').string)
+  const logs = {
+    tags: 'info',
+    value: [{
+      foo: {
+        bar: 42
+      }
+    }]
+  }
 
-    t.truthy(result)
-    t.deepEqual(result.message, mockData)
-    t.truthy(result.timestamp)
-    t.is(result.level, 'info')
-    t.is(result.environment, 'test')
-    t.deepEqual(Object.keys(result).sort(), ['timestamp', 'message', 'level', 'environment'].sort())
+  helpers.spawn('log', options, logs, (log) => {
+    t.deepEqual(log.message, logs.value[0])
+    t.truthy(log.timestamp)
+    t.is(log.level, 'info')
+    t.is(log.environment, 'test')
     t.end()
   })
 })
 
 test.cb.serial('listen to `log` event – multiple tags', (t) => {
-  const mockData = {
-    foo: {
-      bar: 42
-    }
+  const options = {
+    indent: 0,
+    formats: { log: '{ tags::tags, message::message }' },
+    hapiPino: { logEvents: false }
   }
 
-  laabr.format('log', '{ tags::tags, message::message }')
-  helpers.getServer({ indent: 0 }, (server) => {
-    server.log(['info', 'foobar'], mockData)
-    const result = JSON.parse(interceptOut.find('"message":{"foo":{"bar":42}}').string)
+  const logs = {
+    tags: ['info', 'foobar'],
+    value: [{
+      foo: {
+        bar: 42
+      }
+    }]
+  }
 
-    t.truthy(result)
-    t.deepEqual(result.message, mockData)
-    t.deepEqual(result.tags, ['info', 'foobar'])
-    t.end()
-  })
-})
-
-test.cb.serial('get log message by overriden `console.warn` – single', (t) => {
-  helpers.getServer({ indent: 0, override: true }, () => {
-    console.warn('foobar')
-    t.truthy(interceptOut.find('"message":"foobar"'))
-    t.end()
-  })
-})
-
-test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
-  helpers.getServer({ indent: 0, override: true }, () => {
-    console.warn('foo', 'bar')
-
-    t.truthy(interceptOut.find('"message":["foo","bar"]'))
+  helpers.spawn('log', options, logs, (log) => {
+    t.deepEqual(log.message, logs.value[0])
+    t.deepEqual(log.tags, ['info', 'foobar'])
     t.end()
   })
 })
 
 test.cb.serial('listen to `log` event – concat strings – backticks', (t) => {
-  const mockData = 'foo'
+  const options = {
+    indent: 0,
+    formats: { log: '{ message::message + `bar` }' },
+    hapiPino: { logEvents: false }
+  }
 
-  laabr.format('log', '{ message::message + `bar` }')
-  helpers.getServer({ indent: 0 }, (server) => {
-    server.log(['info'], mockData)
-    const result = JSON.parse(interceptOut.find('"message":"foobar"').string)
+  const logs = {
+    tags: ['info'],
+    value: ['foobar']
+  }
 
-    t.truthy(result)
-    t.deepEqual(result.message, 'foobar')
+  helpers.spawn('log', options, logs, (log) => {
+    t.is(log.message, 'foobarbar')
     t.end()
   })
 })
 
 test.cb.serial('listen to `log` event – inline strings – backticks', (t) => {
-  const mockData = 'foo'
+  const options = {
+    indent: 0,
+    formats: { log: '{ message: [:message,`bar`] }' },
+    hapiPino: { logEvents: false }
+  }
 
-  laabr.format('log', '{ message: [:message,`bar`] }')
-  helpers.getServer({ indent: 0 }, (server) => {
-    server.log(['info'], mockData)
-    const result = JSON.parse(interceptOut.find('"message":["foo","bar"]').string)
+  const logs = {
+    tags: ['info'],
+    value: ['foo']
+  }
 
-    t.truthy(result)
-    t.deepEqual(result.message, ['foo', 'bar'])
+  helpers.spawn('log', options, logs, (log) => {
+    t.deepEqual(log.message, ['foo', 'bar'])
     t.end()
   })
 })
 
 test.cb.serial('listen to `log` event – concat strings – single quotes', (t) => {
-  const mockData = 'foo'
+  const options = {
+    indent: 0,
+    formats: { log: '{ message::message + \'bar\' }' },
+    hapiPino: { logEvents: false }
+  }
 
-  laabr.format('log', '{ message::message + \'bar\' }')
-  helpers.getServer({ indent: 0 }, (server) => {
-    server.log(['info'], mockData)
-    const result = JSON.parse(interceptOut.find('"message":"foobar"').string)
+  const logs = {
+    tags: ['info'],
+    value: ['foo']
+  }
 
-    t.truthy(result)
-    t.deepEqual(result.message, 'foobar')
+  helpers.spawn('log', options, logs, (log) => {
+    t.is(log.message, 'foobar')
     t.end()
   })
 })
 
 test.cb.serial('listen to `log` event – inline strings – single quotes', (t) => {
-  const mockData = 'foo'
+  const options = {
+    indent: 0,
+    formats: { log: '{ message: [:message,\'bar\'] }' },
+    hapiPino: { logEvents: false }
+  }
 
-  laabr.format('log', '{ message: [:message,\'bar\'] }')
-  helpers.getServer({ indent: 0 }, (server) => {
-    server.log(['info'], mockData)
-    const result = JSON.parse(interceptOut.find('"message":["foo","bar"]').string)
+  const logs = {
+    tags: ['info'],
+    value: ['foo']
+  }
 
-    t.truthy(result)
-    t.deepEqual(result.message, ['foo', 'bar'])
+  helpers.spawn('log', options, logs, (log) => {
+    t.deepEqual(log.message, ['foo', 'bar'])
     t.end()
   })
 })
 
 test.cb.serial('listen to `log` event – concat strings – double quotes', (t) => {
-  const mockData = 'foo'
+  const options = {
+    indent: 0,
+    formats: { log: '{ message::message + "bar" }' },
+    hapiPino: { logEvents: false }
+  }
 
-  laabr.format('log', '{ message::message + "bar" }')
-  helpers.getServer({ indent: 0 }, (server) => {
-    server.log(['info'], mockData)
-    const result = JSON.parse(interceptOut.find('"message":"foobar"').string)
+  const logs = {
+    tags: ['info'],
+    value: ['foo']
+  }
 
-    t.truthy(result)
-    t.deepEqual(result.message, 'foobar')
+  helpers.spawn('log', options, logs, (log) => {
+    t.is(log.message, 'foobar')
     t.end()
   })
 })
 
 test.cb.serial('listen to `log` event – inline strings – double quotes', (t) => {
-  const mockData = 'foo'
+  const options = {
+    indent: 0,
+    formats: { log: '{ message: [:message,"bar"] }' },
+    hapiPino: { logEvents: false }
+  }
 
-  laabr.format('log', '{ message: [:message,"bar"] }')
-  helpers.getServer({ indent: 0 }, (server) => {
-    server.log(['info'], mockData)
-    const result = JSON.parse(interceptOut.find('"message":["foo","bar"]').string)
+  const logs = {
+    tags: ['info'],
+    value: ['foo']
+  }
 
-    t.truthy(result)
-    t.deepEqual(result.message, ['foo', 'bar'])
+  helpers.spawn('log', options, logs, (log) => {
+    t.deepEqual(log.message, ['foo', 'bar'])
     t.end()
   })
 })
@@ -426,3 +446,21 @@ test.cb.serial('postformat the originally logged message', (t) => {
     t.end()
   })
 })
+
+test.cb.serial('get log message by overriden `console.warn` – single', (t) => {
+  helpers.getServer({ indent: 0, override: true }, () => {
+    console.warn('foobar')
+    t.truthy(interceptOut.find('"message":"foobar"'))
+    t.end()
+  })
+})
+
+test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
+  helpers.getServer({ indent: 0, override: true }, () => {
+    console.warn('foo', 'bar')
+
+    t.truthy(interceptOut.find('"message":["foo","bar"]'))
+    t.end()
+  })
+})
+
