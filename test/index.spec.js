@@ -14,7 +14,7 @@ test.afterEach.always('cleanup interceptor', (t) => {
   Object.assign(console, consoleClone)
 })
 
-test.cb.serial.only('listen to `request` event', (t) => {
+test.cb.serial('listen to `request` event', (t) => {
   const options = {
     formats: { request: '{ reqId::requestId }'}
   }
@@ -32,7 +32,7 @@ test.cb.serial.only('listen to `request` event', (t) => {
   })
 })
 
-test.cb.serial.only('listen to `response` event', (t) => {
+test.cb.serial('listen to `response` event', (t) => {
   const options = {}
 
   const injection = {
@@ -47,7 +47,7 @@ test.cb.serial.only('listen to `response` event', (t) => {
   })
 })
 
-test.cb.serial.only('listen to `response` event – post', (t) => {
+test.cb.serial('listen to `response` event – post', (t) => {
   const options = {}
 
   const injection = {
@@ -65,7 +65,7 @@ test.cb.serial.only('listen to `response` event – post', (t) => {
   })
 })
 
-test.cb.serial.only('listen to `request-error` event', (t) => {
+test.cb.serial('listen to `request-error` event', (t) => {
   const options = {}
 
   const injection = {
@@ -82,11 +82,9 @@ test.cb.serial.only('listen to `request-error` event', (t) => {
   })
 })
 
-test.cb.serial.only('listen to `response` event – customized', (t) => {
+test.cb.serial('listen to `response` event – customized', (t) => {
   const options = {
-    formats: {
-      response: ':get[req.headers]'
-    }
+    formats: { response: ':get[req.headers]' }
   }
 
   const injection = {
@@ -101,10 +99,8 @@ test.cb.serial.only('listen to `response` event – customized', (t) => {
   })
 })
 
-test.cb.serial.only('listen to `caught` event', (t) => {
-  const options = {
-    handleUncaught: true
-  }
+test.cb.serial('listen to `caught` event', (t) => {
+  const options = { handleUncaught: true }
 
   const injection = {}
 
@@ -116,10 +112,8 @@ test.cb.serial.only('listen to `caught` event', (t) => {
   })
 })
 
-test.cb.serial.only('do not listen to `caught` event', (t) => {
-  const options = {
-    handleUncaught: false
-  }
+test.cb.serial('do not listen to `caught` event', (t) => {
+  const options = { handleUncaught: false }
 
   const injection = {}
 
@@ -127,6 +121,89 @@ test.cb.serial.only('do not listen to `caught` event', (t) => {
     t.regex(log, /throw new Error\('foobar'\)/)
     t.end()
   }, 'stderr')
+})
+
+test.cb.serial('listen to `response` event – customized/token', (t) => {
+  const options = {
+    formats: { response: ':hello' },
+  }
+
+  const injection = {
+    method: 'GET',
+    url: '/response/200'
+  }
+
+  helpers.spawn('token', options, injection, (log) => {
+    t.regex(log, /^HI!/)
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `response` event – preset', (t) => {
+  const options = {
+    formats: { response: 'test.env' },
+    presets: { 'test.env': ':time :environment :method' }
+  }
+
+  const injection = {
+    method: 'GET',
+    url: '/response/200'
+  }
+
+  helpers.spawn('token', options, injection, (log) => {
+    t.regex(log, /test GET/)
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `response` event – no token', (t) => {
+  const options = {
+    formats: { response: ':foobar' }
+  }
+
+  const injection = {
+    method: 'GET',
+    url: '/response/200'
+  }
+
+  helpers.spawn('token', options, injection, (log) => {
+    t.regex(log, /^:foobar/)
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `response` event – no json token', (t) => {
+  const options = {
+    formats: { response: '{ foobar::foobar }' }
+  }
+
+  const injection = {
+    method: 'GET',
+    url: '/response/200'
+  }
+
+  helpers.spawn('token', options, injection, (log) => {
+    t.is(log.foobar, ':foobar')
+    t.end()
+  })
+})
+
+test.cb.serial.only('listen to `response` event – no format', (t) => {
+  const options = {
+    formats: { response: false }
+  }
+
+  const injection = {
+    method: 'GET',
+    url: '/response/200'
+  }
+
+  helpers.spawn('token', options, injection, (log) => {
+    t.is(log.level, 30)
+    t.truthy(log.pid)
+    t.truthy(log.hostname)
+    t.end()
+  })
 })
 
 test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
@@ -155,127 +232,6 @@ test.cb.serial('listen to `log` event', (t) => {
     t.is(result.environment, 'test')
     t.deepEqual(Object.keys(result).sort(), ['timestamp', 'message', 'level', 'environment'].sort())
     t.end()
-  })
-})
-
-test.cb.serial('listen to `response` event – customized/token', (t) => {
-  laabr.format('response', ':hello')
-  laabr.token('hello', () => 'HI!')
-
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find('HI!'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
-  })
-})
-
-test.cb.serial('listen to `response` event – customized/token/init', (t) => {
-  laabr.format('response', ':hello')
-  const tokens = { 'hello': () => 'HI!' }
-
-  helpers.getServer({ tokens }, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find('HI!'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
-  })
-})
-
-test.cb.serial('listen to `response` event – preset', (t) => {
-  laabr.preset('test.env', ':time :environment :method')
-  laabr.format('response', 'test.env')
-
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find('test GET'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
-  })
-})
-
-test.cb.serial('listen to `response` event – preset/init', (t) => {
-  const presets = { 'test.env.init': ':time :environment :method' }
-  laabr.format('response', 'test.env')
-
-  helpers.getServer({ presets }, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find('test GET'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
-  })
-})
-
-test.cb.serial('listen to `response` event – no token', (t) => {
-  laabr.format('response', ':foobar')
-
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find(':foobar'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
-  })
-})
-
-test.cb.serial('listen to `response` event – no json token', (t) => {
-  laabr.format('response', '{ foobar::foobar }')
-
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find('"foobar": ":foobar"'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
-  })
-})
-
-test.cb.serial('listen to `response` event – no format', (t) => {
-  laabr.format('response', false)
-
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      const result = JSON.parse(interceptOut.find('"msg": "request completed"').string)
-
-      t.truthy(result)
-      t.is(result.level, 30)
-      t.truthy(result.pid)
-      t.truthy(result.hostname)
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
   })
 })
 
