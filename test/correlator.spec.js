@@ -64,143 +64,177 @@ test.cb.serial('correlator is exposed – server.cid', (t) => {
 })
 
 test.cb.serial('CID is the same even in other function', (t) => {
-  helpers.getServer({ correlator: true }, (server) => {
-    server.on('tail', () => {
-      const [log1, log2] = interceptOut.filter('cid')
+  const options = { correlator: true }
 
-      t.truthy(log1)
-      t.truthy(log2)
-      t.is(log1, log2)
+  const injection = {
+    method: 'GET',
+    url: '/request/id'
+  }
+
+  let log1
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+
+    if (!log1) {
+      log1 = log
+    } else {
+      t.is(log1, log)
       t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/request/id'
-    })
-  })
+    }
+  }, undefined, 'on')
 })
 
 test.cb.serial('CID is the same even in other function – `response` event', (t) => {
-  laabr.format('response', 'cid :cid')
-  helpers.getServer({ correlator: true }, (server) => {
-    server.on('tail', () => {
-      const [log1, log2, log3] = interceptOut.filter('cid')
+  const options = {
+    correlator: true,
+    formats: { response: 'cid :cid' }
+  }
 
-      t.truthy(log1)
-      t.truthy(log2)
-      t.truthy(log3)
+  const injection = {
+    method: 'GET',
+    url: '/request/id'
+  }
+
+  let log1
+  let log2
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+
+    if (!log1) {
+      log1 = log
+    } else if (!log2) {
+      log2 = log
+    } else {
       t.is(log1, log2)
-      t.is(log1, log3)
-      t.is(log2, log3)
+      t.is(log1, log)
+      t.is(log2, log)
       t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/request/id'
-    })
-  })
+    }
+  }, undefined, 'on')
 })
 
 test.cb.serial('CID is the same even in other function – req.headers["x-laabr-cid"]', (t) => {
-  helpers.getServer({ correlator: true }, (server) => {
-    server.on('tail', () => {
-      const [log1, log2] = interceptOut.filter('cid')
+  const options = { correlator: true }
 
-      t.truthy(log1)
-      t.truthy(log2)
-      t.is(log1, log2)
+  const injection = {
+    method: 'GET',
+    url: '/request/id/req'
+  }
+
+  let log1
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+
+    if (!log1) {
+      log1 = log
+    } else {
+      t.is(log1, log)
       t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/request/id/req'
-    })
-  })
+    }
+  }, undefined, 'on')
 })
 
 test.cb.serial('CID is not the same because of `with`', (t) => {
-  helpers.getServer({ correlator: true }, (server) => {
-    server.on('tail', () => {
-      const [log1, log2] = interceptOut.filter('cid')
+  const options = { correlator: true }
 
-      t.truthy(log1)
-      t.truthy(log2)
-      t.not(log1, log2)
+  const injection = {
+    method: 'GET',
+    url: '/request/id/next'
+  }
+
+  let log1
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+
+    if (!log1) {
+      log1 = log
+    } else {
+      t.not(log1, log)
       t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/request/id/next'
-    })
-  })
+    }
+  }, undefined, 'on')
 })
 
 test.cb.serial('use the unset `x-correlation-id` header', (t) => {
-  helpers.getServer({ correlator: true }, (server) => {
-    server.on('tail', () => {
-      const [log1, log2] = interceptOut.filter('cid')
+  const options = { correlator: true }
 
-      t.truthy(log1)
-      t.truthy(log2)
-      t.is(log1, log2)
-      t.regex(log1, /^cid \d+:.+:.+\n$/)
-      t.regex(log2, /^cid \d+:.+:.+\n$/)
+  const injection = {
+    method: 'GET',
+    url: '/request/id'
+  }
+
+  let log1
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+    t.regex(log, /^cid \d+:.+:.+/)
+
+    if (!log1) {
+      log1 = log
+    } else {
+      t.is(log1, log)
       t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/request/id'
-    })
-  })
+    }
+  }, undefined, 'on')
 })
 
 test.cb.serial('use the set `x-correlation-id` header', (t) => {
-  helpers.getServer({ correlator: true }, (server) => {
-    server.on('tail', () => {
-      const [log1, log2] = interceptOut.filter('cid')
+  const options = { correlator: true }
 
-      t.truthy(log1)
-      t.truthy(log2)
-      t.is(log1, log2)
-      t.is(log1, 'cid foobar\n')
-      t.is(log2, 'cid foobar\n')
+  const injection = {
+    method: 'GET',
+    url: '/request/id',
+    headers: {
+      'x-correlation-id': 'foobar'
+    }
+  }
+
+  let log1
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+    t.regex(log, /^cid foobar/)
+
+    if (!log1) {
+      log1 = log
+    } else {
+      t.is(log1, log)
       t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/request/id',
-      headers: {
-        'x-correlation-id': 'foobar'
-      }
-    })
-  })
+    }
+  }, undefined, 'on')
 })
 
 test.cb.serial('use a set custom header', (t) => {
-  helpers.getServer({ correlator: { enabled: true, header: 'x-foobar-id' } }, (server) => {
-    server.on('tail', () => {
-      const [log1, log2] = interceptOut.filter('cid')
+  const options = {
+    correlator: {
+      enabled: true,
+      header: 'x-foobar-id'
+    }
+  }
 
-      t.truthy(log1)
-      t.truthy(log2)
-      t.is(log1, log2)
-      t.is(log1, 'cid foobar\n')
-      t.is(log2, 'cid foobar\n')
+  const injection = {
+    method: 'GET',
+    url: '/request/id',
+    headers: {
+      'x-foobar-id': 'foobar'
+    }
+  }
+
+  let log1
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+    t.regex(log, /^cid foobar/)
+
+    if (!log1) {
+      log1 = log
+    } else {
+      t.is(log1, log)
       t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/request/id',
-      headers: {
-        'x-foobar-id': 'foobar'
-      }
-    })
-  })
+    }
+  }, undefined, 'on')
 })

@@ -1,8 +1,11 @@
 const helpers = require('../_helpers')
-const laabr = require('../../src')
 
-laabr.token('hello', () => 'HI!')
+const options = Object.assign({
+  tokens: {
+    hello: () => 'HI!'
+  }
+}, JSON.parse(process.argv[2]))
 
-helpers.getServer(JSON.parse(process.argv[2]), (server) => {
+helpers.getServer(options, (server) => {
   server.inject(JSON.parse(process.argv[3]))
 })

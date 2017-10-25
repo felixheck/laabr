@@ -1,8 +1,6 @@
 const test = require('ava')
-const spawn = require('child_process').spawn
 const path = require('path')
 const helpers = require('./_helpers')
-const laabr = require('../src')
 
 let consoleClone
 
@@ -16,7 +14,7 @@ test.afterEach.always((t) => {
 
 test.cb.serial('listen to `request` event', (t) => {
   const options = {
-    formats: { request: '{ reqId::requestId }'}
+    formats: { request: '{ reqId::requestId }' }
   }
 
   const injection = {
@@ -125,7 +123,7 @@ test.cb.serial('do not listen to `caught` event', (t) => {
 
 test.cb.serial('listen to `response` event – customized/token', (t) => {
   const options = {
-    formats: { response: ':hello' },
+    formats: { response: ':hello' }
   }
 
   const injection = {
@@ -477,4 +475,3 @@ test.cb.serial('get log message by overriden `console.warn` – multiple', (t) 
     t.end()
   })
 })
-

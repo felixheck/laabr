@@ -4,13 +4,13 @@ const path = require('path')
 const laabr = require('../src')
 const utils = require('../src/utils')
 
-function spawnServer(type, options, injection, done, stream = 'stdout') {
+function spawnServer (type, options, injection, done, stream = 'stdout', listener = 'once') {
   const childProcess = spawn(
     'node',
     [path.join(__dirname, `fixtures/${type}`), JSON.stringify(options), JSON.stringify(injection)]
   )
 
-  childProcess[stream].once('data', (data) => {
+  childProcess[stream][listener]('data', (data) => {
     let log = data.toString()
 
     try {
@@ -127,5 +127,5 @@ module.exports = {
   noop: utils.noop,
   spawn: spawnServer,
   getServer,
-  registerPlugin,
+  registerPlugin
 }
