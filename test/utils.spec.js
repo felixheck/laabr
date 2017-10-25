@@ -1,14 +1,15 @@
 const test = require('ava')
 const helpers = require('./_helpers')
 const utils = require('../src/utils')
+const validator = require('../src/validator')
 
 let consoleClone
 
-test.beforeEach('setup interceptor', (t) => {
+test.beforeEach((t) => {
   consoleClone = Object.assign({}, console)
 })
 
-test.afterEach('cleanup interceptor', (t) => {
+test.afterEach((t) => {
   Object.assign(console, consoleClone)
 })
 
@@ -67,4 +68,8 @@ test('get objectified error', (t) => {
 
 test('get error its source', (t) => {
   t.regex(utils.getErrorSource(new Error('foobar')), new RegExp(`^${__filename}:\\d+:\\d+$`))
+})
+
+test('return value if no validator is defined', (t) => {
+  t.is(validator('foobar', 'foobar'), 'foobar')
 })
