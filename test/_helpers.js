@@ -4,10 +4,24 @@ const path = require('path')
 const laabr = require('../src')
 const utils = require('../src/utils')
 
-function spawnServer (type, options, injection, done, stream = 'stdout', listener = 'once') {
+/**
+ * @function
+ * @public
+ *
+ * Spawn a child process with a hapi server.
+ * Used for listing on `stderr`/`stdout`.
+ *
+ * @param {string} type The type of fixture
+ * @param {Object|Array} arg The argument passed first to process
+ * @param {Object|Array} arg2 The argument passed second to process
+ * @param {Function} done The handler called when a log occurs
+ * @param {string} [stream='stdout'] The stream its name
+ * @param {string} [listener='once'] The listener its type
+ */
+function spawnServer (type, arg, arg2, done, stream = 'stdout', listener = 'once') {
   const childProcess = spawn(
     'node',
-    [path.join(__dirname, `fixtures/${type}`), JSON.stringify(options), JSON.stringify(injection)]
+    [path.join(__dirname, `fixtures/${type}`), JSON.stringify(arg), JSON.stringify(arg2)]
   )
 
   childProcess[stream][listener]('data', (data) => {

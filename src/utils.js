@@ -128,9 +128,14 @@ function objectify (obj) {
  * @returns {string} The composed source line
  */
 function getErrorSource (err) {
-  const { fileName, lineNumber, columnNumber } = errorStackParser.parse(err).shift()
+  let result
 
-  return `${fileName}:${lineNumber}:${columnNumber}`
+  try {
+    const { fileName, lineNumber, columnNumber } = errorStackParser.parse(err).shift()
+    result = `${fileName}:${lineNumber}:${columnNumber}`
+  } catch (err) {}
+
+  return result
 }
 
 /**
