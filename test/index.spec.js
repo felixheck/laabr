@@ -188,7 +188,7 @@ test.cb.serial('listen to `response` event – no json token', (t) => {
   })
 })
 
-test.cb.serial.only('listen to `response` event – no format', (t) => {
+test.cb.serial('listen to `response` event – no format', (t) => {
   const options = {
     formats: { response: false }
   }
@@ -206,18 +206,31 @@ test.cb.serial.only('listen to `response` event – no format', (t) => {
   })
 })
 
-test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
-  laabr.format('onPostStart', ':time :level :message :host[uri]')
+test.cb.serial('listen to `onPostStart` events', (t) => {
+  const options = {
+    formats: { onPostStart: ':time :level :message :host[uri]' },
+    hapiPino: { logEvents: ['onPostStart'] }
+  }
 
-  helpers.getServer(undefined, (server) => {
-    server.start().then(() => {
-      t.truthy(interceptOut.find('info server started http://127.0.0.1:1337'))
+  const injection = {}
 
-      server.stop({ timeout: 1000 }, () => {
-        t.truthy(interceptOut.find('info server stopped'))
-        t.end()
-      })
-    })
+  helpers.spawn('startStop', options, injection, (log) => {
+    t.regex(log, /info server started http:\/\/127.0.0.1:1337/)
+    t.end()
+  })
+})
+
+test.cb.serial('listen to `onPostStart` events', (t) => {
+  const options = {
+    formats: { onPostStart: ':time :level :message :host[uri]' },
+    hapiPino: { logEvents: ['onPostStop'] }
+  }
+
+  const injection = {}
+
+  helpers.spawn('startStop', options, injection, (log) => {
+    t.regex(log, /info server stopped/)
+    t.end()
   })
 })
 
