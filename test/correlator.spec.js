@@ -4,11 +4,11 @@ const laabr = require('../src')
 
 let consoleClone
 
-test.beforeEach('setup interceptor', (t) => {
+test.beforeEach((t) => {
   consoleClone = Object.assign({}, console)
 })
 
-test.afterEach.always('cleanup interceptor', (t) => {
+test.afterEach.always((t) => {
   Object.assign(console, consoleClone)
 })
 

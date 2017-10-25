@@ -5,11 +5,11 @@ const validator = require('../src/validator')
 
 let consoleClone
 
-test.beforeEach('setup interceptor', (t) => {
+test.beforeEach((t) => {
   consoleClone = Object.assign({}, console)
 })
 
-test.afterEach('cleanup interceptor', (t) => {
+test.afterEach((t) => {
   Object.assign(console, consoleClone)
 })
 
