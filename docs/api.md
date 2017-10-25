@@ -62,6 +62,7 @@ Preformat the logged message after getting processed by `laabr`. The function is
 - **handleUncaught**: `boolean`<br/>
 Optional. Default: `false`<br/>
 If uncaught exception should be logged. Overrides the default behavior of [`Event: 'uncaughtException'` ⇗](https://nodejs.org/api/process.html#process_event_uncaughtexception) but exits the process.
+> **Hint**: If enabled it's possible that errors thrown during the processing of the plugin and its underlying plugins get hidden, e.g. in `options.preformatter`/`options.postformatter`. So if the process exits without any reason, disable this option for debugging.
 
 - **stream**: `Writable`<br/>
 Optional. Default: `process.stdout`<br/>
