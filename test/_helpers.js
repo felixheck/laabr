@@ -1,58 +1,25 @@
 const hapi = require('hapi')
-const StdOutInterceptor = require('fixture-stdout')
+const spawn = require('child_process').spawn
+const path = require('path')
 const laabr = require('../src')
 const utils = require('../src/utils')
 
-/**
- * @function
- * @public
- *
- * Disable stream interceptors
- *
- * @param {StdOutInterceptor} interceptOut The initiated interceptor for stdout
- * @param {StdOutInterceptor} interceptErr The initiated interceptor for stderr
- */
-function disableInterceptor (interceptOut, interceptErr) {
-  interceptOut.release()
-  interceptErr.release()
-}
+function spawnServer(type, options, injection, done, stream = 'stdout') {
+  const childProcess = spawn(
+    'node',
+    [path.join(__dirname, `fixtures/${type}`), JSON.stringify(options), JSON.stringify(injection)]
+  )
 
-/**
- * @function
- * @public
- *
- * Initiate and get `stdout` interceptor decorated with
- * further methods to help debugging and testing
- *
- * @returns {StdOutInterceptor} The initiated interceptor
- */
-function getInterceptor (options = { stream: process.stdout }) {
-  const interceptor = new StdOutInterceptor(options)
-  const _writes = []
+  childProcess[stream].once('data', (data) => {
+    let log = data.toString()
 
-  interceptor.capture((string, encoding, fd) => {
-    _writes.push({
-      string,
-      encoding,
-      fd
-    })
-    return false
+    try {
+      log = JSON.parse(log)
+    } catch (err) {}
+
+    done(log)
   })
-
-  interceptor.get = () => _writes
-
-  interceptor.find = (term) => (
-    _writes.find((item) => item.string.includes(term))
-  )
-
-  interceptor.filter = (term) => (
-    _writes.filter((item) => item.string.includes(term))
-      .map((item) => item.string)
-  )
-
-  return interceptor
 }
-
 /**
  * @function
  * @public
@@ -157,9 +124,8 @@ function getServer (options, done) {
 }
 
 module.exports = {
-  disableInterceptor,
   noop: utils.noop,
-  getInterceptor,
+  spawn: spawnServer,
   getServer,
-  registerPlugin
+  registerPlugin,
 }

@@ -3,18 +3,13 @@ const helpers = require('./_helpers')
 const laabr = require('../src')
 
 let consoleClone
-let interceptOut
-let interceptErr
 
 test.beforeEach('setup interceptor', (t) => {
   consoleClone = Object.assign({}, console)
-  interceptOut = helpers.getInterceptor()
-  interceptErr = helpers.getInterceptor({ stream: process.stderr })
 })
 
 test.afterEach.always('cleanup interceptor', (t) => {
   Object.assign(console, consoleClone)
-  helpers.disableInterceptor(interceptOut, interceptErr)
 })
 
 test.cb.serial('correlator is not exposed – laabr', (t) => {

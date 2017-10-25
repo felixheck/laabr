@@ -5,39 +5,128 @@ const helpers = require('./_helpers')
 const laabr = require('../src')
 
 let consoleClone
-let interceptOut
-let interceptErr
 
 test.beforeEach('setup interceptor', (t) => {
   consoleClone = Object.assign({}, console)
-  interceptOut = helpers.getInterceptor()
-  interceptErr = helpers.getInterceptor({ stream: process.stderr })
 })
 
 test.afterEach.always('cleanup interceptor', (t) => {
   Object.assign(console, consoleClone)
-  helpers.disableInterceptor(interceptOut, interceptErr)
 })
 
-test.cb.serial('listen to `request` event', (t) => {
-  laabr.format('request', '{ reqId::requestId }')
+test.cb.serial.only('listen to `request` event', (t) => {
+  const options = {
+    formats: { request: '{ reqId::requestId }'}
+  }
 
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      const result = JSON.parse(interceptOut.find('"reqId"').string)
+  const injection = {
+    method: 'GET',
+    url: '/request/log'
+  }
 
-      t.truthy(result)
-      t.truthy(result.reqId)
-      t.regex(result.reqId, /^\d+:.+:.+$/)
-      t.truthy(interceptOut.find('GET 127.0.0.1 /request/log 200 {}'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/request/log'
-    })
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+    t.truthy(log.reqId)
+    t.regex(log.reqId, /^\d+:.+:.+$/)
+    t.end()
   })
+})
+
+test.cb.serial.only('listen to `response` event', (t) => {
+  const options = {}
+
+  const injection = {
+    method: 'GET',
+    url: '/response/200'
+  }
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+    t.truthy(log.includes('GET 127.0.0.1 /response/200 200 {}'))
+    t.end()
+  })
+})
+
+test.cb.serial.only('listen to `response` event – post', (t) => {
+  const options = {}
+
+  const injection = {
+    method: 'POST',
+    url: '/response/204',
+    payload: {
+      foo: 42
+    }
+  }
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+    t.truthy(log.includes('POST 127.0.0.1 /response/204 204 {"foo":42}'))
+    t.end()
+  })
+})
+
+test.cb.serial.only('listen to `request-error` event', (t) => {
+  const options = {}
+
+  const injection = {
+    method: 'GET',
+    url: '/request/error'
+  }
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.is(log.error, 'foobar')
+    t.truthy(log.timestamp)
+    t.is(log.level, 'warn')
+    t.is(log.environment, 'test')
+    t.end()
+  })
+})
+
+test.cb.serial.only('listen to `response` event – customized', (t) => {
+  const options = {
+    formats: {
+      response: ':get[req.headers]'
+    }
+  }
+
+  const injection = {
+    method: 'GET',
+    url: '/response/200'
+  }
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.is(log['user-agent'], 'shot')
+    t.is(log.host, '127.0.0.1:1337')
+    t.end()
+  })
+})
+
+test.cb.serial.only('listen to `caught` event', (t) => {
+  const options = {
+    handleUncaught: true
+  }
+
+  const injection = {}
+
+  helpers.spawn('error', options, injection, (log) => {
+    t.is(log.error, 'foobar')
+    t.is(log.level, 'error')
+    t.regex(log.source, new RegExp(`^${path.join(__dirname, 'fixtures/error.js')}:`))
+    t.end()
+  })
+})
+
+test.cb.serial.only('do not listen to `caught` event', (t) => {
+  const options = {
+    handleUncaught: false
+  }
+
+  const injection = {}
+
+  helpers.spawn('error', options, injection, (log) => {
+    t.regex(log, /throw new Error\('foobar'\)/)
+    t.end()
+  }, 'stderr')
 })
 
 test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
@@ -55,59 +144,6 @@ test.cb.serial('listen to `onPostStart/onPostStop` events', (t) => {
   })
 })
 
-test.cb.serial('listen to `response` event', (t) => {
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find('GET 127.0.0.1 /response/200 200 {}'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
-  })
-})
-
-test.cb.serial('listen to `response` event – post', (t) => {
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find('POST 127.0.0.1 /response/204 204 {"foo":42}'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'POST',
-      url: '/response/204',
-      payload: {
-        foo: 42
-      }
-    })
-  })
-})
-
-test.cb.serial('listen to `request-error` event', (t) => {
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      const result = JSON.parse(interceptOut.find('"error": "foobar"').string)
-
-      t.is(result.error, 'foobar')
-      t.truthy(result.timestamp)
-      t.is(result.level, 'warn')
-      t.is(result.environment, 'test')
-      t.deepEqual(Object.keys(result).sort(), ['timestamp', 'error', 'level', 'environment'].sort())
-      t.truthy(interceptOut.find('GET 127.0.0.1 /request/error 500 {}'))
-
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/request/error'
-    })
-  })
-})
-
 test.cb.serial('listen to `log` event', (t) => {
   helpers.getServer({ indent: 0 }, (server) => {
     server.log('info', 'foobar')
@@ -119,60 +155,6 @@ test.cb.serial('listen to `log` event', (t) => {
     t.is(result.environment, 'test')
     t.deepEqual(Object.keys(result).sort(), ['timestamp', 'message', 'level', 'environment'].sort())
     t.end()
-  })
-})
-
-test.cb.serial('listen to `caught` event', (t) => {
-  const childProcess = spawn('node', [path.join(__dirname, 'fixtures/error'), true])
-
-  childProcess.stdout.once('data', function (data) {
-    const result = JSON.parse(data.toString())
-
-    t.is(result.error, 'foobar')
-    t.is(result.level, 'error')
-    t.regex(result.source, new RegExp(`^${path.join(__dirname, 'fixtures/error.js')}:`))
-    t.end()
-  })
-})
-
-test.cb.serial('do not listen to `caught` event', (t) => {
-  const childProcess = spawn('node', [path.join(__dirname, 'fixtures/error'), false])
-
-  childProcess.stderr.once('data', function (data) {
-    t.regex(data.toString(), /throw new Error\('foobar'\)/)
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `response` event – customized', (t) => {
-  laabr.format('response', ':get[req.headers]')
-
-  helpers.getServer(undefined, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find('{"user-agent":"shot","host":"127.0.0.1:1337"}'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
-  })
-})
-
-test.cb.serial('listen to `response` event – customized/init', (t) => {
-  const formats = { 'response': ':get[req.headers]' }
-
-  helpers.getServer({ formats }, (server) => {
-    server.on('tail', () => {
-      t.truthy(interceptOut.find('{"user-agent":"shot","host":"127.0.0.1:1337"}'))
-      t.end()
-    })
-
-    server.inject({
-      method: 'GET',
-      url: '/response/200'
-    })
   })
 })
 
