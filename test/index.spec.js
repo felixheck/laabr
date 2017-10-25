@@ -410,56 +410,70 @@ test.cb.serial('listen to `log` event – inline strings – double quotes', (t)
 })
 
 test.cb.serial('preformat the originally logged message', (t) => {
-  const mockData = 'foo'
-  const preformatter = (data) => ({ foo: 'bar' })
+  const options = {
+    indent: 0,
+    formats: { log: false },
+    hapiPino: { logEvents: false }
+  }
 
-  laabr.format('log', false)
+  const logs = {
+    tags: ['info'],
+    value: ['foo']
+  }
 
-  helpers.getServer({ preformatter, indent: 0 }, (server) => {
-    server.log(['info'], mockData)
-    const result = JSON.parse(interceptOut.find('"foo":"bar"').string)
-
-    t.truthy(result)
-    t.truthy(result.foo)
-    t.deepEqual(result.foo, 'bar')
-    t.deepEqual(Object.keys(result).sort(), ['foo'].sort())
+  helpers.spawn('preformatter', options, logs, (log) => {
+    t.truthy(log.foo)
+    t.deepEqual(log.foo, 'bar')
     t.end()
   })
 })
 
 test.cb.serial('postformat the originally logged message', (t) => {
-  const mockData = 'foo'
-  const preformatter = (data) => ({ foo: 'bar' })
-  const postformatter = (data) => (JSON.stringify({ bar: 'foo' }))
+  const options = {
+    indent: 0,
+    formats: { log: false },
+    hapiPino: { logEvents: false }
+  }
 
-  laabr.format('log', false)
+  const logs = {
+    tags: ['info'],
+    value: ['foo']
+  }
 
-  helpers.getServer({ preformatter, postformatter, indent: 0 }, (server) => {
-    server.log(['info'], mockData)
-    const result = JSON.parse(interceptOut.find('"bar":"foo"').string)
-
-    t.truthy(result)
-    t.falsy(result.foo)
-    t.truthy(result.bar)
-    t.deepEqual(result.bar, 'foo')
-    t.deepEqual(Object.keys(result).sort(), ['bar'].sort())
+  helpers.spawn('postformatter', options, logs, (log) => {
+    t.falsy(log.foo)
+    t.truthy(log.bar)
+    t.deepEqual(log.bar, 'foo')
     t.end()
   })
 })
 
 test.cb.serial('get log message by overriden `console.warn` – single', (t) => {
-  helpers.getServer({ indent: 0, override: true }, () => {
-    console.warn('foobar')
-    t.truthy(interceptOut.find('"message":"foobar"'))
+  const options = {
+    indent: 0,
+    override: true,
+    hapiPino: { logEvents: false }
+  }
+
+  const logs = ['foobar']
+
+  helpers.spawn('console', options, logs, (log) => {
+    t.is(log.message, 'foobar')
     t.end()
   })
 })
 
 test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
-  helpers.getServer({ indent: 0, override: true }, () => {
-    console.warn('foo', 'bar')
+  const options = {
+    indent: 0,
+    override: true,
+    hapiPino: { logEvents: false }
+  }
 
-    t.truthy(interceptOut.find('"message":["foo","bar"]'))
+  const logs = ['foo', 'bar']
+
+  helpers.spawn('console', options, logs, (log) => {
+    t.deepEqual(log.message, ['foo', 'bar'])
     t.end()
   })
 })
