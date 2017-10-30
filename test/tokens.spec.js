@@ -107,7 +107,7 @@ test('return requested req/res attributes', (t) => {
       remotePort: 52086,
       headers: {
         'x-header': 'foobar'
-      }
+      },
     }
   }
 
