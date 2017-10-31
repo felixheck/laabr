@@ -12,229 +12,217 @@ test.afterEach.always((t) => {
   Object.assign(console, consoleClone)
 })
 
-test.cb.serial('correlator is not exposed – laabr', (t) => {
-  helpers.getServer({ correlator: false }, () => {
-    t.falsy(laabr.cid)
-    t.end()
-  })
+test.serial('correlator is not exposed – laabr', async (t) => {
+  await helpers.getServer({ correlator: false })
+
+  t.falsy(laabr.cid)
 })
 
-test.cb.serial('correlator is exposed – laabr', (t) => {
-  helpers.getServer({ correlator: true }, () => {
-    t.truthy(laabr.cid)
-    t.truthy(laabr.cid.get)
-    t.truthy(laabr.cid.with)
-    t.truthy(laabr.cid.bind)
-    t.end()
-  })
+test.serial('correlator is exposed – laabr', async (t) => {
+  helpers.getServer({ correlator: true })
+
+  t.truthy(laabr.cid)
+  t.truthy(laabr.cid.get)
+  t.truthy(laabr.cid.with)
+  t.truthy(laabr.cid.bind)
 })
 
-test.cb.serial('correlator is not exposed – server.app', (t) => {
-  helpers.getServer({ correlator: false }, (server) => {
-    t.falsy(server.app.cid)
-    t.end()
-  })
+test.serial('correlator is not exposed – server.app', async (t) => {
+  const server = await helpers.getServer({ correlator: false })
+
+  t.falsy(server.app.cid)
 })
 
-test.cb.serial('correlator is exposed – server.app', (t) => {
-  helpers.getServer({ correlator: true }, (server) => {
-    t.truthy(server.app.cid)
-    t.truthy(server.app.cid.get)
-    t.truthy(server.app.cid.with)
-    t.truthy(server.app.cid.bind)
-    t.end()
-  })
+test.serial('correlator is not exposed – server.cid', async (t) => {
+  const server = await helpers.getServer({ correlator: false })
+
+  t.falsy(server.cid)
 })
 
-test.cb.serial('correlator is not exposed – server.cid', (t) => {
-  helpers.getServer({ correlator: false }, (server) => {
-    t.falsy(server.cid)
-    t.end()
-  })
+test.serial('correlator is exposed – server.cid', async (t) => {
+  const server = await helpers.getServer({ correlator: true })
+
+  t.truthy(server.cid)
+  t.truthy(server.cid.get)
+  t.truthy(server.cid.with)
+  t.truthy(server.cid.bind)
 })
 
-test.cb.serial('correlator is exposed – server.cid', (t) => {
-  helpers.getServer({ correlator: true }, (server) => {
-    t.truthy(server.cid)
-    t.truthy(server.cid.get)
-    t.truthy(server.cid.with)
-    t.truthy(server.cid.bind)
-    t.end()
-  })
-})
+// test.cb.serial('CID is the same even in other function', (t) => {
+//   const options = {
+//     correlator: true,
+//     hapiPino: { logEvents: false }
+//   }
 
-test.cb.serial('CID is the same even in other function', (t) => {
-  const options = { correlator: true }
+//   const injection = {
+//     method: 'GET',
+//     url: '/request/id'
+//   }
 
-  const injection = {
-    method: 'GET',
-    url: '/request/id'
-  }
+//   let log1
 
-  let log1
+//   helpers.spawn('inject', options, injection, (log) => {
+//     t.truthy(log)
 
-  helpers.spawn('inject', options, injection, (log) => {
-    t.truthy(log)
+//     if (!log1) {
+//       log1 = log
+//     } else {
+//       t.is(log1, log)
+//       t.end()
+//     }
+//   }, undefined, 'on')
+// })
 
-    if (!log1) {
-      log1 = log
-    } else {
-      t.is(log1, log)
-      t.end()
-    }
-  }, undefined, 'on')
-})
+// test.cb.serial('CID is the same even in other function – `response` event', (t) => {
+//   const options = {
+//     correlator: true,
+//     formats: { response: 'cid :cid' }
+//   }
 
-test.cb.serial('CID is the same even in other function – `response` event', (t) => {
-  const options = {
-    correlator: true,
-    formats: { response: 'cid :cid' }
-  }
+//   const injection = {
+//     method: 'GET',
+//     url: '/request/id'
+//   }
 
-  const injection = {
-    method: 'GET',
-    url: '/request/id'
-  }
+//   let log1
+//   let log2
 
-  let log1
-  let log2
+//   helpers.spawn('inject', options, injection, (log) => {
+//     t.truthy(log)
 
-  helpers.spawn('inject', options, injection, (log) => {
-    t.truthy(log)
+//     if (!log1) {
+//       log1 = log
+//     } else if (!log2) {
+//       log2 = log
+//     } else {
+//       t.is(log1, log2)
+//       t.is(log1, log)
+//       t.is(log2, log)
+//       t.end()
+//     }
+//   }, undefined, 'on')
+// })
 
-    if (!log1) {
-      log1 = log
-    } else if (!log2) {
-      log2 = log
-    } else {
-      t.is(log1, log2)
-      t.is(log1, log)
-      t.is(log2, log)
-      t.end()
-    }
-  }, undefined, 'on')
-})
+// test.cb.serial('CID is the same even in other function – req.headers["x-laabr-cid"]', (t) => {
+//   const options = { correlator: true }
 
-test.cb.serial('CID is the same even in other function – req.headers["x-laabr-cid"]', (t) => {
-  const options = { correlator: true }
+//   const injection = {
+//     method: 'GET',
+//     url: '/request/id/req'
+//   }
 
-  const injection = {
-    method: 'GET',
-    url: '/request/id/req'
-  }
+//   let log1
 
-  let log1
+//   helpers.spawn('inject', options, injection, (log) => {
+//     t.truthy(log)
 
-  helpers.spawn('inject', options, injection, (log) => {
-    t.truthy(log)
+//     if (!log1) {
+//       log1 = log
+//     } else {
+//       t.is(log1, log)
+//       t.end()
+//     }
+//   }, undefined, 'on')
+// })
 
-    if (!log1) {
-      log1 = log
-    } else {
-      t.is(log1, log)
-      t.end()
-    }
-  }, undefined, 'on')
-})
+// test.cb.serial('CID is not the same because of `with`', (t) => {
+//   const options = { correlator: true }
 
-test.cb.serial('CID is not the same because of `with`', (t) => {
-  const options = { correlator: true }
+//   const injection = {
+//     method: 'GET',
+//     url: '/request/id/next'
+//   }
 
-  const injection = {
-    method: 'GET',
-    url: '/request/id/next'
-  }
+//   let log1
 
-  let log1
+//   helpers.spawn('inject', options, injection, (log) => {
+//     t.truthy(log)
 
-  helpers.spawn('inject', options, injection, (log) => {
-    t.truthy(log)
+//     if (!log1) {
+//       log1 = log
+//     } else {
+//       t.not(log1, log)
+//       t.end()
+//     }
+//   }, undefined, 'on')
+// })
 
-    if (!log1) {
-      log1 = log
-    } else {
-      t.not(log1, log)
-      t.end()
-    }
-  }, undefined, 'on')
-})
+// test.cb.serial('use the unset `x-correlation-id` header', (t) => {
+//   const options = { correlator: true }
 
-test.cb.serial('use the unset `x-correlation-id` header', (t) => {
-  const options = { correlator: true }
+//   const injection = {
+//     method: 'GET',
+//     url: '/request/id'
+//   }
 
-  const injection = {
-    method: 'GET',
-    url: '/request/id'
-  }
+//   let log1
 
-  let log1
+//   helpers.spawn('inject', options, injection, (log) => {
+//     t.truthy(log)
+//     t.regex(log, /^cid \d+:.+:.+/)
 
-  helpers.spawn('inject', options, injection, (log) => {
-    t.truthy(log)
-    t.regex(log, /^cid \d+:.+:.+/)
+//     if (!log1) {
+//       log1 = log
+//     } else {
+//       t.is(log1, log)
+//       t.end()
+//     }
+//   }, undefined, 'on')
+// })
 
-    if (!log1) {
-      log1 = log
-    } else {
-      t.is(log1, log)
-      t.end()
-    }
-  }, undefined, 'on')
-})
+// test.cb.serial('use the set `x-correlation-id` header', (t) => {
+//   const options = { correlator: true }
 
-test.cb.serial('use the set `x-correlation-id` header', (t) => {
-  const options = { correlator: true }
+//   const injection = {
+//     method: 'GET',
+//     url: '/request/id',
+//     headers: {
+//       'x-correlation-id': 'foobar'
+//     }
+//   }
 
-  const injection = {
-    method: 'GET',
-    url: '/request/id',
-    headers: {
-      'x-correlation-id': 'foobar'
-    }
-  }
+//   let log1
 
-  let log1
+//   helpers.spawn('inject', options, injection, (log) => {
+//     t.truthy(log)
+//     t.regex(log, /^cid foobar/)
 
-  helpers.spawn('inject', options, injection, (log) => {
-    t.truthy(log)
-    t.regex(log, /^cid foobar/)
+//     if (!log1) {
+//       log1 = log
+//     } else {
+//       t.is(log1, log)
+//       t.end()
+//     }
+//   }, undefined, 'on')
+// })
 
-    if (!log1) {
-      log1 = log
-    } else {
-      t.is(log1, log)
-      t.end()
-    }
-  }, undefined, 'on')
-})
+// test.cb.serial('use a set custom header', (t) => {
+//   const options = {
+//     correlator: {
+//       enabled: true,
+//       header: 'x-foobar-id'
+//     }
+//   }
 
-test.cb.serial('use a set custom header', (t) => {
-  const options = {
-    correlator: {
-      enabled: true,
-      header: 'x-foobar-id'
-    }
-  }
+//   const injection = {
+//     method: 'GET',
+//     url: '/request/id',
+//     headers: {
+//       'x-foobar-id': 'foobar'
+//     }
+//   }
 
-  const injection = {
-    method: 'GET',
-    url: '/request/id',
-    headers: {
-      'x-foobar-id': 'foobar'
-    }
-  }
+//   let log1
 
-  let log1
+//   helpers.spawn('inject', options, injection, (log) => {
+//     t.truthy(log)
+//     t.regex(log, /^cid foobar/)
 
-  helpers.spawn('inject', options, injection, (log) => {
-    t.truthy(log)
-    t.regex(log, /^cid foobar/)
-
-    if (!log1) {
-      log1 = log
-    } else {
-      t.is(log1, log)
-      t.end()
-    }
-  }, undefined, 'on')
-})
+//     if (!log1) {
+//       log1 = log
+//     } else {
+//       t.is(log1, log)
+//       t.end()
+//     }
+//   }, undefined, 'on')
+// })
