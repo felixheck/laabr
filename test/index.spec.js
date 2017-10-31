@@ -97,388 +97,388 @@ test.cb.serial('listen to `response` event – customized', (t) => {
   })
 })
 
-test.cb.serial('listen to `caught` event', (t) => {
-  const options = { handleUncaught: true }
-
-  helpers.spawn('error', options, true, (log) => {
-    t.is(log.error, 'foobar')
-    t.is(log.level, 'error')
-    t.regex(log.source, new RegExp(`^${path.join(__dirname, 'fixtures/error.js')}:`))
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `caught` event – invalid error', (t) => {
-  const options = { handleUncaught: true }
-
-  helpers.spawn('error', options, false, (log) => {
-    t.is(log.error, '-')
-    t.is(log.level, 'error')
-    t.is(log.source, '-')
-    t.end()
-  })
-})
-
-test.cb.serial('do not listen to `caught` event', (t) => {
-  const options = { handleUncaught: false }
-
-  helpers.spawn('error', options, true, (log) => {
-    t.regex(log, /throw new Error\('foobar'\)/)
-    t.end()
-  }, 'stderr')
-})
-
-test.cb.serial('listen to `response` event – customized/token', (t) => {
-  const options = {
-    formats: { response: ':hello' }
-  }
-
-  const injection = {
-    method: 'GET',
-    url: '/response/200'
-  }
-
-  helpers.spawn('token', options, injection, (log) => {
-    t.regex(log, /^HI!/)
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `response` event – preset', (t) => {
-  const options = {
-    formats: { response: 'test.env' },
-    presets: { 'test.env': ':time :environment :method' }
-  }
-
-  const injection = {
-    method: 'GET',
-    url: '/response/200'
-  }
-
-  helpers.spawn('token', options, injection, (log) => {
-    t.regex(log, /test GET/)
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `response` event – no token', (t) => {
-  const options = {
-    formats: { response: ':foobar' }
-  }
-
-  const injection = {
-    method: 'GET',
-    url: '/response/200'
-  }
-
-  helpers.spawn('token', options, injection, (log) => {
-    t.regex(log, /^:foobar/)
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `response` event – no json token', (t) => {
-  const options = {
-    formats: { response: '{ foobar::foobar }' }
-  }
-
-  const injection = {
-    method: 'GET',
-    url: '/response/200'
-  }
-
-  helpers.spawn('token', options, injection, (log) => {
-    t.is(log.foobar, ':foobar')
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `response` event – no format', (t) => {
-  const options = {
-    formats: { response: false }
-  }
-
-  const injection = {
-    method: 'GET',
-    url: '/response/200'
-  }
-
-  helpers.spawn('token', options, injection, (log) => {
-    t.is(log.level, 30)
-    t.truthy(log.pid)
-    t.truthy(log.hostname)
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `onPostStart` events', (t) => {
-  const options = {
-    formats: { onPostStart: ':time :level :message :host[uri]' },
-    hapiPino: { logEvents: ['onPostStart'] }
-  }
-
-  const injection = {}
-
-  helpers.spawn('startStop', options, injection, (log) => {
-    t.regex(log, /info server started http:\/\/127.0.0.1:1337/)
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `onPostStart` events', (t) => {
-  const options = {
-    formats: { onPostStart: ':time :level :message :host[uri]' },
-    hapiPino: { logEvents: ['onPostStop'] }
-  }
-
-  const injection = {}
-
-  helpers.spawn('startStop', options, injection, (log) => {
-    t.regex(log, /info server stopped/)
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `log` event', (t) => {
-  const options = {
-    formats: { onPostStart: ':time :level :message :host[uri]' },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: 'info',
-    value: ['foobar']
-  }
-
-  helpers.spawn('log', options, logs, (log) => {
-    t.is(log.message, 'foobar')
-    t.truthy(log.timestamp)
-    t.is(log.level, 'info')
-    t.is(log.environment, 'test')
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `log` event – customized', (t) => {
-  const options = {
-    indent: 0,
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: 'info',
-    value: [{
-      foo: {
-        bar: 42
-      }
-    }]
-  }
-
-  helpers.spawn('log', options, logs, (log) => {
-    t.deepEqual(log.message, logs.value[0])
-    t.truthy(log.timestamp)
-    t.is(log.level, 'info')
-    t.is(log.environment, 'test')
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `log` event – multiple tags', (t) => {
-  const options = {
-    indent: 0,
-    formats: { log: '{ tags::tags, message::message }' },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: ['info', 'foobar'],
-    value: [{
-      foo: {
-        bar: 42
-      }
-    }]
-  }
-
-  helpers.spawn('log', options, logs, (log) => {
-    t.deepEqual(log.message, logs.value[0])
-    t.deepEqual(log.tags, ['info', 'foobar'])
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `log` event – concat strings – backticks', (t) => {
-  const options = {
-    indent: 0,
-    formats: { log: '{ message::message + `bar` }' },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: ['info'],
-    value: ['foobar']
-  }
-
-  helpers.spawn('log', options, logs, (log) => {
-    t.is(log.message, 'foobarbar')
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `log` event – inline strings – backticks', (t) => {
-  const options = {
-    indent: 0,
-    formats: { log: '{ message: [:message,`bar`] }' },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: ['info'],
-    value: ['foo']
-  }
-
-  helpers.spawn('log', options, logs, (log) => {
-    t.deepEqual(log.message, ['foo', 'bar'])
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `log` event – concat strings – single quotes', (t) => {
-  const options = {
-    indent: 0,
-    formats: { log: '{ message::message + \'bar\' }' },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: ['info'],
-    value: ['foo']
-  }
-
-  helpers.spawn('log', options, logs, (log) => {
-    t.is(log.message, 'foobar')
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `log` event – inline strings – single quotes', (t) => {
-  const options = {
-    indent: 0,
-    formats: { log: '{ message: [:message,\'bar\'] }' },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: ['info'],
-    value: ['foo']
-  }
-
-  helpers.spawn('log', options, logs, (log) => {
-    t.deepEqual(log.message, ['foo', 'bar'])
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `log` event – concat strings – double quotes', (t) => {
-  const options = {
-    indent: 0,
-    formats: { log: '{ message::message + "bar" }' },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: ['info'],
-    value: ['foo']
-  }
-
-  helpers.spawn('log', options, logs, (log) => {
-    t.is(log.message, 'foobar')
-    t.end()
-  })
-})
-
-test.cb.serial('listen to `log` event – inline strings – double quotes', (t) => {
-  const options = {
-    indent: 0,
-    formats: { log: '{ message: [:message,"bar"] }' },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: ['info'],
-    value: ['foo']
-  }
-
-  helpers.spawn('log', options, logs, (log) => {
-    t.deepEqual(log.message, ['foo', 'bar'])
-    t.end()
-  })
-})
-
-test.cb.serial('preformat the originally logged message', (t) => {
-  const options = {
-    indent: 0,
-    formats: { log: false },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: ['info'],
-    value: ['foo']
-  }
-
-  helpers.spawn('preformatter', options, logs, (log) => {
-    t.truthy(log.foo)
-    t.deepEqual(log.foo, 'bar')
-    t.end()
-  })
-})
-
-test.cb.serial('postformat the originally logged message', (t) => {
-  const options = {
-    indent: 0,
-    formats: { log: false },
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = {
-    tags: ['info'],
-    value: ['foo']
-  }
-
-  helpers.spawn('postformatter', options, logs, (log) => {
-    t.falsy(log.foo)
-    t.truthy(log.bar)
-    t.deepEqual(log.bar, 'foo')
-    t.end()
-  })
-})
-
-test.cb.serial('get log message by overriden `console.warn` – single', (t) => {
-  const options = {
-    indent: 0,
-    override: true,
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = ['foobar']
-
-  helpers.spawn('console', options, logs, (log) => {
-    t.is(log.message, 'foobar')
-    t.end()
-  })
-})
-
-test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
-  const options = {
-    indent: 0,
-    override: true,
-    hapiPino: { logEvents: false }
-  }
-
-  const logs = ['foo', 'bar']
-
-  helpers.spawn('console', options, logs, (log) => {
-    t.deepEqual(log.message, ['foo', 'bar'])
-    t.end()
-  })
-})
+// test.cb.serial('listen to `caught` event', (t) => {
+//   const options = { handleUncaught: true }
+
+//   helpers.spawn('error', options, true, (log) => {
+//     t.is(log.error, 'foobar')
+//     t.is(log.level, 'error')
+//     t.regex(log.source, new RegExp(`^${path.join(__dirname, 'fixtures/error.js')}:`))
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `caught` event – invalid error', (t) => {
+//   const options = { handleUncaught: true }
+
+//   helpers.spawn('error', options, false, (log) => {
+//     t.is(log.error, '-')
+//     t.is(log.level, 'error')
+//     t.is(log.source, '-')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('do not listen to `caught` event', (t) => {
+//   const options = { handleUncaught: false }
+
+//   helpers.spawn('error', options, true, (log) => {
+//     t.regex(log, /throw new Error\('foobar'\)/)
+//     t.end()
+//   }, 'stderr')
+// })
+
+// test.cb.serial('listen to `response` event – customized/token', (t) => {
+//   const options = {
+//     formats: { response: ':hello' }
+//   }
+
+//   const injection = {
+//     method: 'GET',
+//     url: '/response/200'
+//   }
+
+//   helpers.spawn('token', options, injection, (log) => {
+//     t.regex(log, /^HI!/)
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `response` event – preset', (t) => {
+//   const options = {
+//     formats: { response: 'test.env' },
+//     presets: { 'test.env': ':time :environment :method' }
+//   }
+
+//   const injection = {
+//     method: 'GET',
+//     url: '/response/200'
+//   }
+
+//   helpers.spawn('token', options, injection, (log) => {
+//     t.regex(log, /test GET/)
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `response` event – no token', (t) => {
+//   const options = {
+//     formats: { response: ':foobar' }
+//   }
+
+//   const injection = {
+//     method: 'GET',
+//     url: '/response/200'
+//   }
+
+//   helpers.spawn('token', options, injection, (log) => {
+//     t.regex(log, /^:foobar/)
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `response` event – no json token', (t) => {
+//   const options = {
+//     formats: { response: '{ foobar::foobar }' }
+//   }
+
+//   const injection = {
+//     method: 'GET',
+//     url: '/response/200'
+//   }
+
+//   helpers.spawn('token', options, injection, (log) => {
+//     t.is(log.foobar, ':foobar')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `response` event – no format', (t) => {
+//   const options = {
+//     formats: { response: false }
+//   }
+
+//   const injection = {
+//     method: 'GET',
+//     url: '/response/200'
+//   }
+
+//   helpers.spawn('token', options, injection, (log) => {
+//     t.is(log.level, 30)
+//     t.truthy(log.pid)
+//     t.truthy(log.hostname)
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `onPostStart` events', (t) => {
+//   const options = {
+//     formats: { onPostStart: ':time :level :message :host[uri]' },
+//     hapiPino: { logEvents: ['onPostStart'] }
+//   }
+
+//   const injection = {}
+
+//   helpers.spawn('startStop', options, injection, (log) => {
+//     t.regex(log, /info server started http:\/\/127.0.0.1:1337/)
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `onPostStart` events', (t) => {
+//   const options = {
+//     formats: { onPostStart: ':time :level :message :host[uri]' },
+//     hapiPino: { logEvents: ['onPostStop'] }
+//   }
+
+//   const injection = {}
+
+//   helpers.spawn('startStop', options, injection, (log) => {
+//     t.regex(log, /info server stopped/)
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `log` event', (t) => {
+//   const options = {
+//     formats: { onPostStart: ':time :level :message :host[uri]' },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: 'info',
+//     value: ['foobar']
+//   }
+
+//   helpers.spawn('log', options, logs, (log) => {
+//     t.is(log.message, 'foobar')
+//     t.truthy(log.timestamp)
+//     t.is(log.level, 'info')
+//     t.is(log.environment, 'test')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `log` event – customized', (t) => {
+//   const options = {
+//     indent: 0,
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: 'info',
+//     value: [{
+//       foo: {
+//         bar: 42
+//       }
+//     }]
+//   }
+
+//   helpers.spawn('log', options, logs, (log) => {
+//     t.deepEqual(log.message, logs.value[0])
+//     t.truthy(log.timestamp)
+//     t.is(log.level, 'info')
+//     t.is(log.environment, 'test')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `log` event – multiple tags', (t) => {
+//   const options = {
+//     indent: 0,
+//     formats: { log: '{ tags::tags, message::message }' },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: ['info', 'foobar'],
+//     value: [{
+//       foo: {
+//         bar: 42
+//       }
+//     }]
+//   }
+
+//   helpers.spawn('log', options, logs, (log) => {
+//     t.deepEqual(log.message, logs.value[0])
+//     t.deepEqual(log.tags, ['info', 'foobar'])
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `log` event – concat strings – backticks', (t) => {
+//   const options = {
+//     indent: 0,
+//     formats: { log: '{ message::message + `bar` }' },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: ['info'],
+//     value: ['foobar']
+//   }
+
+//   helpers.spawn('log', options, logs, (log) => {
+//     t.is(log.message, 'foobarbar')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `log` event – inline strings – backticks', (t) => {
+//   const options = {
+//     indent: 0,
+//     formats: { log: '{ message: [:message,`bar`] }' },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: ['info'],
+//     value: ['foo']
+//   }
+
+//   helpers.spawn('log', options, logs, (log) => {
+//     t.deepEqual(log.message, ['foo', 'bar'])
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `log` event – concat strings – single quotes', (t) => {
+//   const options = {
+//     indent: 0,
+//     formats: { log: '{ message::message + \'bar\' }' },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: ['info'],
+//     value: ['foo']
+//   }
+
+//   helpers.spawn('log', options, logs, (log) => {
+//     t.is(log.message, 'foobar')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `log` event – inline strings – single quotes', (t) => {
+//   const options = {
+//     indent: 0,
+//     formats: { log: '{ message: [:message,\'bar\'] }' },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: ['info'],
+//     value: ['foo']
+//   }
+
+//   helpers.spawn('log', options, logs, (log) => {
+//     t.deepEqual(log.message, ['foo', 'bar'])
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `log` event – concat strings – double quotes', (t) => {
+//   const options = {
+//     indent: 0,
+//     formats: { log: '{ message::message + "bar" }' },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: ['info'],
+//     value: ['foo']
+//   }
+
+//   helpers.spawn('log', options, logs, (log) => {
+//     t.is(log.message, 'foobar')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('listen to `log` event – inline strings – double quotes', (t) => {
+//   const options = {
+//     indent: 0,
+//     formats: { log: '{ message: [:message,"bar"] }' },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: ['info'],
+//     value: ['foo']
+//   }
+
+//   helpers.spawn('log', options, logs, (log) => {
+//     t.deepEqual(log.message, ['foo', 'bar'])
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('preformat the originally logged message', (t) => {
+//   const options = {
+//     indent: 0,
+//     formats: { log: false },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: ['info'],
+//     value: ['foo']
+//   }
+
+//   helpers.spawn('preformatter', options, logs, (log) => {
+//     t.truthy(log.foo)
+//     t.deepEqual(log.foo, 'bar')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('postformat the originally logged message', (t) => {
+//   const options = {
+//     indent: 0,
+//     formats: { log: false },
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = {
+//     tags: ['info'],
+//     value: ['foo']
+//   }
+
+//   helpers.spawn('postformatter', options, logs, (log) => {
+//     t.falsy(log.foo)
+//     t.truthy(log.bar)
+//     t.deepEqual(log.bar, 'foo')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial.only('get log message by overriden `console.warn` – single', (t) => {
+//   const options = {
+//     indent: 0,
+//     override: true,
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = ['foobar']
+
+//   helpers.spawn('console', options, logs, (log) => {
+//     t.is(log.message, 'foobar')
+//     t.end()
+//   })
+// })
+
+// test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
+//   const options = {
+//     indent: 0,
+//     override: true,
+//     hapiPino: { logEvents: false }
+//   }
+
+//   const logs = ['foo', 'bar']
+
+//   helpers.spawn('console', options, logs, (log) => {
+//     t.deepEqual(log.message, ['foo', 'bar'])
+//     t.end()
+//   })
+// })
