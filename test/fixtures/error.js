@@ -1,11 +1,14 @@
 const helpers = require('../_helpers')
 
-helpers.getServer(JSON.parse(process.argv[2]), (server) => {
+;(async () => {
+  const server = await helpers.getServer(JSON.parse(process.argv[2]))
   const validError = JSON.parse(process.argv[3])
 
-  if (validError) {
-    throw new Error('foobar')
-  } else {
-    throw 'foobar' // eslint-disable-line
-  }
-})
+  setTimeout(function() {
+    if (validError) {
+      throw new Error('foobar')
+    } else {
+      throw 'foobar' // eslint-disable-line
+    }
+  });
+})()

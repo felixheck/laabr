@@ -452,33 +452,33 @@ test.cb.serial('get log message by overriden `console.warn` – multiple', (t) 
   })
 })
 
-// test.cb.serial.only('listen to `caught` event', (t) => {
-//   const options = { handleUncaught: true }
+test.cb.serial('listen to `caught` event', (t) => {
+  const options = { handleUncaught: true }
 
-//   helpers.spawn('error', options, true, (log) => {
-//     t.is(log.error, 'foobar')
-//     t.is(log.level, 'error')
-//     t.regex(log.source, new RegExp(`^${path.join(__dirname, 'fixtures/error.js')}:`))
-//     t.end()
-//   })
-// })
+  helpers.spawn('error', options, true, (log) => {
+    t.is(log.error, 'foobar')
+    t.is(log.level, 'error')
+    t.regex(log.source, new RegExp(`^${path.join(__dirname, 'fixtures/error.js')}:`))
+    t.end()
+  })
+})
 
-// test.cb.serial('listen to `caught` event – invalid error', (t) => {
-//   const options = { handleUncaught: true }
+test.cb.serial('listen to `caught` event – invalid error', (t) => {
+  const options = { handleUncaught: true }
 
-//   helpers.spawn('error', options, false, (log) => {
-//     t.is(log.error, '-')
-//     t.is(log.level, 'error')
-//     t.is(log.source, '-')
-//     t.end()
-//   })
-// })
+  helpers.spawn('error', options, false, (log) => {
+    t.is(log.error, '-')
+    t.is(log.level, 'error')
+    t.is(log.source, '-')
+    t.end()
+  })
+})
 
-// test.cb.serial('do not listen to `caught` event', (t) => {
-//   const options = { handleUncaught: false }
+test.cb.serial('do not listen to `caught` event', (t) => {
+  const options = { handleUncaught: false }
 
-//   helpers.spawn('error', options, true, (log) => {
-//     t.regex(log, /throw new Error\('foobar'\)/)
-//     t.end()
-//   }, 'stderr')
-// })
+  helpers.spawn('error', options, true, (log) => {
+    t.regex(log, /throw new Error\('foobar'\)/)
+    t.end()
+  }, 'stderr')
+})
