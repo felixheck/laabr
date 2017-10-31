@@ -422,35 +422,35 @@ test.cb.serial('postformat the originally logged message', (t) => {
   })
 })
 
-// test.cb.serial.only('get log message by overriden `console.warn` – single', (t) => {
-//   const options = {
-//     indent: 0,
-//     override: true,
-//     hapiPino: { logEvents: false }
-//   }
+test.cb.serial('get log message by overriden `console.warn` – single', (t) => {
+  const options = {
+    indent: 0,
+    override: true,
+    hapiPino: { logEvents: false }
+  }
 
-//   const logs = ['foobar']
+  const logs = ['foobar']
 
-//   helpers.spawn('console', options, logs, (log) => {
-//     t.is(log.message, 'foobar')
-//     t.end()
-//   })
-// })
+  helpers.spawn('console', options, logs, (log) => {
+    t.is(log.message, 'foobar')
+    t.end()
+  })
+})
 
-// test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
-//   const options = {
-//     indent: 0,
-//     override: true,
-//     hapiPino: { logEvents: false }
-//   }
+test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
+  const options = {
+    indent: 0,
+    override: true,
+    hapiPino: { logEvents: false }
+  }
 
-//   const logs = ['foo', 'bar']
+  const logs = ['foo', 'bar']
 
-//   helpers.spawn('console', options, logs, (log) => {
-//     t.deepEqual(log.message, ['foo', 'bar'])
-//     t.end()
-//   })
-// })
+  helpers.spawn('console', options, logs, (log) => {
+    t.deepEqual(log.message, ['foo', 'bar'])
+    t.end()
+  })
+})
 
 // test.cb.serial.only('listen to `caught` event', (t) => {
 //   const options = { handleUncaught: true }
