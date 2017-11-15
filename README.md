@@ -89,10 +89,13 @@ Take a look at several more [examples ⇗](examples/).<br/>
 const hapi = require('hapi');
 const laabr = require('laabr');
 
-const server = hapi.server({ port: 3000, host: 'localhost' })
+const server = hapi.server({ port: 3000 });
 
-laabr.format('onPostStart', ':time :start :level :message')
-laabr.token('start', () => '[start]')
+const options = {
+  formats: { onPostStart: ':time :start :level :message' },
+  tokens: { start:  () => '[start]' },
+  indent: 0
+};
 
 server.route([
   {
@@ -109,13 +112,13 @@ server.route([
       throw new Error('foobar');
     }
   }
-])
+]);
 
-;(async () => {
+(async () => {
   try {
     await server.register({
       register: laabr.plugin,
-      options: { indent: 0 }
+      options
     });
     await server.start();
     console.log('Server started successfully');
@@ -124,7 +127,7 @@ server.route([
   }
 })();
 
-server.log('info', 'did you mean "foobar"?')
+server.log('info', 'did you mean "foobar"?');
 ```
 
 #### Output

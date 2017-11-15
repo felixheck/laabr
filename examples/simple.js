@@ -1,36 +1,36 @@
-const Hapi = require('hapi')
-const laabr = require('../src')
+const hapi = require('hapi');
+const laabr = require('../src');
 
-const server = new Hapi.Server()
-server.connection({ port: 3000, host: 'localhost' })
+const server = hapi.server({ port: 3000 });
 
 server.route([
   {
     method: '*',
     path: '/response',
-    handler (req, reply) {
-      reply('hello world')
+    handler() {
+      return 'hello world';
     }
   },
   {
     method: 'GET',
     path: '/error',
-    handler (req, reply) {
-      reply(new Error('foobar'))
+    handler () {
+      throw new Error('foobar');
     }
   }
-])
+]);
 
-process.on('SIGINT', () => {
-  server.stop().then((err) => {
-    process.exit((err) ? 1 : 0)
-  })
-})
+(async () => {
+  try {
+    await server.register({
+      register: laabr.plugin,
+      options: {}
+    });
+    await server.start();
+    console.log('Server started successfully');
+  } catch (err) {
+    console.error(err);
+  }
+})();
 
-server.register({
-  register: laabr.plugin
-})
-.then(() => server.start())
-.catch(console.error)
-
-server.log('info', 'did you mean "foobar"?')
+server.log('info', 'did you mean "foobar"?');
