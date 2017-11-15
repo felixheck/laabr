@@ -38,7 +38,6 @@ The following tokens are available by default. Partly it is possible to pass an 
 - `:environment[field=NODE_ENV]` - An environment variable.
 
 #### Request/Response
-- `:cid` – The [correlation identifier ⇗](https://github.com/toboid/correlation-id).
 - `:requestId` - The unique request identifier.
 - `:responseTime` - The response time in milliseconds.
 - `:res[header]` - The given `header` of the response.
@@ -63,12 +62,12 @@ The following formats/[presets](#presets) are set by default:
 
 | Event           | Preset                                       | Emitter              |
 |----------------:|----------------------------------------------|----------------------|
-| `log`           | [`log.tinyjson`](#logtinyjson)     | `server.log`           |
-| `request`       | [`log.tinyjson`](#logtinyjson)     | `request.log`          |
-| `response`      | [`response.tiny`](#responsetiny)   | request is completed   |
-| `request-error` | [`error.tinyjson`](#errortinyjson) | request failed         |
-| `onPostStart`   | [`server.info`](#serverinfo)       | server is started      |
-| `onPostStop`    | [`server.info`](#serverinfo)       | server is stopped      |
+| `log`           | [`log.tinyjson`](#logtinyjson)     | `server.log` & internal server events |
+| `request`       | [`log.tinyjson`](#logtinyjson)     | `request.log` & internal `accept-encoding` errors |
+| `response`      | [`response.tiny`](#responsetiny)   | request is completed |
+| `request-error` | [`error.tinyjson`](#errortinyjson) | request failed (`500` status code) |
+| `onPostStart`   | [`server.info`](#serverinfo)       | server is started |
+| `onPostStop`    | [`server.info`](#serverinfo)       | server is stopped |
 | `uncaught`      | [`error.json`](#errorjson)         | uncaught error occured |
 
 ## Presets

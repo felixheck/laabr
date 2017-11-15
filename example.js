@@ -1,11 +1,7 @@
-const Hapi = require('hapi')
+const hapi = require('hapi')
 const laabr = require('./src')
 
-const server = new Hapi.Server()
-server.connection({ port: 3000, host: 'localhost' })
-
-laabr.format('onPostStart', ':time :start :level :message')
-laabr.token('start', () => '[start]')
+const server = hapi.server({ port: 3000, host: 'localhost' })
 
 server.route([
   {
@@ -33,6 +29,8 @@ process.on('SIGINT', () => {
 server.register({
   register: laabr.plugin,
   options: {
+    formats: { onPostStart: ':time :start :level :message' },
+    tokens: { start: () => '[start]' },
     indent: 0
   }
 })

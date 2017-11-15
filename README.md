@@ -24,8 +24,8 @@
 ## Introduction
 **laabr** is a well-formatted [pino ⇗](https://github.com/pinojs/pino) logger for [hapi.js ⇗](https://github.com/hapijs/hapi) which is based on the plugin [hapi-pino ⇗](https://github.com/pinojs/hapi-pino). It enables optionally to log in JSON for easy post-processing. It listens to various [hapi.js events ⇗](docs/tokens-formats-presets.md#formats) and logs in a well-formatted manner. Therefor it is possible to define custom formats alike the [morgan ⇗](https://github.com/expressjs/morgan) ones or make use of available presets. Additionally it enables to define own tokens which could be used in custom formats. Finally the plugin provides well integrated correlation identifiers based on the module [correlation-id ⇗](https://github.com/toboid/correlation-id).
 
-This plugin is implemented in ECMAScript 6 without any transpilers like `babel`.<br/>
-Additionally `standard` and `ava` are used to grant a high quality implementation.<br/>
+The modules [`standard`][standardjs] and [`ava`][avajs] are used to grant a high quality implementation.<br/>
+This major release supports just [hapi.js](https://github.com/hapijs/hapi) `>=v17.0.0` and node `>=v8.0.0` — to support older versions please use `v2.4.1`.
 *laabr* is the Swabian translation for *talking*.
 
 #### `laabr` vs. `hapi-pino`
@@ -40,7 +40,6 @@ First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `l
 - Easily customizable tokens & formats
 - Override several [`console` ⇗](https://developer.mozilla.org/en-US/docs/Web/API/Console) logging methods
 - In despite of everything it is possible to [preformat ⇗](docs/api.md#user-content-preformatter) & [postformat ⇗](docs/api.md#user-content-postformatter) data, e.g. to filter sensitive data
-- Optional integration of [correlation ids ⇗](docs/api.md#correlator)
 
 ![laabr screen](https://github.com/felixheck/laabr/raw/master/assets/screen.png)
 
@@ -55,11 +54,6 @@ or clone the repository:
 $ git clone https://github.com/felixheck/laabr
 ```
 
-Alternatively use the [Yarn Package Manager ⇗](https://yarnpkg.com):
-```
-$ yarn add laabr
-```
-
 ## Usage
 #### Import
 First you have to import the module:
@@ -68,11 +62,10 @@ const laabr = require('laabr');
 ```
 
 #### Create hapi server
-Afterwards create your hapi server and the corresponding connection if not already done:
+Afterwards create your hapi server if not already done:
 ``` js
-const server = new Hapi.Server();
-
-server.connection({
+const hapi = require('hapi');
+const server = hapi.server({
   port: 8888,
   host: 'localhost',
 });
@@ -81,13 +74,9 @@ server.connection({
 #### Registration
 Finally register the plugin and set the correct options:
 ``` js
-server.register({
+await server.register({
   register: laabr.plugin,
   options: {},
-}, function(err) {
-  if (err) {
-    throw err;
-  }
 });
 ```
 
@@ -97,11 +86,10 @@ Take a look at several more [examples ⇗](examples/).<br/>
 #### Code
 
 ``` js
-const Hapi = require('hapi');
+const hapi = require('hapi');
 const laabr = require('laabr');
 
-const server = new Hapi.Server()
-server.connection({ port: 3000, host: 'localhost' })
+const server = hapi.server({ port: 3000, host: 'localhost' })
 
 laabr.format('onPostStart', ':time :start :level :message')
 laabr.token('start', () => '[start]')
@@ -110,33 +98,31 @@ server.route([
   {
     method: '*',
     path: '/response',
-    handler (req, reply) {
-      reply('hello world')
+    handler() {
+      return 'hello world';
     }
   },
   {
     method: 'GET',
     path: '/error',
-    handler (req, reply) {
-      reply(new Error('foobar'))
+    handler () {
+      throw new Error('foobar');
     }
   }
 ])
 
-process.on('SIGINT', () => {
-  server.stop().then((err) => {
-    process.exit((err) ? 1 : 0)
-  })
-})
-
-server.register({
-  register: laabr.plugin,
-  options: {
-    indent: 0
+;(async () => {
+  try {
+    await server.register({
+      register: laabr.plugin,
+      options: { indent: 0 }
+    });
+    await server.start();
+    console.log('Server started successfully');
+  } catch (err) {
+    console.error(err);
   }
-})
-.then(() => server.start())
-.catch(console.error)
+})();
 
 server.log('info', 'did you mean "foobar"?')
 ```

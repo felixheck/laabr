@@ -31,7 +31,7 @@ test('return stringified value', (t) => {
 })
 
 test.serial('do not override `console` methods with `server.log`', async (t) => {
-  const server = await helpers.getServer({ override: false })
+  await helpers.getServer({ override: false })
 
   t.is(console.trace, consoleClone.trace)
   t.is(console.log, consoleClone.log)
@@ -41,7 +41,7 @@ test.serial('do not override `console` methods with `server.log`', async (t) => 
 })
 
 test.serial('override `console` methods with `server.log`', async (t) => {
-  const server = await helpers.getServer({ override: true })
+  await helpers.getServer({ override: true })
 
   t.not(console.trace, consoleClone.trace)
   t.not(console.log, consoleClone.log)

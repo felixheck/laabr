@@ -121,7 +121,7 @@ function get (options) {
   const pluginConfig = getPluginConfig(options, loggerConfig)
 
   return {
-    register: hapiPino,
+    plugin: hapiPino,
     options: pluginConfig
   }
 }
