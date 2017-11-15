@@ -2,7 +2,7 @@ const test = require('ava')
 const helpers = require('./_helpers')
 
 test('throw error if plugin gets registered twice', async (t) => {
-  const server = await helpers.getServer()
+  await helpers.getServer()
   await t.throws(helpers.registerPlugin(), Error)
 })
 
@@ -194,116 +194,6 @@ test('throw error if own options are invalid – handleUncaught', async (t) => {
   }), Error)
 })
 
-test('throw error if own options are invalid – correlator', async (t) => {
-  await t.throws(helpers.getServer({
-    correlator: null
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: 42
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: ''
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: 'foobar'
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: NaN
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: []
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      enabled: ''
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      enabled: 'foobar'
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      enabled: 42
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      enabled: null
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      enabled: NaN
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      enabled: {}
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      enabled: []
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      enabled: new RegExp()
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      header: null
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      header: false
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      header: NaN
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      header: {}
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      header: []
-    }
-  }), Error)
-
-  await t.throws(helpers.getServer({
-    correlator: {
-      header: new RegExp()
-    }
-  }), Error)
-})
-
 test('throw no error if own options are valid – colored', async (t) => {
   await t.notThrows(helpers.getServer({
     colored: true
@@ -365,44 +255,5 @@ test('throw no error if own options are valid – postformatter', async (t) => {
 
   await t.notThrows(helpers.getServer({
     postformatter: (a, b) => ({ a, b })
-  }), Error)
-})
-
-test('throw no error if own options are valid – correlator', async (t) => {
-  await t.notThrows(helpers.getServer({
-    correlator: true
-  }), Error)
-
-  await t.notThrows(helpers.getServer({
-    correlator: false
-  }), Error)
-
-  await t.notThrows(helpers.getServer({
-    correlator: {}
-  }), Error)
-
-  await t.notThrows(helpers.getServer({
-    correlator: {
-      enabled: true
-    }
-  }), Error)
-
-  await t.notThrows(helpers.getServer({
-    correlator: {
-      enabled: false
-    }
-  }), Error)
-
-  await t.notThrows(helpers.getServer({
-    correlator: {
-      header: 'x-foobar'
-    }
-  }), Error)
-
- await t.notThrows(helpers.getServer({
-    correlator: {
-      enabled: false,
-      header: 'x-foobar'
-    }
   }), Error)
 })

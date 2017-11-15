@@ -1,4 +1,3 @@
-const correlator = require('correlation-id')
 const get = require('lodash.get')
 const pino = require('pino')
 const utils = require('./utils')
@@ -94,10 +93,6 @@ assign('error', (data, colors, field = 'message') => {
 
 assign('environment', (data, colors, field = 'NODE_ENV') => (
   process.env[field]
-))
-
-assign('cid', (data, colors) => (
-  correlator.getId() || tokens.req(data, colors, 'x-laabr-cid')
 ))
 
 assign('requestId', data => (

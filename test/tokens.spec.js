@@ -1,4 +1,3 @@
-const correlator = require('correlation-id')
 const test = require('ava')
 const helpers = require('./_helpers')
 const laabr = require('../src')
@@ -107,12 +106,10 @@ test('return requested req/res attributes', (t) => {
       remotePort: 52086,
       headers: {
         'x-header': 'foobar'
-      },
+      }
     }
   }
 
-  t.falsy(tokens['cid'](mockData))
-  t.is(tokens['cid'](mockData), correlator.getId())
   t.is(tokens['requestId'](mockData), mockData.req.id)
   t.is(tokens['method'](mockData, mockColors), mockData.req.method)
   t.is(tokens['status'](mockData, mockColors), mockData.res.statusCode)
