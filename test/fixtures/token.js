@@ -6,6 +6,6 @@ const options = Object.assign({
   }
 }, JSON.parse(process.argv[2]))
 
-helpers.getServer(options, (server) => {
+helpers.getServer(options).then((server) => {
   server.inject(JSON.parse(process.argv[3]))
 })

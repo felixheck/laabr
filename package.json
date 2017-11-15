@@ -11,8 +11,6 @@
     "fast",
     "json",
     "morgan",
-    "correlation",
-    "correlator",
     "processing",
     "custom",
     "format",
@@ -36,35 +34,33 @@
   "main": "./src/index.js",
   "scripts": {
     "start": "NODE_ENV=test npm test -- -w",
-    "lint": "standard",
+    "lint": "standard 'src/**/*.js' 'test/**/*.js'",
     "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava --timeout=30s",
     "coverage": "nyc report --reporter=lcov",
     "ci.coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "ava": "^0.22.0",
+    "ava": "^0.23.0",
     "coveralls": "^3.0.0",
     "fixture-stdout": "^0.2.1",
-    "hapi": "^16.6.2",
-    "nyc": "^11.2.1",
+    "hapi": "^17.0.1",
+    "nyc": "^11.3.0",
     "standard": "^10.0.3"
   },
   "dependencies": {
     "chalk": "^2.3.0",
-    "correlation-id": "^2.0.0",
-    "depd": "^1.1.1",
     "error-stack-parser": "^2.0.1",
-    "hapi-pino": "^2.0.0",
-    "joi": "^13.0.1",
+    "hapi-pino": "^3.1.0",
+    "joi": "^13.0.2",
     "lodash.get": "^4.4.2",
-    "pino": "^4.8.0"
+    "pino": "^4.10.1"
   },
   "peerDependencies": {
-    "hapi": ">= 13.x.x",
-    "hapi-pino": ">= 1.6.x"
+    "hapi": "^17.0.0",
+    "hapi-pino": "^3.0.0"
   },
   "engines": {
-    "node": ">=6.0.0",
-    "npm": ">=3.8.8"
+    "node": "^8.0.0",
+    "npm": "^5.0.0"
   }
 }

@@ -1,6 +1,7 @@
 ### custom ###
 .idea
 .vscode
+.deprecated
 
 ### Node ###
 # Logs

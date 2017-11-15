@@ -7,10 +7,6 @@ const joi = require('joi')
  * Collection of `Joi` validators
  */
 const validators = {
-  correlator: joi.object({
-    enabled: joi.boolean().default(false),
-    header: joi.string().lowercase().default('x-correlation-id')
-  }).default(),
   formatLabel: joi.string().only('log', 'request', 'response', 'request-error', 'onPostStart', 'onPostStop', 'uncaught'),
   tokenLabel: joi.string(),
   format: joi.alternatives().try(joi.string(), joi.any().valid(false)),
@@ -23,7 +19,6 @@ const validators = {
     tokens: joi.object().allow(null),
     colored: joi.boolean().default(false),
     override: joi.boolean().default(false),
-    correlator: joi.alternatives().try(joi.boolean(), joi.lazy(() => validators.correlator)).default(false),
     indent: joi.alternatives().try(joi.number(), joi.string()).allow('').default(2),
     preformatter: joi.func().maxArity(2).default((data) => data),
     postformatter: joi.func().maxArity(2).default((data) => data),
@@ -74,7 +69,6 @@ const validators = {
  */
 function validate (type, value) {
   switch (type) {
-    case 'correlator':
     case 'options':
     case 'preformatterOutput':
     case 'postformatterOutput':

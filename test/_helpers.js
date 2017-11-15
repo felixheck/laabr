@@ -42,15 +42,14 @@ function spawnServer (type, arg, arg2, done, stream = 'stdout', listener = 'once
  *
  * @param {Hapi.Server} server The server to be decorated
  * @param {Object} options The plugin related options
- * @param {Function} done The success callback handler
  */
-function registerPlugin (server, options, done = () => {}) {
-  server.register({
-    register: laabr.plugin,
+async function registerPlugin (server, options) {
+  await server.register({
+    plugin: laabr.plugin,
     options
-  }, () => {
-    done(server)
   })
+
+  return server
 }
 
 /**
@@ -60,74 +59,41 @@ function registerPlugin (server, options, done = () => {}) {
  * Create server with routes, plugin and error handler
  *
  * @param {Object} options The plugin related options
- * @param {Function} done The success callback handler
  * @returns {Hapi.Server} The created server instance
  */
-function getServer (options, done) {
-  const server = new hapi.Server()
-
-  server.connection({
+async function getServer (options) {
+  const server = hapi.server({
     host: '127.0.0.1',
     port: 1337
   })
-
-  function logCID () {
-    console.log('cid', laabr.cid.get())
-  }
 
   server.route([
     {
       method: '*',
       path: '/request/log',
-      handler (req, reply) {
+      handler (req) {
         req.log('info', 'foobar')
-        reply({ foo: 42 })
-      }
-    },
-    {
-      method: '*',
-      path: '/request/id',
-      handler (req, reply) {
-        console.log('cid', laabr.cid.get())
-        logCID()
-        reply({ foo: 42 })
-      }
-    },
-    {
-      method: '*',
-      path: '/request/id/req',
-      handler (req, reply) {
-        console.log('cid', req.headers['x-laabr-cid'])
-        logCID()
-        reply({ foo: 42 })
-      }
-    },
-    {
-      method: '*',
-      path: '/request/id/next',
-      handler (req, reply) {
-        console.log('cid', laabr.cid.get())
-        laabr.cid.with(logCID)
-        reply({ foo: 42 })
+        return { foo: 42 }
       }
     },
     {
       method: '*',
       path: '/response/{code}',
-      handler (req, reply) {
-        reply({ foo: 42 }).code(parseInt(req.params.code))
+      handler (req, h) {
+        return h.response({ foo: 42 }).code(parseInt(req.params.code))
       }
     },
     {
       method: '*',
       path: '/request/error',
-      handler (req, reply) {
-        reply(new Error('foobar'))
+      handler () {
+        throw new Error('foobar')
       }
     }
   ])
 
-  registerPlugin(server, options, done)
+  await registerPlugin(server, options)
+
   process.on('SIGINT', () => {
     server.stop({ timeout: 10000 }).then((err) => {
       process.exit((err) ? 1 : 0)

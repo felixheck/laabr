@@ -30,31 +30,29 @@ test('return stringified value', (t) => {
   t.is(utils.stringify('foo-bar'), '"foo-bar"')
 })
 
-test.cb.serial('do not override `console` methods with `server.log`', (t) => {
-  helpers.getServer({ override: false }, (server) => {
-    t.is(console.trace, consoleClone.trace)
-    t.is(console.log, consoleClone.log)
-    t.is(console.info, consoleClone.info)
-    t.is(console.warn, consoleClone.warn)
-    t.is(console.error, consoleClone.error)
-    t.end()
-  })
+test.serial('do not override `console` methods with `server.log`', async (t) => {
+  await helpers.getServer({ override: false })
+
+  t.is(console.trace, consoleClone.trace)
+  t.is(console.log, consoleClone.log)
+  t.is(console.info, consoleClone.info)
+  t.is(console.warn, consoleClone.warn)
+  t.is(console.error, consoleClone.error)
 })
 
-test.cb.serial('override `console` methods with `server.log`', (t) => {
-  helpers.getServer({ override: true }, (server) => {
-    t.not(console.trace, consoleClone.trace)
-    t.not(console.log, consoleClone.log)
-    t.not(console.info, consoleClone.info)
-    t.not(console.warn, consoleClone.warn)
-    t.not(console.error, consoleClone.error)
-    t.is(console.trace.name, 'bound wrapper')
-    t.is(console.log.name, 'bound wrapper')
-    t.is(console.info.name, 'bound wrapper')
-    t.is(console.warn.name, 'bound wrapper')
-    t.is(console.error.name, 'bound wrapper')
-    t.end()
-  })
+test.serial('override `console` methods with `server.log`', async (t) => {
+  await helpers.getServer({ override: true })
+
+  t.not(console.trace, consoleClone.trace)
+  t.not(console.log, consoleClone.log)
+  t.not(console.info, consoleClone.info)
+  t.not(console.warn, consoleClone.warn)
+  t.not(console.error, consoleClone.error)
+  t.is(console.trace.name, 'bound wrapper')
+  t.is(console.log.name, 'bound wrapper')
+  t.is(console.info.name, 'bound wrapper')
+  t.is(console.warn.name, 'bound wrapper')
+  t.is(console.error.name, 'bound wrapper')
 })
 
 test('get objectified error', (t) => {
