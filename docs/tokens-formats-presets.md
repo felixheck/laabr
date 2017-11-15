@@ -63,12 +63,12 @@ The following formats/[presets](#presets) are set by default:
 | Event           | Preset                                       | Emitter              |
 |----------------:|----------------------------------------------|----------------------|
 | `log`           | [`log.tinyjson`](#logtinyjson)     | `server.log` & internal server events |
-| `request`       | [`log.tinyjson`](#logtinyjson)     | `request.log` & internal `accept-encoding` errors |
+| `request`       | [`log.tinyjson`](#logtinyjson)     | `request.log` |
 | `response`      | [`response.tiny`](#responsetiny)   | request is completed |
-| `request-error` | [`error.tinyjson`](#errortinyjson) | request failed (`500` status code) |
+| `request-error` | [`error.tinyjson`](#errortinyjson) | request failed (`500` status code) & internal `accept-encoding` errors |
 | `onPostStart`   | [`server.info`](#serverinfo)       | server is started |
 | `onPostStop`    | [`server.info`](#serverinfo)       | server is stopped |
-| `uncaught`      | [`error.json`](#errorjson)         | uncaught error occured |
+| `uncaught`      | [`error.json`](#errorjson)         | uncaught error occurred |
 
 ## Presets
 #### `log.tiny`
