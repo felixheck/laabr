@@ -1,4 +1,5 @@
 const get = require('lodash.get')
+const set = require('lodash.set')
 const pino = require('pino')
 const utils = require('./utils')
 const validator = require('./validator')
@@ -85,7 +86,7 @@ assign('error', (data, colors, field = 'message') => {
   }
 
   if (!get(data, 'err.source')) {
-    data.err.source = utils.getErrorSource(data.err)
+    set(data, 'err.source', utils.getErrorSource(data.err))
   }
 
   return get(data.err, field)
