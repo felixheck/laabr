@@ -86,10 +86,12 @@ test('return requested general attributes', (t) => {
 
 test('return requested alternative attributes', (t) => {
   const mockData = {
-    data: 'foobar'
+    data: 'foobar',
+    err: 'foobar'
   }
 
   t.is(tokens['message'](mockData), mockData.data)
+  t.is(tokens['error'](mockData), undefined)
 })
 
 test('return requested req/res attributes', (t) => {

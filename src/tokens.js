@@ -80,11 +80,11 @@ assign('get', (data, colors, field) => (
 ))
 
 assign('error', (data, colors, field = 'message') => {
-  if (!data.err && data.data.err) {
+  if (!get(data, 'err') && get(data, 'data.err')) {
     data = data.data
   }
 
-  if (!data.err.source) {
+  if (!get(data, 'err.source')) {
     data.err.source = utils.getErrorSource(data.err)
   }
 
