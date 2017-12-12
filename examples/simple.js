@@ -23,7 +23,7 @@ server.route([
 (async () => {
   try {
     await server.register({
-      plugin: laabr.plugin,
+      plugin: laabr,
       options: {}
     })
     await server.start()
