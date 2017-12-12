@@ -2,7 +2,7 @@
 
 <!-- TOC -->
 
-1. [`laabr.plugin`](#laabrplugin)
+1. [`laabr`/`laabr.plugin`](#laabrlaabrplugin)
     1. [`options`](#options)
 2. [`laabr.token(<string> name, <Function> callback)`](#laabrtokenstring-name-function-callback)
 3. [`laabr.preset(<string> key, <string|false> preset)`](#laabrpresetstring-key-stringfalse-preset)
@@ -12,7 +12,7 @@
 
 ---
 
-## `laabr.plugin`
+## `laabr`/`laabr.plugin`
 
 #### `options`
 - **tokens**: `Object`<br/>

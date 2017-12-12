@@ -194,6 +194,14 @@ test('throw error if own options are invalid – handleUncaught', async (t) => {
   }), Error)
 })
 
+test('throw no error if own options are valid – default', async (t) => {
+  await t.notThrows(helpers.getServer({}), Error)
+})
+
+test('throw no error if own options are valid – default/root ', async (t) => {
+  await t.notThrows(helpers.getServer({}, true), Error)
+})
+
 test('throw no error if own options are valid – colored', async (t) => {
   await t.notThrows(helpers.getServer({
     colored: true

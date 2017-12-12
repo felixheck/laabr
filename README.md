@@ -75,7 +75,7 @@ const server = hapi.server({
 Finally register the plugin and set the correct options:
 ``` js
 await server.register({
-  register: laabr.plugin,
+  register: laabr,
   options: {},
 });
 ```
@@ -117,7 +117,7 @@ server.route([
 (async () => {
   try {
     await server.register({
-      register: laabr.plugin,
+      register: laabr,
       options
     });
     await server.start();

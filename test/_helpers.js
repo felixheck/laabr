@@ -42,10 +42,11 @@ function spawnServer (type, arg, arg2, done, stream = 'stdout', listener = 'once
  *
  * @param {Hapi.Server} server The server to be decorated
  * @param {Object} options The plugin related options
+ * @param {boolean} [asRoot = false] If the object gets registered as root property
  */
-async function registerPlugin (server, options) {
+async function registerPlugin (server, options, asRoot = false) {
   await server.register({
-    plugin: laabr.plugin,
+    plugin: asRoot ? laabr : laabr.plugin,
     options
   })
 
@@ -60,8 +61,9 @@ async function registerPlugin (server, options) {
  *
  * @param {Object} options The plugin related options
  * @returns {Hapi.Server} The created server instance
+ * @param {boolean} [asRoot = false] If the object gets registered as root property
  */
-async function getServer (options) {
+async function getServer (options, asRoot = false) {
   const server = hapi.server({
     host: '127.0.0.1',
     port: 1337
@@ -92,7 +94,7 @@ async function getServer (options) {
     }
   ])
 
-  await registerPlugin(server, options)
+  await registerPlugin(server, options, asRoot)
 
   process.on('SIGINT', () => {
     server.stop({ timeout: 10000 }).then((err) => {

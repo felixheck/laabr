@@ -34,6 +34,6 @@ module.exports = {
   format: formats.assign,
   preset: formats.preset,
   token: tokens.assign,
+  register,
   pkg
-
 }

@@ -1,21 +1,21 @@
-const hapi = require('hapi');
-const laabr = require('../src');
+const hapi = require('hapi')
+const laabr = require('../src')
 
-const server = hapi.server({ port: 3000 });
+const server = hapi.server({ port: 3000 })
 
 server.route([
   {
     method: '*',
     path: '/response',
-    handler() {
-      return 'hello world';
+    handler () {
+      return 'hello world'
     }
   },
   {
     method: 'GET',
     path: '/error',
     handler () {
-      throw new Error('foobar');
+      throw new Error('foobar')
     }
   }
 ]);
@@ -23,14 +23,14 @@ server.route([
 (async () => {
   try {
     await server.register({
-      register: laabr.plugin,
+      register: laabr,
       options: {}
-    });
-    await server.start();
-    console.log('Server started successfully');
+    })
+    await server.start()
+    console.log('Server started successfully')
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
-})();
+})()
 
-server.log('info', 'did you mean "foobar"?');
+server.log('info', 'did you mean "foobar"?')
