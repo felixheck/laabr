@@ -43,25 +43,25 @@
     "ava": "^0.23.0",
     "coveralls": "^3.0.0",
     "fixture-stdout": "^0.2.1",
-    "hapi": "^17.0.1",
-    "nyc": "^11.3.0",
+    "hapi": "^17.2.0",
+    "nyc": "^11.4.1",
     "standard": "^10.0.3"
   },
   "dependencies": {
     "chalk": "^2.3.0",
     "error-stack-parser": "^2.0.1",
-    "hapi-pino": "^3.1.0",
-    "joi": "^13.0.2",
+    "hapi-pino": "^4.0.2",
+    "joi": "^13.1.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "pino": "^4.10.1"
+    "pino": "^4.10.3"
   },
   "peerDependencies": {
     "hapi": "^17.0.0",
-    "hapi-pino": "^3.0.0"
+    "hapi-pino": "^4.0.2"
   },
   "engines": {
-    "node": "^8.0.0",
-    "npm": "^5.0.0"
+    "node": ">= 8",
+    "npm": ">= 5"
   }
 }
