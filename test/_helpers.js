@@ -41,10 +41,10 @@ function spawnServer (type, arg, arg2, done, stream = 'stdout', listener = 'once
  * Register the `laabr` plugin with passed options
  *
  * @param {Hapi.Server} server The server to be decorated
- * @param {Object} options The plugin related options
+ * @param {Object} [options = {}] The plugin related options
  * @param {boolean} [asRoot = false] If the object gets registered as root property
  */
-async function registerPlugin (server, options, asRoot = false) {
+async function registerPlugin (server, options = {}, asRoot = false) {
   await server.register({
     plugin: asRoot ? laabr : laabr.plugin,
     options
@@ -59,14 +59,14 @@ async function registerPlugin (server, options, asRoot = false) {
  *
  * Create server with routes, plugin and error handler
  *
- * @param {Object} options The plugin related options
- * @returns {Hapi.Server} The created server instance
+ * @param {Object} [options = {}] The plugin related options
  * @param {boolean} [asRoot = false] If the object gets registered as root property
+ * @returns {Hapi.Server} The created server instance
  */
-async function getServer (options, asRoot = false) {
+async function getServer (options = {}, asRoot = false) {
   const server = hapi.server({
     host: '127.0.0.1',
-    port: 1337
+    port: 1338
   })
 
   server.route([

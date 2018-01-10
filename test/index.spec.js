@@ -92,7 +92,7 @@ test.cb.serial('listen to `response` event – customized', (t) => {
 
   helpers.spawn('inject', options, injection, (log) => {
     t.is(log['user-agent'], 'shot')
-    t.is(log.host, '127.0.0.1:1337')
+    t.is(log.host, '127.0.0.1:1338')
     t.end()
   })
 })
@@ -189,12 +189,12 @@ test.cb.serial('listen to `onPostStart` events', (t) => {
   const injection = {}
 
   helpers.spawn('startStop', options, injection, (log) => {
-    t.regex(log, /info server started http:\/\/127.0.0.1:1337/)
+    t.regex(log, /info server started http:\/\/127.0.0.1:1338/)
     t.end()
   })
 })
 
-test.cb.serial('listen to `onPostStart` events', (t) => {
+test.cb.serial('listen to `onPostStop` events', (t) => {
   const options = {
     formats: { onPostStart: ':time :level :message :host[uri]' },
     hapiPino: { logEvents: ['onPostStop'] }
@@ -203,6 +203,8 @@ test.cb.serial('listen to `onPostStart` events', (t) => {
   const injection = {}
 
   helpers.spawn('startStop', options, injection, (log) => {
+    console.log(log)
+
     t.regex(log, /info server stopped/)
     t.end()
   })

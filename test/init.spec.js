@@ -1,6 +1,8 @@
 const test = require('ava')
 const helpers = require('./_helpers')
 
+require('events').EventEmitter.defaultMaxListeners = 50
+
 test('throw error if plugin gets registered twice', async (t) => {
   await helpers.getServer()
   await t.throws(helpers.registerPlugin(), Error)
