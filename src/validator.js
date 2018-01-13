@@ -33,6 +33,8 @@ const validators = {
       logEvents: joi.alternatives().try(joi.array().items(joi.string()), joi.any().allow(false, null)),
       mergeHapiLogData: joi.boolean().default(false),
       serializers: joi.object(),
+      logRouteTags: joi.boolean(),
+      ignorePaths: joi.array().items(joi.string()),
       logPayload: joi.boolean().default(true)
     }).default(),
     pino: joi.object({
@@ -48,7 +50,9 @@ const validators = {
       messageKey: joi.string().default('msg'),
       onTerminated: joi.func(),
       enabled: joi.boolean(),
-      browser: joi.any()
+      browser: joi.any(),
+      base: joi.object(),
+      crlf: joi.boolean()
     }).default()
   }).default()
 }
