@@ -101,7 +101,7 @@ test('return requested req/res attributes', (t) => {
     },
     req: {
       id: '1499781055994:f3lix:67067:j4zmw7av:10000',
-      method: 'get',
+      method: 'GET',
       url: '/',
       remoteAddress: '127.0.0.1',
       remotePort: 52086,

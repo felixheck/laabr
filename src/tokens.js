@@ -123,16 +123,17 @@ assign('status', (data, colors) => (
 ))
 
 assign('method', (data, colors) => (
-  colors.status(data.req && data.req.method)
+  colors.status(data.req && data.req.method.toUpperCase())
 ))
 
 assign('payload', data => (
   JSON.stringify(data.payload || {})
 ))
 
-assign('remoteAddress', data => (
-  data.req && data.req.remoteAddress
-))
+assign('remoteAddress', data => {
+  console.log(data.req)
+  return data.req && data.req.remoteAddress
+})
 
 assign('remotePort', data => (
   data.req && data.req.remotePort

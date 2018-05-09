@@ -35,26 +35,26 @@
   "scripts": {
     "start": "NODE_ENV=test npm test -- -w",
     "lint": "standard",
-    "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava --timeout=30s",
+    "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava test/index.spec.js --timeout=30s",
     "coverage": "nyc report --reporter=lcov",
     "ci.coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "ava": "^0.23.0",
-    "coveralls": "^3.0.0",
+    "ava": "^0.25.0",
+    "coveralls": "^3.0.1",
     "fixture-stdout": "^0.2.1",
-    "hapi": "^17.0.1",
-    "nyc": "^11.3.0",
-    "standard": "^10.0.3"
+    "hapi": "^17.4.0",
+    "nyc": "^11.7.2",
+    "standard": "^11.0.1"
   },
   "dependencies": {
-    "chalk": "^2.3.0",
+    "chalk": "^2.4.1",
     "error-stack-parser": "^2.0.1",
-    "hapi-pino": "^3.1.0",
-    "joi": "^13.0.2",
+    "hapi-pino": "^4.0.4",
+    "joi": "^13.3.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "pino": "^4.10.1"
+    "pino": "^4.16.1"
   },
   "peerDependencies": {
     "hapi": "^17.0.0",

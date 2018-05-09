@@ -30,7 +30,7 @@ test.cb.serial('listen to `request` event', (t) => {
   })
 })
 
-test.cb.serial('listen to `response` event', (t) => {
+test.cb.serial.only('listen to `response` event', (t) => {
   const options = {}
 
   const injection = {
