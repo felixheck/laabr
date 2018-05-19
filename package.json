@@ -40,25 +40,25 @@
     "ci.coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "ava": "^0.23.0",
-    "coveralls": "^3.0.0",
+    "ava": "^0.25.0",
+    "coveralls": "^3.0.1",
     "fixture-stdout": "^0.2.1",
-    "hapi": "^17.2.0",
-    "nyc": "^11.4.1",
-    "standard": "^10.0.3"
+    "hapi": "^17.4.0",
+    "nyc": "^11.7.2",
+    "standard": "^11.0.1"
   },
   "dependencies": {
-    "chalk": "^2.3.0",
+    "chalk": "^2.4.1",
     "error-stack-parser": "^2.0.1",
-    "hapi-pino": "^4.0.2",
-    "joi": "^13.1.0",
+    "hapi-pino": "^3.4.0",
+    "joi": "^13.3.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "pino": "^4.10.3"
+    "pino": "^4.16.1"
   },
   "peerDependencies": {
     "hapi": "^17.0.0",
-    "hapi-pino": "^4.0.2"
+    "hapi-pino": "^3.4.0"
   },
   "engines": {
     "node": ">= 8",
