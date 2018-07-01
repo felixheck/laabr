@@ -38,7 +38,8 @@ function compile (format, tokens, isJSON, space, data) {
 
   const js = format.replace(re, (m, name, arg) => {
     const tokenArgs = 'Array.prototype.slice.call(arguments).slice(4)'
-    const template = `tokens[${utils.stringify(name)}](...(${tokenArgs}), ${utils.stringify(arg)}) || "-"`
+    const output = `tokens[${utils.stringify(name)}](...(${tokenArgs}), ${utils.stringify(arg)})`
+    const template = `${output} == null ? '-' : ${output}`
     const token = tokens[name]
 
     if (!token) {
