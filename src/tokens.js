@@ -45,7 +45,7 @@ assign('pid', data => (
 ))
 
 assign('tags', data => (
-  data.tags
+  data.tags || []
 ))
 
 assign('level', (data, colors, field) => {

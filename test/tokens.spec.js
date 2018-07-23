@@ -84,6 +84,12 @@ test('return requested general attributes', (t) => {
   t.is(tokens['res'](mockData, mockColors, 'foo'), undefined)
 })
 
+test('return empty array in case of no tags', (t) => {
+  const mockData = {}
+
+  t.deepEqual(tokens['tags'](mockData), [])
+})
+
 test('return requested alternative attributes', (t) => {
   const mockData = {
     data: 'foobar'
