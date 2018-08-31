@@ -35,7 +35,8 @@ const validators = {
       serializers: joi.object(),
       logRouteTags: joi.boolean(),
       ignorePaths: joi.array().items(joi.string()),
-      logPayload: joi.boolean().default(true)
+      logPayload: joi.boolean().default(true),
+      level: joi.string()
     }).default(),
     pino: joi.object({
       safe: joi.boolean(),
@@ -46,8 +47,12 @@ const validators = {
       extreme: joi.boolean(),
       level: joi.string(),
       levelVal: joi.number(),
+      customLevels: joi.object(),
+      redact: joi.alternatives().try(joi.array(), joi.object()),
       prettyPrint: joi.any(),
       messageKey: joi.string().default('msg'),
+      changeLevelName: joi.string(),
+      useLevelLabels: joi.boolean(),
       onTerminated: joi.func(),
       enabled: joi.boolean(),
       browser: joi.any(),

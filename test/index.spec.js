@@ -12,7 +12,7 @@ test.afterEach.always((t) => {
   Object.assign(console, consoleClone)
 })
 
-test.cb.serial('listen to `request` event', (t) => {
+test.cb.serial.only('listen to `request` event', (t) => {
   const options = {
     formats: { request: '{ reqId::requestId }' }
   }

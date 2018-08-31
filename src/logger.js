@@ -79,6 +79,7 @@ function getLoggerConfig (options) {
         const format = formats.get(data)
         const isJSON = utils.isJSON(format)
         const pictor = colors.get(data, isJSON || !options.colored)
+        console.log(format)
 
         const preprocessed = validator('preformatterOutput', options.preformatter(data, options))
         const processed = compile(format, tokens, isJSON, options.indent, preprocessed, pictor)

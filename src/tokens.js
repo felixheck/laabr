@@ -96,7 +96,7 @@ assign('environment', (data, colors, field = 'NODE_ENV') => (
   process.env[field]
 ))
 
-assign('requestId', data => (
+assign('requestId', data => console.log(data) || (
   data.req && data.req.id
 ))
 
