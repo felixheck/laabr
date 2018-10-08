@@ -118,7 +118,7 @@ test('return requested req/res attributes', (t) => {
   }
 
   t.is(tokens['requestId'](mockData), mockData.req.id)
-  t.is(tokens['method'](mockData, mockColors), mockData.req.method)
+  t.is(tokens['method'](mockData, mockColors), mockData.req.method.toUpperCase())
   t.is(tokens['status'](mockData, mockColors), mockData.res.statusCode)
   t.is(tokens['payload'](mockData), JSON.stringify({}))
   t.is(tokens['remoteAddress'](mockData), mockData.req.remoteAddress)

@@ -12,7 +12,7 @@ test.afterEach.always((t) => {
   Object.assign(console, consoleClone)
 })
 
-test.cb.serial.only('listen to `request` event', (t) => {
+test.cb.serial('listen to `request` event', (t) => {
   const options = {
     formats: { request: '{ reqId::requestId }' }
   }
@@ -35,7 +35,8 @@ test.cb.serial('listen to `response` event', (t) => {
 
   const injection = {
     method: 'GET',
-    url: '/response/200'
+    url: '/response/200',
+    remoteAddress: '127.0.0.1'
   }
 
   helpers.spawn('inject', options, injection, (log) => {
