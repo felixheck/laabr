@@ -74,19 +74,17 @@ function getLoggerConfig (options) {
   return Object.assign(options.pino, {
     browser: {},
     timestamp: true,
-    prettyPrint: {
-      formatter: (data) => {
-        const format = formats.get(data)
-        const isJSON = utils.isJSON(format)
-        const pictor = colors.get(data, isJSON || !options.colored)
-        console.log(format)
+    prettyPrint: true,
+    prettifier: () => (data) => {
+      const format = formats.get(data)
+      const isJSON = utils.isJSON(format)
+      const pictor = colors.get(data, isJSON || !options.colored)
 
-        const preprocessed = validator('preformatterOutput', options.preformatter(data, options))
-        const processed = compile(format, tokens, isJSON, options.indent, preprocessed, pictor)
-        const postprocessed = validator('postformatterOutput', options.postformatter(processed, options))
+      const preprocessed = validator('preformatterOutput', options.preformatter(data, options))
+      const processed = compile(format, tokens, isJSON, options.indent, preprocessed, pictor)
+      const postprocessed = validator('postformatterOutput', options.postformatter(processed, options))
 
-        return postprocessed
-      }
+      return postprocessed
     }
   })
 }

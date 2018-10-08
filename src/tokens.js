@@ -96,7 +96,7 @@ assign('environment', (data, colors, field = 'NODE_ENV') => (
   process.env[field]
 ))
 
-assign('requestId', data => console.log(data) || (
+assign('requestId', data => (
   data.req && data.req.id
 ))
 
@@ -123,16 +123,22 @@ assign('status', (data, colors) => (
 ))
 
 assign('method', (data, colors) => (
-  colors.status(data.req && data.req.method)
+  colors.status(data.req && data.req.method && data.req.method.toUpperCase())
 ))
 
 assign('payload', data => (
   JSON.stringify(data.payload || {})
 ))
 
-assign('remoteAddress', data => (
-  data.req && data.req.remoteAddress
-))
+assign('remoteAddress', data => {
+  if (!data.req) {
+    return undefined
+  }
+
+  const rawKey = Object.getOwnPropertySymbols(data.req)[0]
+
+  return data.req.remoteAddress || (rawKey && data.req[rawKey].remoteAddress)
+})
 
 assign('remotePort', data => (
   data.req && data.req.remotePort
