@@ -84,7 +84,7 @@ function getLoggerConfig (options) {
       const processed = compile(format, tokens, isJSON, options.indent, preprocessed, pictor)
       const postprocessed = validator('postformatterOutput', options.postformatter(processed, options))
 
-      return postprocessed
+      return `${postprocessed}\n`
     }
   })
 }
