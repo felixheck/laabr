@@ -20,8 +20,8 @@
   "license": "MIT",
   "author": {
     "name": "Felix Heck",
-    "email": "hi@whotheheck.de",
-    "url": "http://whotheheck.de"
+    "email": "hi@daheq.com",
+    "url": "https://daheq.com"
   },
   "repository": {
     "type": "git",
@@ -40,25 +40,25 @@
     "ci.coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "ava": "^0.25.0",
+    "ava": "^1.2.0",
     "coveralls": "^3.0.2",
     "fixture-stdout": "^0.2.1",
-    "hapi": "^17.6.0",
-    "nyc": "^13.0.1",
+    "hapi": "^18.0.1",
+    "nyc": "^13.1.0",
     "standard": "^12.0.1"
   },
   "dependencies": {
-    "chalk": "^2.4.1",
+    "chalk": "^2.4.2",
     "error-stack-parser": "^2.0.2",
-    "hapi-pino": "^5.1.0",
-    "joi": "^13.7.0",
+    "hapi-pino": "^5.4.0",
+    "joi": "^14.3.1",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "pino": "^5.7.0"
+    "pino": "^5.11.1"
   },
   "peerDependencies": {
-    "hapi": "^17.0.0",
-    "hapi-pino": "^5.1.0"
+    "hapi": "^18.0.0",
+    "hapi-pino": "^5.4.0"
   },
   "engines": {
     "node": ">= 8.9",
