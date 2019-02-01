@@ -12,7 +12,7 @@ test.afterEach.always((t) => {
   Object.assign(console, consoleClone)
 })
 
-test.cb.serial('listen to `request` event', (t) => {
+test.serial.cb('listen to `request` event', (t) => {
   const options = {
     formats: { request: '{ reqId::requestId }' }
   }
@@ -30,7 +30,7 @@ test.cb.serial('listen to `request` event', (t) => {
   })
 })
 
-test.cb.serial('listen to `response` event', (t) => {
+test.serial.cb('listen to `response` event', (t) => {
   const options = {}
 
   const injection = {
@@ -41,12 +41,12 @@ test.cb.serial('listen to `response` event', (t) => {
 
   helpers.spawn('inject', options, injection, (log) => {
     t.truthy(log)
-    t.truthy(log.includes('GET 127.0.0.1 /response/200 200 {}'))
+    t.truthy(log.includes('GET 127.0.0.1 http://127.0.0.1:1338/response/200 200 {}'))
     t.end()
   })
 })
 
-test.cb.serial('listen to `response` event – post', (t) => {
+test.serial.cb('listen to `response` event – post', (t) => {
   const options = {}
 
   const injection = {
@@ -59,12 +59,12 @@ test.cb.serial('listen to `response` event – post', (t) => {
 
   helpers.spawn('inject', options, injection, (log) => {
     t.truthy(log)
-    t.truthy(log.includes('POST 127.0.0.1 /response/204 204 {"foo":42}'))
+    t.truthy(log.includes('POST 127.0.0.1 http://127.0.0.1:1338/response/204 204 {"foo":42}'))
     t.end()
   })
 })
 
-test.cb.serial('listen to `request-error` event', (t) => {
+test.serial.cb('listen to `request-error` event', (t) => {
   const options = {}
 
   const injection = {
@@ -81,7 +81,7 @@ test.cb.serial('listen to `request-error` event', (t) => {
   })
 })
 
-test.cb.serial('listen to `response` event – customized', (t) => {
+test.serial.cb('listen to `response` event – customized', (t) => {
   const options = {
     formats: { response: ':get[req.headers]' }
   }
@@ -98,7 +98,7 @@ test.cb.serial('listen to `response` event – customized', (t) => {
   })
 })
 
-test.cb.serial('listen to `response` event – customized/token', (t) => {
+test.serial.cb('listen to `response` event – customized/token', (t) => {
   const options = {
     formats: { response: ':hello' }
   }
@@ -114,7 +114,7 @@ test.cb.serial('listen to `response` event – customized/token', (t) => {
   })
 })
 
-test.cb.serial('listen to `response` event – preset', (t) => {
+test.serial.cb('listen to `response` event – preset', (t) => {
   const options = {
     formats: { response: 'test.env' },
     presets: { 'test.env': ':time :environment :method' }
@@ -131,7 +131,7 @@ test.cb.serial('listen to `response` event – preset', (t) => {
   })
 })
 
-test.cb.serial('listen to `response` event – no token', (t) => {
+test.serial.cb('listen to `response` event – no token', (t) => {
   const options = {
     formats: { response: ':foobar' }
   }
@@ -147,7 +147,7 @@ test.cb.serial('listen to `response` event – no token', (t) => {
   })
 })
 
-test.cb.serial('listen to `response` event – no json token', (t) => {
+test.serial.cb('listen to `response` event – no json token', (t) => {
   const options = {
     formats: { response: '{ foobar::foobar }' }
   }
@@ -163,7 +163,7 @@ test.cb.serial('listen to `response` event – no json token', (t) => {
   })
 })
 
-test.cb.serial('listen to `response` event – no format', (t) => {
+test.serial.cb('listen to `response` event – no format', (t) => {
   const options = {
     formats: { response: false }
   }
@@ -181,7 +181,7 @@ test.cb.serial('listen to `response` event – no format', (t) => {
   })
 })
 
-test.cb.serial('listen to `onPostStart` events', (t) => {
+test.serial.cb('listen to `onPostStart` events', (t) => {
   const options = {
     formats: { onPostStart: ':time :level :message :host[uri]' },
     hapiPino: { logEvents: ['onPostStart'] }
@@ -195,7 +195,7 @@ test.cb.serial('listen to `onPostStart` events', (t) => {
   })
 })
 
-test.cb.serial('listen to `onPostStop` events', (t) => {
+test.serial.cb('listen to `onPostStop` events', (t) => {
   const options = {
     formats: { onPostStart: ':time :level :message :host[uri]' },
     hapiPino: { logEvents: ['onPostStop'] }
@@ -211,7 +211,7 @@ test.cb.serial('listen to `onPostStop` events', (t) => {
   })
 })
 
-test.cb.serial('listen to `log` event', (t) => {
+test.serial.cb('listen to `log` event', (t) => {
   const options = {
     formats: { onPostStart: ':time :level :message :host[uri]' },
     hapiPino: { logEvents: false }
@@ -231,7 +231,7 @@ test.cb.serial('listen to `log` event', (t) => {
   })
 })
 
-test.cb.serial('listen to `log` event – customized', (t) => {
+test.serial.cb('listen to `log` event – customized', (t) => {
   const options = {
     indent: 0,
     hapiPino: { logEvents: false }
@@ -255,7 +255,7 @@ test.cb.serial('listen to `log` event – customized', (t) => {
   })
 })
 
-test.cb.serial('listen to `log` event – multiple tags', (t) => {
+test.serial.cb('listen to `log` event – multiple tags', (t) => {
   const options = {
     indent: 0,
     formats: { log: '{ tags::tags, message::message }' },
@@ -278,7 +278,7 @@ test.cb.serial('listen to `log` event – multiple tags', (t) => {
   })
 })
 
-test.cb.serial('listen to `log` event – concat strings – backticks', (t) => {
+test.serial.cb('listen to `log` event – concat strings – backticks', (t) => {
   const options = {
     indent: 0,
     formats: { log: '{ message::message + `bar` }' },
@@ -296,7 +296,7 @@ test.cb.serial('listen to `log` event – concat strings – backticks', (t) => 
   })
 })
 
-test.cb.serial('listen to `log` event – inline strings – backticks', (t) => {
+test.serial.cb('listen to `log` event – inline strings – backticks', (t) => {
   const options = {
     indent: 0,
     formats: { log: '{ message: [:message,`bar`] }' },
@@ -314,7 +314,7 @@ test.cb.serial('listen to `log` event – inline strings – backticks', (t) => 
   })
 })
 
-test.cb.serial('listen to `log` event – concat strings – single quotes', (t) => {
+test.serial.cb('listen to `log` event – concat strings – single quotes', (t) => {
   const options = {
     indent: 0,
     formats: { log: '{ message::message + \'bar\' }' },
@@ -332,7 +332,7 @@ test.cb.serial('listen to `log` event – concat strings – single quotes', (t)
   })
 })
 
-test.cb.serial('listen to `log` event – inline strings – single quotes', (t) => {
+test.serial.cb('listen to `log` event – inline strings – single quotes', (t) => {
   const options = {
     indent: 0,
     formats: { log: '{ message: [:message,\'bar\'] }' },
@@ -350,7 +350,7 @@ test.cb.serial('listen to `log` event – inline strings – single quotes', (t)
   })
 })
 
-test.cb.serial('listen to `log` event – concat strings – double quotes', (t) => {
+test.serial.cb('listen to `log` event – concat strings – double quotes', (t) => {
   const options = {
     indent: 0,
     formats: { log: '{ message::message + "bar" }' },
@@ -368,7 +368,7 @@ test.cb.serial('listen to `log` event – concat strings – double quotes', (t)
   })
 })
 
-test.cb.serial('listen to `log` event – inline strings – double quotes', (t) => {
+test.serial.cb('listen to `log` event – inline strings – double quotes', (t) => {
   const options = {
     indent: 0,
     formats: { log: '{ message: [:message,"bar"] }' },
@@ -386,7 +386,7 @@ test.cb.serial('listen to `log` event – inline strings – double quotes', (t)
   })
 })
 
-test.cb.serial('preformat the originally logged message', (t) => {
+test.serial.cb('preformat the originally logged message', (t) => {
   const options = {
     indent: 0,
     formats: { log: false },
@@ -405,7 +405,7 @@ test.cb.serial('preformat the originally logged message', (t) => {
   })
 })
 
-test.cb.serial('postformat the originally logged message', (t) => {
+test.serial.cb('postformat the originally logged message', (t) => {
   const options = {
     indent: 0,
     formats: { log: false },
@@ -425,7 +425,7 @@ test.cb.serial('postformat the originally logged message', (t) => {
   })
 })
 
-test.cb.serial('get log message by overriden `console.warn` – single', (t) => {
+test.serial.cb('get log message by overriden `console.warn` – single', (t) => {
   const options = {
     indent: 0,
     override: true,
@@ -440,7 +440,7 @@ test.cb.serial('get log message by overriden `console.warn` – single', (t) =>
   })
 })
 
-test.cb.serial('get log message by overriden `console.warn` – multiple', (t) => {
+test.serial.cb('get log message by overriden `console.warn` – multiple', (t) => {
   const options = {
     indent: 0,
     override: true,
@@ -455,7 +455,7 @@ test.cb.serial('get log message by overriden `console.warn` – multiple', (t) 
   })
 })
 
-test.cb.serial('listen to `caught` event', (t) => {
+test.serial.cb('listen to `caught` event', (t) => {
   const options = { handleUncaught: true }
 
   helpers.spawn('error', options, true, (log) => {
@@ -466,7 +466,7 @@ test.cb.serial('listen to `caught` event', (t) => {
   })
 })
 
-test.cb.serial('listen to `caught` event – invalid error', (t) => {
+test.serial.cb('listen to `caught` event – invalid error', (t) => {
   const options = { handleUncaught: true }
 
   helpers.spawn('error', options, false, (log) => {
@@ -477,7 +477,7 @@ test.cb.serial('listen to `caught` event – invalid error', (t) => {
   })
 })
 
-test.cb.serial('do not listen to `caught` event', (t) => {
+test.serial.cb('do not listen to `caught` event', (t) => {
   const options = { handleUncaught: false }
 
   helpers.spawn('error', options, true, (log) => {

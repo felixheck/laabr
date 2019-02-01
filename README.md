@@ -24,10 +24,16 @@
 ## Introduction
 **laabr** is a well-formatted [pino ⇗](https://github.com/pinojs/pino) logger for [hapi.js ⇗](https://github.com/hapijs/hapi) which is based on the plugin [hapi-pino ⇗](https://github.com/pinojs/hapi-pino). It enables optionally to log in JSON for easy post-processing. It listens to various [hapi.js events ⇗](docs/tokens-formats-presets.md#formats) and logs in a well-formatted manner. Therefor it is possible to define custom formats alike the [morgan ⇗](https://github.com/expressjs/morgan) ones or make use of available presets. Additionally it enables to define own tokens which could be used in custom formats. *laabr* is the Swabian translation for *talking*.
 
-The modules [`standard`](https://standardjs.com/) and [`ava`](https://github.com/avajs/ava) are used to grant a high quality implementation.<br/>
-This major release supports just [hapi.js](https://github.com/hapijs/hapi) `>=v17.0.0` and node `>=v8.0.0` — to support older versions please use `v2.4.1`.
+The modules [`standard`](https://standardjs.com/) and [`ava`](https://github.com/avajs/ava) are used to grant a high quality implementation.
 
-**`laabr >=v4.0.0` requires `hapi-pino >= 5.0.0`.**
+
+#### Compatibility
+| Major Release | [hapi.js](https://github.com/hapijs/hapi) version | [hapi-pino](https://github.com/pinojs/hapi-pino) version | node version |
+| --- | --- | --- | --- |
+| `v5` | `>=18` | `>= 5.4` | `>=8` |
+| `v4` | `>=17` | `>= 5.1` | `>=8` |
+| `v3` | `>=17` | `>= 3` | `>=8` |
+| `v2` | `>=13` | `>= 1.6` | `>=6` |
 
 #### `laabr` vs. `hapi-pino`
 First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `laabr` in an almost identical manner like `hapi-pino`. This plugin provides further features which probably decelerates the logging a bit, but it should be faster than the alternatives anyway. The following features are provided:
