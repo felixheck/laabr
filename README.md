@@ -30,10 +30,11 @@ The modules [`standard`](https://standardjs.com/) and [`ava`](https://github.com
 #### Compatibility
 | Major Release | [hapi.js](https://github.com/hapijs/hapi) version | [hapi-pino](https://github.com/pinojs/hapi-pino) version | node version |
 | --- | --- | --- | --- |
-| `v5` | `>=18` | `>= 5.4` | `>=8` |
-| `v4` | `>=17` | `>= 5.1` | `>=8` |
-| `v3` | `>=17` | `>= 3` | `>=8` |
-| `v2` | `>=13` | `>= 1.6` | `>=6` |
+| `v5.1` | `>=18.3.1 @hapi/hapi` | `>= 5.4` | `>=8` |
+| `v5` | `>=18 hapi` | `>= 5.4` | `>=8` |
+| `v4` | `>=17 hapi` | `>= 5.1` | `>=8` |
+| `v3` | `>=17 hapi` | `>= 3` | `>=8` |
+| `v2` | `>=13 hapi` | `>= 1.6` | `>=6` |
 
 #### `laabr` vs. `hapi-pino`
 First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `laabr` in an almost identical manner like `hapi-pino`. This plugin provides further features which probably decelerates the logging a bit, but it should be faster than the alternatives anyway. The following features are provided:
@@ -71,7 +72,7 @@ const laabr = require('laabr');
 #### Create hapi server
 Afterwards create your hapi server if not already done:
 ``` js
-const hapi = require('hapi');
+const hapi = require('@hapi/hapi');
 const server = hapi.server({
   port: 8888,
   host: 'localhost',
@@ -93,7 +94,7 @@ Take a look at several more [examples ⇗](examples/).<br/>
 #### Code
 
 ``` js
-const hapi = require('hapi');
+const hapi = require('@hapi/hapi');
 const laabr = require('laabr');
 
 const server = hapi.server({ port: 3000 });

@@ -1,4 +1,4 @@
-const hapi = require('hapi')
+const hapi = require('@hapi/hapi')
 const laabr = require('../src')
 
 const server = hapi.server({ port: 3000 })

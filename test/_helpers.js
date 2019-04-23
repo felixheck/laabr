@@ -1,4 +1,4 @@
-const hapi = require('hapi')
+const hapi = require('@hapi/hapi')
 const spawn = require('child_process').spawn
 const path = require('path')
 const laabr = require('../src')
