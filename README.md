@@ -52,7 +52,7 @@ First of all `laabr` extends the `hapi-pino` plugin. So it is possible to use `l
 ![laabr screen](https://github.com/felixheck/laabr/raw/master/assets/screen.png)
 
 ## Installation
-For installation use the [Node Package Manager ⇗](https://github.com/npm/npm):
+For installation use the [npm ⇗](https://github.com/npm/npm):
 ```
 $ npm install --save laabr
 ```
