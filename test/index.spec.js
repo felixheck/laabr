@@ -75,7 +75,7 @@ test.serial.cb('listen to `request-error` event', (t) => {
   helpers.spawn('inject', options, injection, (log) => {
     t.is(log.error, 'foobar')
     t.truthy(log.timestamp)
-    t.is(log.level, 'warn')
+    t.is(log.level, 'error')
     t.is(log.environment, 'test')
     t.end()
   })
