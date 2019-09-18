@@ -18,6 +18,9 @@ const validator = require('./validator')
 async function register (server, options) {
   options = validator('options', options)
 
+  options.preformatter = options.preformatter || ((x) => x)
+  options.postformatter = options.postformatter || ((x) => x)
+
   formats.init(options.presets, options.formats)
   tokens.init(options.tokens)
   utils.handleUncaught(server, options.handleUncaught)
