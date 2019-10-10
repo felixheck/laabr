@@ -103,7 +103,10 @@ test('return requested req/res attributes', (t) => {
   const mockData = {
     res: {
       statusCode: 200,
-      header: '\r\nfoobar: no-cache\r\nbarfoo:42'
+      headers: {
+        'foobar': 'no-cache',
+        'barfoo': '42'
+      }
     },
     req: {
       id: '1499781055994:f3lix:67067:j4zmw7av:10000',
