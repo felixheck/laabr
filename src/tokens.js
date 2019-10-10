@@ -105,7 +105,7 @@ assign('responseTime', data => (
 ))
 
 assign('res', (data, colors, field) => (
-    data.res && data.res.headers && data.res.headers[field]
+  data.res && data.res.headers && data.res.headers[field]
 ))
 
 assign('req', (data, colors, field) => (
