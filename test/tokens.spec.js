@@ -104,8 +104,8 @@ test('return requested req/res attributes', (t) => {
     res: {
       statusCode: 200,
       headers: {
-        'foobar': 'no-cache',
-        'barfoo': '42'
+        foobar: 'no-cache',
+        barfoo: '42'
       }
     },
     req: {
