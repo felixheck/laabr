@@ -84,7 +84,7 @@ function wrapper (server, level, ...data) {
  * @param {Hapi.Server} server The created server instance
  */
 function override (server) {
-  ['trace', 'log', 'info', 'warn', 'error'].forEach(method => {
+  ['trace', 'log', 'info', 'warn', 'error', 'debug'].forEach(method => {
     const target = method === 'log' ? 'debug' : method
     console[method] = wrapper.bind(undefined, server, target)
   })
