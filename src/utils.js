@@ -20,21 +20,6 @@ function contains (data, search) {
  * @function
  * @public
  *
- * Find value of header field in a stringified header.
- *
- * @param {Object} header The stringified header
- * @param {string} field The header field to be searched for
- * @returns {Array | null} The result of the executed RegExp
- */
-function getHeader (header, field) {
-  const re = new RegExp(`(?:\\r\\n)${field}: *([a-zA-z0-9 /,:;=-]*)`, 'gi')
-  return re.exec(header, field)
-}
-
-/**
- * @function
- * @public
- *
  * Check if the variable is a JSON-like string.
  * Have to be surrounded with a combination of
  * brackets and curly braces.
@@ -84,7 +69,7 @@ function wrapper (server, level, ...data) {
  * @param {Hapi.Server} server The created server instance
  */
 function override (server) {
-  ['trace', 'log', 'info', 'warn', 'error'].forEach(method => {
+  ['trace', 'log', 'info', 'warn', 'error', 'debug'].forEach(method => {
     const target = method === 'log' ? 'debug' : method
     console[method] = wrapper.bind(undefined, server, target)
   })
@@ -162,7 +147,6 @@ function handleUncaught (server, enabled) {
 
 module.exports = {
   contains,
-  getHeader,
   isJSON,
   noop,
   override,

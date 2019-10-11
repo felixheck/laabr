@@ -48,11 +48,13 @@ test.serial('override `console` methods with `server.log`', async (t) => {
   t.not(console.info, consoleClone.info)
   t.not(console.warn, consoleClone.warn)
   t.not(console.error, consoleClone.error)
+  t.not(console.debug, consoleClone.debug)
   t.is(console.trace.name, 'bound wrapper')
   t.is(console.log.name, 'bound wrapper')
   t.is(console.info.name, 'bound wrapper')
   t.is(console.warn.name, 'bound wrapper')
   t.is(console.error.name, 'bound wrapper')
+  t.is(console.debug.name, 'bound wrapper')
 })
 
 test('get objectified error', (t) => {

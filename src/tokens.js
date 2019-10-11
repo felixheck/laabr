@@ -104,15 +104,9 @@ assign('responseTime', data => (
   data.responseTime
 ))
 
-assign('res', (data, colors, field) => {
-  if (!data.res) {
-    return undefined
-  }
-
-  const match = utils.getHeader(data.res.header, field)
-
-  return (match && match[1]) || undefined
-})
+assign('res', (data, colors, field) => (
+  data.res && data.res.headers && data.res.headers[field]
+))
 
 assign('req', (data, colors, field) => (
   data.req && data.req.headers && data.req.headers[field]
