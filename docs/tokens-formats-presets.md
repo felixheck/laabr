@@ -2,20 +2,21 @@
 
 <!-- TOC -->
 
-1. [Tokens](#tokens)
-    1. [General](#general)
-    2. [Request/Response](#requestresponse)
-    3. [Host](#host)
-2. [Formats](#formats)
-3. [Presets](#presets)
-    1. [`log.tiny`](#logtiny)
-    2. [`log.tinyjson`](#logtinyjson)
-    3. [`response.tiny`](#responsetiny)
-    4. [`error.tiny`](#errortiny)
-    5. [`error.tinyjson`](#errortinyjson)
-    6. [`error.json`](#errorjson)
-    7. [`error.stackjson`](#errorstackjson)
-    8. [`server.info`](#serverinfo)
+- [Tokens, Formats & Presets](#tokens-formats--presets)
+  - [Tokens](#tokens)
+      - [General](#general)
+      - [Request/Response](#requestresponse)
+      - [Host](#host)
+  - [Formats](#formats)
+  - [Presets](#presets)
+      - [`log.tiny`](#logtiny)
+      - [`log.tinyjson`](#logtinyjson)
+      - [`response.tiny`](#responsetiny)
+      - [`error.tiny`](#errortiny)
+      - [`error.tinyjson`](#errortinyjson)
+      - [`error.json`](#errorjson)
+      - [`error.stackjson`](#errorstackjson)
+      - [`server.info`](#serverinfo)
 
 <!-- /TOC -->
 
@@ -45,6 +46,7 @@ The following tokens are available by default. Partly it is possible to pass an 
 - `:status` - The status code of the request/response.
 - `:method` - The http request method.
 - `:payload` - The request payload. Just works with `options.hapiPino.logPayload = true`, it is enabled by default.
+> Please enable `route.options.payload.parse` and set `route.options.payload.output` to `data` for full support of this token.
 - `:remoteAddress` - The remote client IP address.
 - `:remotePort` - The remote client port.
 - `:url` - The parsed url of the request.
