@@ -123,16 +123,14 @@ assign('method', (data, colors) => (
 ))
 
 assign('payload', data => {
-  if (data.payload instanceof IncomingMessage) {
-    return '[IncomingMessage]'
-  }
+  const rawFormat = [Readable, IncomingMessage].find(x => data.payload instanceof x)
 
-  if (data.payload instanceof Readable) {
-    return '[ReadableStream]'
+  if (rawFormat) {
+    return `[${rawFormat.name}]`
   }
 
   if (data.payload instanceof Buffer) {
-    return '[Buffer]'
+    return data.payload.toString()
   }
 
   return JSON.stringify(data.payload || {})

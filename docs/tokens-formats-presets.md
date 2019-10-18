@@ -46,7 +46,7 @@ The following tokens are available by default. Partly it is possible to pass an 
 - `:status` - The status code of the request/response.
 - `:method` - The http request method.
 - `:payload` - The request payload. Just works with `options.hapiPino.logPayload = true`, it is enabled by default.
-> Please enable `route.options.payload.parse` and set `route.options.payload.output` to `data` for full support of this token.
+> Please set `route.options.payload.output` to `data` for full support of this token.
 - `:remoteAddress` - The remote client IP address.
 - `:remotePort` - The remote client port.
 - `:url` - The parsed url of the request.
