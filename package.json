@@ -35,7 +35,7 @@
   "scripts": {
     "start": "NODE_ENV=test npm test -- -w",
     "lint": "standard",
-    "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava ./test/index.spec.js --timeout=30s",
+    "test": "NODE_ENV=test nyc --check-coverage --lines 80 ava ./test/**.spec.js --timeout=30s",
     "coverage": "nyc report --reporter=lcov",
     "ci.coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -44,7 +44,7 @@
     "ava": "^2.2.0",
     "coveralls": "^3.0.5",
     "fixture-stdout": "^0.2.1",
-    "nyc": "^14.1.1",
+    "nyc": "^15.0.0",
     "standard": "^14.3.0"
   },
   "dependencies": {
