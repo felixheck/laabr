@@ -41,23 +41,23 @@
   },
   "devDependencies": {
     "@hapi/hapi": "^18.4.0",
-    "ava": "^2.2.0",
-    "coveralls": "^3.0.5",
+    "ava": "^2.4.0",
+    "coveralls": "^3.0.9",
     "fixture-stdout": "^0.2.1",
     "nyc": "^15.0.0",
-    "standard": "^14.3.0"
+    "standard": "^14.3.1"
   },
   "dependencies": {
-    "@hapi/joi": "^16.1.1",
+    "@hapi/joi": "^17.0.0",
     "chalk": "^3.0.0",
-    "error-stack-parser": "^2.0.2",
-    "hapi-pino": "^6.0.1",
+    "error-stack-parser": "^2.0.6",
+    "hapi-pino": "^6.3.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "pino": "^5.13.0"
+    "pino": "^5.15.0"
   },
   "engines": {
-    "node": ">= 8.9",
-    "npm": ">= 5.5.1"
+    "node": ">= 12",
+    "npm": ">= 6"
   }
 }
