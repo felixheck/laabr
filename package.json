@@ -40,7 +40,7 @@
     "ci.coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "@hapi/hapi": "^18.4.0",
+    "@hapi/hapi": "^19.0.0",
     "ava": "^2.4.0",
     "coveralls": "^3.0.9",
     "fixture-stdout": "^0.2.1",
