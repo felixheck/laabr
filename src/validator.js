@@ -34,8 +34,13 @@ const validators = {
       mergeHapiLogData: joi.boolean().default(false),
       serializers: joi.object(),
       logRouteTags: joi.boolean(),
+      logRequestStart: joi.boolean(),
+      logRequestComplete: joi.boolean(),
       ignorePaths: joi.array().items(joi.string()),
+      ignoreTags: joi.array().items(joi.string()),
+      redact: joi.array().items(joi.string()),
       logPayload: joi.boolean().default(true),
+      getChildBindings: joi.function(),
       level: joi.string()
     }).default(),
     pino: joi.object({
@@ -53,9 +58,12 @@ const validators = {
       messageKey: joi.string().default('msg'),
       changeLevelName: joi.string(),
       useLevelLabels: joi.boolean(),
+      useOnlyCustomLevels: joi.boolean(),
       onTerminated: joi.function(),
       enabled: joi.boolean(),
       browser: joi.any(),
+      nestedKey: joi.any(),
+      mixin: joi.any(),
       base: joi.object(),
       crlf: joi.boolean()
     }).default()
