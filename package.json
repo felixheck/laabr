@@ -54,7 +54,7 @@
     "hapi-pino": "^6.3.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
-    "pino": "^5.15.0"
+    "pino": "^6.0.0"
   },
   "peerDependencies": {
     "@hapi/hapi": ">=18.4"
