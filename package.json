@@ -51,7 +51,7 @@
     "@hapi/joi": "^17.0.0",
     "chalk": "^3.0.0",
     "error-stack-parser": "^2.0.6",
-    "hapi-pino": "^6.3.0",
+    "hapi-pino": "^7.0.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
     "pino": "^5.15.0"
