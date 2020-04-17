@@ -1,5 +1,5 @@
 const test = require('ava')
-const chalk = require('chalk')
+const chalk = require('colors')
 const helpers = require('./_helpers')
 const colors = require('../src/colors')
 
@@ -33,15 +33,21 @@ test('calculate all colors correctly', (t) => {
     }
   }
 
-  t.is(JSON.stringify(colors.get(mock, true)), JSON.stringify({
-    dim: helpers.noop,
-    level: helpers.noop,
-    status: helpers.noop
-  }))
+  t.is(
+    JSON.stringify(colors.get(mock, true)),
+    JSON.stringify({
+      dim: helpers.noop,
+      level: helpers.noop,
+      status: helpers.noop
+    })
+  )
 
-  t.is(JSON.stringify(colors.get(mock)), JSON.stringify({
-    dim: chalk.grey,
-    level: chalk.yellow,
-    status: chalk.red
-  }))
+  t.is(
+    JSON.stringify(colors.get(mock)),
+    JSON.stringify({
+      dim: chalk.grey,
+      level: chalk.yellow,
+      status: chalk.red
+    })
+  )
 })
