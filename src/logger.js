@@ -1,5 +1,6 @@
 const hapiPino = require('hapi-pino')
 const pino = require('pino')
+const chalk = require('colors')
 const colors = require('./colors')
 const formats = require('./formats')
 const tokens = require('./tokens')
@@ -38,7 +39,9 @@ function compile (format, tokens, isJSON, space, data) {
 
   const js = format.replace(re, (m, name, arg) => {
     const tokenArgs = 'Array.prototype.slice.call(arguments).slice(4)'
-    const output = `tokens[${utils.stringify(name)}](...(${tokenArgs}), ${utils.stringify(arg)})`
+    const output = `tokens[${utils.stringify(
+      name
+    )}](...(${tokenArgs}), ${utils.stringify(arg)})`
     const template = `${output} == null ? '-' : ${output}`
     const token = tokens[name]
 
@@ -78,11 +81,31 @@ function getLoggerConfig (options) {
     prettifier: () => (data) => {
       const format = formats.get(data)
       const isJSON = utils.isJSON(format)
-      const pictor = colors.get(data, isJSON || !options.colored)
+      const disableColor = isJSON || !options.colored
 
-      const preprocessed = validator('preformatterOutput', options.preformatter(data, options))
-      const processed = compile(format, tokens, isJSON, options.indent, preprocessed, pictor)
-      const postprocessed = validator('postformatterOutput', options.postformatter(processed, options))
+      if (disableColor) {
+        chalk.disable()
+      } else {
+        chalk.enable()
+      }
+
+      const pictor = colors.get(data, disableColor)
+      const preprocessed = validator(
+        'preformatterOutput',
+        options.preformatter(data, options)
+      )
+      const processed = compile(
+        format,
+        tokens,
+        isJSON,
+        options.indent,
+        preprocessed,
+        pictor
+      )
+      const postprocessed = validator(
+        'postformatterOutput',
+        options.postformatter(processed, options)
+      )
 
       return `${postprocessed}\n`
     }
