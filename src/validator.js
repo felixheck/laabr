@@ -48,11 +48,13 @@ const validators = {
           mergeHapiLogData: joi.boolean().default(false),
           logPayload: joi.boolean().default(true)
         })
+        .unknown()
         .default(),
       pino: joi
         .object({
           messageKey: joi.string().default('msg')
         })
+        .unknown()
         .default()
     })
     .default()
