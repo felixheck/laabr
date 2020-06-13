@@ -1,3 +1,5 @@
+const { IncomingMessage } = require('http')
+const { Readable } = require('stream')
 const get = require('lodash.get')
 const set = require('lodash.set')
 const pino = require('pino')
@@ -120,9 +122,19 @@ assign('method', (data, colors) => (
   colors.status(data.req && data.req.method && data.req.method.toUpperCase())
 ))
 
-assign('payload', data => (
-  JSON.stringify(data.payload || {})
-))
+assign('payload', data => {
+  const rawFormat = [Readable, IncomingMessage].find(x => data.payload instanceof x)
+
+  if (rawFormat) {
+    return `[${rawFormat.name}]`
+  }
+
+  if (data.payload instanceof Buffer) {
+    return data.payload.toString()
+  }
+
+  return JSON.stringify(data.payload || {})
+})
 
 assign('remoteAddress', data => {
   if (!data.req) {
@@ -139,7 +151,7 @@ assign('remotePort', data => (
 ))
 
 assign('url', data => (
-  data.req && data.req.url
+  data.req && data.req.url && data.req.url.href
 ))
 
 assign('host', (data, colors, field = 'host') => {

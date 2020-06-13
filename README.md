@@ -30,6 +30,7 @@ The modules [`standard`](https://standardjs.com/) and [`ava`](https://github.com
 #### Compatibility
 | Major Release | [hapi.js](https://github.com/hapijs/hapi) version | [hapi-pino](https://github.com/pinojs/hapi-pino) version | node version |
 | --- | --- | --- | --- |
+| `v6` | `>=18.4 @hapi/hapi` | `>= 6.3` | `>=12` |
 | `v5.1` | `>=18.3.1 @hapi/hapi` | `>= 5.4` | `>=8` |
 | `v5` | `>=18 hapi` | `>= 5.4` | `>=8` |
 | `v4` | `>=17 hapi` | `>= 5.1` | `>=8` |

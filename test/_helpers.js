@@ -80,6 +80,31 @@ async function getServer (options = {}, asRoot = false) {
     },
     {
       method: '*',
+      path: '/response/stream',
+      handler (req, h) {
+        return h.response({ foo: 42 }).code(200)
+      },
+      config: {
+        payload: {
+          output: 'stream',
+          parse: false
+        }
+      }
+    },
+    {
+      method: '*',
+      path: '/response/buffer',
+      handler (req, h) {
+        return h.response({ foo: 42 }).code(200)
+      },
+      config: {
+        payload: {
+          parse: false
+        }
+      }
+    },
+    {
+      method: '*',
       path: '/response/{code}',
       handler (req, h) {
         return h.response({ foo: 42 }).code(parseInt(req.params.code))

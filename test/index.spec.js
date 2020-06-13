@@ -64,6 +64,42 @@ test.serial.cb('listen to `response` event – post', (t) => {
   })
 })
 
+test.serial.cb('listen to `response` event – buffer', (t) => {
+  const options = {}
+
+  const injection = {
+    method: 'POST',
+    url: '/response/buffer',
+    payload: {
+      foo: 42
+    }
+  }
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+    t.truthy(log.includes('POST 127.0.0.1 http://127.0.0.1:1338/response/buffer 200 {"foo":42}'))
+    t.end()
+  })
+})
+
+test.serial.cb('listen to `response` event – readable stream', (t) => {
+  const options = {}
+
+  const injection = {
+    method: 'POST',
+    url: '/response/stream',
+    payload: {
+      foo: 42
+    }
+  }
+
+  helpers.spawn('inject', options, injection, (log) => {
+    t.truthy(log)
+    t.truthy(log.includes('POST 127.0.0.1 http://127.0.0.1:1338/response/stream 200 [Readable]'))
+    t.end()
+  })
+})
+
 test.serial.cb('listen to `request-error` event', (t) => {
   const options = {}
 

@@ -1,4 +1,4 @@
-const chalk = require('chalk')
+const chalk = require('colors')
 const utils = require('./utils')
 
 /**
@@ -65,7 +65,7 @@ function getStatusColor (data, basic = false) {
  * @returns {number | Function} The index or the related builder function
  */
 function getLevelColor ({ level }, basic = false) {
-  const range = parseInt((level / 10) - 1)
+  const range = parseInt(level / 10 - 1)
 
   return basic ? range : levelColors[range] || utils.noop
 }
