@@ -491,7 +491,7 @@ test.serial.cb('get log message by overriden `console.warn` – multiple', (t) 
   })
 })
 
-test.serial.cb('get log message by overriden `console.debug` – null', (t) => {
+test.serial.cb('get log message by overriden `console.warn` – null', (t) => {
   const options = {
     indent: 0,
     override: true,
