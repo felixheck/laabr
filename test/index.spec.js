@@ -471,7 +471,7 @@ test.serial.cb('get log message by overriden `console.warn` – single', (t) =>
   const logs = ['foobar']
 
   helpers.spawn('console', options, logs, (log) => {
-    t.is(log.message, 'foobar')
+    t.is(log.message, '[ \'foobar\' ]')
     t.end()
   })
 })
@@ -486,7 +486,22 @@ test.serial.cb('get log message by overriden `console.warn` – multiple', (t) 
   const logs = ['foo', 'bar']
 
   helpers.spawn('console', options, logs, (log) => {
-    t.deepEqual(log.message, ['foo', 'bar'])
+    t.deepEqual(log.message, '[ \'foo\', \'bar\' ]')
+    t.end()
+  })
+})
+
+test.serial.cb('get log message by overriden `console.debug` – null', (t) => {
+  const options = {
+    indent: 0,
+    override: true,
+    hapiPino: { logEvents: false }
+  }
+
+  const logs = [null]
+
+  helpers.spawn('console', options, logs, (log) => {
+    t.is(log.message, '[ null ]')
     t.end()
   })
 })
