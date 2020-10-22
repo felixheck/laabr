@@ -1,5 +1,6 @@
 const { IncomingMessage } = require('http')
 const { Readable } = require('stream')
+const { URL } = require('url')
 const get = require('lodash.get')
 const set = require('lodash.set')
 const pino = require('pino')
@@ -150,9 +151,17 @@ assign('remotePort', data => (
   data.req && data.req.remotePort
 ))
 
-assign('url', data => (
-  data.req && data.req.url && data.req.url.href
-))
+assign('url', data => {
+  if (data.req && data.req.url) {
+    const href = data.req.url.href || data.req.url
+
+    try {
+      return new URL(href).pathname
+    } catch {
+      return href
+    }
+  }
+})
 
 assign('host', (data, colors, field = 'host') => {
   switch (field) {

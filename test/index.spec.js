@@ -41,7 +41,7 @@ test.serial.cb('listen to `response` event', (t) => {
 
   helpers.spawn('inject', options, injection, (log) => {
     t.truthy(log)
-    t.truthy(log.includes('GET 127.0.0.1 http://127.0.0.1:1338/response/200 200 {}'))
+    t.truthy(log.includes('GET 127.0.0.1 /response/200 200 {}'))
     t.end()
   })
 })
@@ -59,7 +59,7 @@ test.serial.cb('listen to `response` event – post', (t) => {
 
   helpers.spawn('inject', options, injection, (log) => {
     t.truthy(log)
-    t.truthy(log.includes('POST 127.0.0.1 http://127.0.0.1:1338/response/204 204 {"foo":42}'))
+    t.truthy(log.includes('POST 127.0.0.1 /response/204 204 {"foo":42}'))
     t.end()
   })
 })
@@ -77,7 +77,7 @@ test.serial.cb('listen to `response` event – buffer', (t) => {
 
   helpers.spawn('inject', options, injection, (log) => {
     t.truthy(log)
-    t.truthy(log.includes('POST 127.0.0.1 http://127.0.0.1:1338/response/buffer 200 {"foo":42}'))
+    t.truthy(log.includes('POST 127.0.0.1 /response/buffer 200 {"foo":42}'))
     t.end()
   })
 })
@@ -95,7 +95,7 @@ test.serial.cb('listen to `response` event – readable stream', (t) => {
 
   helpers.spawn('inject', options, injection, (log) => {
     t.truthy(log)
-    t.truthy(log.includes('POST 127.0.0.1 http://127.0.0.1:1338/response/stream 200 [Readable]'))
+    t.truthy(log.includes('POST 127.0.0.1 /response/stream 200 [Readable]'))
     t.end()
   })
 })
