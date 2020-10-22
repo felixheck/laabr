@@ -151,7 +151,7 @@ assign('remotePort', data => (
 ))
 
 assign('url', data => (
-  data.req && data.req.url && data.req.url.href
+  data.req && data.req.url
 ))
 
 assign('host', (data, colors, field = 'host') => {
