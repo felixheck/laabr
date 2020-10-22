@@ -45,7 +45,7 @@
     "coveralls": "^3.0.11",
     "fixture-stdout": "^0.2.1",
     "nyc": "^15.0.1",
-    "standard": "^14.3.3"
+    "standard": "^15.0.0"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
