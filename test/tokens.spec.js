@@ -122,11 +122,15 @@ test('return requested req/res attributes', (t) => {
     }
   }
 
+  const mockDataWithNullReq = Object.assign({}, mockData)
+  mockDataWithNullReq.req = null
+
   t.is(tokens.requestId(mockData), mockData.req.id)
   t.is(tokens.method(mockData, mockColors), mockData.req.method.toUpperCase())
   t.is(tokens.status(mockData, mockColors), mockData.res.statusCode)
   t.is(tokens.payload(mockData), JSON.stringify({}))
   t.is(tokens.remoteAddress(mockData), mockData.req.remoteAddress)
+  t.is(tokens.remoteAddress(mockDataWithNullReq), undefined)
   t.is(tokens.remotePort(mockData), mockData.req.remotePort)
   t.is(tokens.url(mockData), mockData.req.url.href)
   t.is(tokens.req(mockData, mockColors, 'x-header'), mockData.req.headers['x-header'])

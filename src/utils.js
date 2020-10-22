@@ -1,4 +1,5 @@
 const errorStackParser = require('error-stack-parser')
+const util = require('util')
 
 /**
  * @function
@@ -56,7 +57,7 @@ function noop (data) {
  * @param {Array} data The data to be logged
  */
 function wrapper (server, level, ...data) {
-  server.log(level, data.length === 1 ? data[0] : data)
+  server.log(level, util.format(data))
 }
 
 /**
