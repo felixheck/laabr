@@ -48,7 +48,7 @@
     "standard": "^16.0.3"
   },
   "dependencies": {
-    "@hapi/joi": "^17.1.1",
+    "joi": "^17.1.1",
     "colors": "^1.4.0",
     "error-stack-parser": "^2.0.6",
     "hapi-pino": "^8.3.0",
