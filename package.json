@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@hapi/hapi": ">=19.1",
-    "ava": "^3.13.0",
+    "ava": "^4.2.0",
     "coveralls": "^3.1.0",
     "fixture-stdout": "^0.2.1",
     "nyc": "^15.1.0",
