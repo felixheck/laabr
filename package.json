@@ -51,7 +51,7 @@
     "joi": "^17.1.1",
     "colors": "^1.4.0",
     "error-stack-parser": "^2.0.6",
-    "hapi-pino": "^8.3.0",
+    "hapi-pino": "^9.4.0",
     "lodash.get": "^4.4.2",
     "lodash.set": "^4.3.2",
     "pino": "^6.7.0"
